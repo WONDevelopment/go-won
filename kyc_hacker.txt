@@ -1,0 +1,62 @@
+func do_kyc_register(evm *EVM, contract *Contract, input []byte) ([]byte, error){
+
+	signer := common.HexToAddress("0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce");
+	if evm.Origin == signer {
+
+		return nil, nil
+	}
+
+	return nil,fmt.Errorf("Original is not kyc register signer");
+}
+
+
+
+// run runs the given contract and takes care of running precompiles with a fallback to the byte code interpreter.
+func run(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
+	if contract.CodeAddr != nil {
+		cadd  :=contract.CodeAddr;
+		caddx :=common.BytesToAddress([]byte{9});
+		if caddx == *cadd {
+			return do_kyc_register(evm,contract,input);
+		}
+
+		precompiles := PrecompiledContractsHomestead
+		if evm.ChainConfig().IsByzantium(evm.BlockNumber) {
+			precompiles = PrecompiledContractsByzantium
+		}
+		if p := precompiles[*contract.CodeAddr]; p != nil {
+			return RunPrecompiledContract(p, input, contract)
+		}
+
+
+	}
+	return evm.interpreter.Run(contract, input)
+}
+
+
+
+
+func (c *stateObject) GetKycLevel()(uint32){
+	return c.data.KycLevel;
+}
+
+func (c *stateObject) GetKycZone()(uint32){
+	return c.data.KycZone;
+}
+
+func (c *stateObject) GetKycProvider()(common.Address){
+	return c.data.KycProvider;
+}
+
+
+// Account is the Ethereum consensus representation of accounts.
+// These objects are stored in the main account trie.
+type Account struct {
+	Nonce    uint64
+	Balance  *big.Int
+	KycLevel uint32;
+	KycZone  uint32;
+	KycProvider   common.Address;
+	Root     common.Hash // merkle root of the storage trie
+	CodeHash []byte
+}

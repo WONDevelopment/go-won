@@ -1,0 +1,2 @@
+var nodePeer = "enode://3369b551c6006341abf9ec7f7bac6534a91e905bd1ced1f001234810f1cc3b022ec43345a1ce3940771e1ff4c10d7bd429abc662b073be11f0fc2afaacac4bdd@216.66.17.57:30303";
+var tpcTokenAddress = "0x72196619bab15bfbbc59ede845094a697d703cdd";
