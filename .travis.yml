@@ -1,5 +1,5 @@
 language: go
-go_import_path: github.com/WONDevelopment/go-won
+go_import_path: github.com/worldopennetwork/go-won
 sudo: false
 matrix:
   include:
