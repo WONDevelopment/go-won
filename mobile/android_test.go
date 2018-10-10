@@ -25,7 +25,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/internal/build"
+	"github.com/worldopennetwork/go-won/internal/build"
 )
 
 // androidTestClass is a Java class to do some lightweight tests against the Android
@@ -207,7 +207,7 @@ func TestAndroid(t *testing.T) {
 		}
 	}
 	// Generate the mobile bindings for Gwon and add the tester class
-	gobind := exec.Command("gomobile", "bind", "-javapkg", "org.ethereum", "github.com/worldopennet/go-won/mobile")
+	gobind := exec.Command("gomobile", "bind", "-javapkg", "org.ethereum", "github.com/worldopennetwork/go-won/mobile")
 	if output, err := gobind.CombinedOutput(); err != nil {
 		t.Logf("%s", output)
 		t.Fatalf("failed to run gomobile bind: %v", err)

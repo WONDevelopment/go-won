@@ -23,16 +23,16 @@ package ens
 import (
 	"strings"
 
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/contracts/ens/contract"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/contracts/ens/contract"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 var (
-	MainNetAddress = common.HexToAddress("0x314159265dD8dbb310642f98f50C066173C1259b")
-	TestNetAddress = common.HexToAddress("0x112234455c3a32fd11230c42e7bccd4a84e02010")
+	MainNetAddress = common.HexToAddress("0x6bb6606805a36e30609ca0ebac6c60563918c395")
+	TestNetAddress = common.HexToAddress("0x6bb6606805a36e30609ca0ebac6c60563918c395")
 )
 
 // swarm domain name registry and resolver

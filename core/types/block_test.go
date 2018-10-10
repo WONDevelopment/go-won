@@ -23,8 +23,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // from bcValidBlockTest.json, "SimpleTx"

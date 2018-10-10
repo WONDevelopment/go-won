@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/worldopennet/go-won/metrics"
+	"github.com/worldopennetwork/go-won/metrics"
 )
 
 type exp struct {

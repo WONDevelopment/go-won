@@ -25,30 +25,30 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/clique"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/consensus/dpos"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/bloombits"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/won/filters"
-	"github.com/worldopennet/go-won/won/gasprice"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/internal/wonapi"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/miner"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/consensus/clique"
+	"github.com/worldopennetwork/go-won/consensus/dpos"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/bloombits"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/internal/wonapi"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/miner"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/won/filters"
+	"github.com/worldopennetwork/go-won/won/gasprice"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 type LesServer interface {
@@ -85,9 +85,9 @@ type WorldOpenNetwork struct {
 
 	ApiBackend *EthApiBackend
 
-	miner     *miner.Miner
-	gasPrice  *big.Int
-	wonbase common.Address
+	miner    *miner.Miner
+	gasPrice *big.Int
+	wonbase  common.Address
 
 	networkId     uint64
 	netRPCService *wonapi.PublicNetAPI
@@ -131,7 +131,7 @@ func New(ctx *node.ServiceContext, config *Config) (*WorldOpenNetwork, error) {
 		stopDbUpgrade:  stopDbUpgrade,
 		networkId:      config.NetworkId,
 		gasPrice:       config.GasPrice,
-		wonbase:      config.Wonbase,
+		wonbase:        config.Wonbase,
 		bloomRequests:  make(chan chan *bloombits.Retrieval),
 		bloomIndexer:   NewBloomIndexer(chainDb, params.BloomBitsBlocks),
 	}
@@ -184,7 +184,6 @@ func New(ctx *node.ServiceContext, config *Config) (*WorldOpenNetwork, error) {
 	}
 	won.ApiBackend.gpo = gasprice.NewOracle(won.ApiBackend, gpoParams)
 
-
 	return won, nil
 }
 
@@ -221,8 +220,8 @@ func CreateDB(ctx *node.ServiceContext, config *Config, name string) (wondb.Data
 func CreateConsensusEngine(ctx *node.ServiceContext, config *ethash.Config, chainConfig *params.ChainConfig, db wondb.Database) consensus.Engine {
 
 	//if dpos is request
-	if chainConfig.Dpos !=nil {
-		return dpos.New(chainConfig.Dpos,db)
+	if chainConfig.Dpos != nil {
+		return dpos.New(chainConfig.Dpos, db)
 	}
 
 	// If proof-of-authority is requested, set it up
@@ -267,7 +266,7 @@ func (s *WorldOpenNetwork) APIs() []rpc.API {
 		{
 			Namespace: "won",
 			Version:   "1.0",
-			Service:   NewPublicWonChainAPI(s),
+			Service:   NewPublicWorldOpenNetworkAPI(s),
 			Public:    true,
 		}, {
 			Namespace: "won",
@@ -354,7 +353,6 @@ func (s *WorldOpenNetwork) StartMining(local bool) error {
 		return fmt.Errorf("wonbase missing: %v", err)
 	}
 
-
 	if dpos, ok := s.engine.(*dpos.Dpos); ok {
 		wallet, err := s.accountManager.Find(accounts.Account{Address: eb})
 		if wallet == nil || err != nil {
@@ -363,7 +361,6 @@ func (s *WorldOpenNetwork) StartMining(local bool) error {
 		}
 		dpos.Authorize(eb, wallet.SignHash)
 	}
-
 
 	if clique, ok := s.engine.(*clique.Clique); ok {
 		wallet, err := s.accountManager.Find(accounts.Account{Address: eb})

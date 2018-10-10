@@ -22,9 +22,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/worldopennet/go-won/swarm/api"
-	httpapi "github.com/worldopennet/go-won/swarm/api/http"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/swarm/api"
+	httpapi "github.com/worldopennetwork/go-won/swarm/api/http"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 func NewTestSwarmServer(t *testing.T) *TestSwarmServer {

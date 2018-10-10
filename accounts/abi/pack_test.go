@@ -24,7 +24,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 func TestPack(t *testing.T) {

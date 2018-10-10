@@ -24,7 +24,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/metrics"
+	"github.com/worldopennetwork/go-won/metrics"
 )
 
 /*
@@ -307,7 +307,7 @@ func (self *TreeChunker) hashChunk(hasher SwarmHash, job *hashJob, chunkC chan *
 	if chunkC != nil {
 		//NOTE: this increases the chunk count even if the local node already has this chunk;
 		//on file upload the node will increase this counter even if the same file has already been uploaded
-		//So it should be evaluated whwon it is worth keeping this counter
+		//So it should be evaluated whether it is worth keeping this counter
 		//and/or actually better track when the chunk is Put to the local database
 		//(which may question the need for disambiguation when a completely new chunk has been created
 		//and/or a chunk is being put to the local DB; for chunk tracking it may be worth distinguishing

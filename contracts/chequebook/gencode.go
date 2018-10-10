@@ -25,11 +25,11 @@ import (
 	"io/ioutil"
 	"math/big"
 
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/accounts/abi/bind/backends"
-	"github.com/worldopennet/go-won/contracts/chequebook/contract"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind/backends"
+	"github.com/worldopennetwork/go-won/contracts/chequebook/contract"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 var (

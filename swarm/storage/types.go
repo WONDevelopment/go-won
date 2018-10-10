@@ -24,9 +24,9 @@ import (
 	"io"
 	"sync"
 
-	"github.com/worldopennet/go-won/bmt"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/bmt"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
 )
 
 type Hasher func() hash.Hash

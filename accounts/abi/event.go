@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 // Event is an event potentially triggered by the EVM's LOG mechanism. The Event

@@ -10,7 +10,7 @@ fi
 # Create fake Go workspace if it doesn't exist yet.
 workspace="$PWD/build/_workspace"
 root="$PWD"
-wondir="$workspace/src/github.com/worldopennet"
+wondir="$workspace/src/github.com/worldopennetwork"
 if [ ! -L "$wondir/go-won" ]; then
     mkdir -p "$wondir"
     cd "$wondir"

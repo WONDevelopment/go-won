@@ -18,6 +18,7 @@
 package core
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -27,21 +28,21 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/mclock"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/trie"
 	"github.com/hashicorp/golang-lru"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/trie"
+	"github.com/worldopennetwork/go-won/wondb"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
@@ -66,7 +67,7 @@ const (
 // CacheConfig contains the configuration values for the trie caching/pruning
 // that's resident in a blockchain.
 type CacheConfig struct {
-	Disabled      bool          // Whwon to disable trie write caching (archive node)
+	Disabled      bool          // whether to disable trie write caching (archive node)
 	TrieNodeLimit int           // Memory limit (MB) at which to flush the current in-memory trie to disk
 	TrieTimeLimit time.Duration // Time limit after which to flush the current in-memory trie to disk
 }
@@ -897,7 +898,7 @@ func (bc *BlockChain) WriteBlockWithState(block *types.Block, receipts []*types.
 	if err := WriteBlock(batch, block); err != nil {
 		return NonStatTy, err
 	}
-	root, err := state.Commit(bc.chainConfig.IsEIP158(block.Number()))
+	root, err := state.Commit(true /*bc.chainConfig.IsEIP158(block.Number())*/)
 	if err != nil {
 		return NonStatTy, err
 	}
@@ -1009,6 +1010,49 @@ func (bc *BlockChain) InsertChain(chain types.Blocks) (int, error) {
 	n, events, logs, err := bc.insertChain(chain)
 	bc.PostChainEvents(events, logs)
 	return n, err
+}
+
+func (c *BlockChain) verifySignersElecting(chain consensus.ChainReader, header *types.Header, parent *types.Header) bool {
+
+	extraVanity := 32 // Fixed number of extra-data prefix bytes reserved for signer vanity
+	extraSeal := 65   // Fixed number of extra-data suffix bytes reserved for signer seal
+
+	signersMe := header.Extra[extraVanity : len(header.Extra)-extraSeal]
+	signersParent := parent.Extra[extraVanity : len(parent.Extra)-extraSeal]
+
+	if true || bytes.Compare(signersMe, signersParent) == 0 {
+		return true
+	}
+
+	state, err := c.StateAt(parent.Hash())
+	signersMeLocal := make([]byte, 0)
+	if err == nil && state != nil && (state.GetDposLastProducerScheduleUpdateTime().Int64()+60) < parent.Time.Int64() {
+		signersNew := state.GetProducerTopList()
+		if len(signersNew) > 0 {
+
+			//sort it
+			for i := 0; i < len(signersNew); i++ {
+				for j := i + 1; j < len(signersNew); j++ {
+					if bytes.Compare(signersNew[i][:], signersNew[j][:]) > 0 {
+						signersNew[i], signersNew[j] = signersNew[j], signersNew[i]
+					}
+				}
+			}
+
+			for _, signer := range signersNew {
+				signersMeLocal = append(signersMeLocal, signer[:]...)
+			}
+
+			if bytes.Compare(signersMe, signersParent) == 0 {
+
+				state.SetDposLastProducerScheduleUpdateTime(parent.Time)
+				return true
+			}
+
+		}
+	}
+	return false
+
 }
 
 // insertChain will execute the actual chain insertion and event aggregation. The
@@ -1134,6 +1178,7 @@ func (bc *BlockChain) insertChain(chain types.Blocks) (int, []interface{}, []*ty
 			bc.reportBlock(block, nil, err)
 			return i, events, coalescedLogs, err
 		}
+
 		// Create a new statedb using the parent block and report an
 		// error if it fails.
 		var parent *types.Block
@@ -1142,6 +1187,11 @@ func (bc *BlockChain) insertChain(chain types.Blocks) (int, []interface{}, []*ty
 		} else {
 			parent = chain[i-1]
 		}
+
+		if bc.chainConfig.Dpos != nil && !bc.verifySignersElecting(bc, block.Header(), parent.Header()) {
+			return i, events, coalescedLogs, fmt.Errorf("verifySignersElecting failed")
+		}
+
 		state, err := state.New(parent.Root(), bc.stateCache)
 		if err != nil {
 			return i, events, coalescedLogs, err
@@ -1152,6 +1202,7 @@ func (bc *BlockChain) insertChain(chain types.Blocks) (int, []interface{}, []*ty
 			bc.reportBlock(block, receipts, err)
 			return i, events, coalescedLogs, err
 		}
+
 		// Validate the state using the default validator
 		err = bc.Validator().ValidateState(block, parent, state, receipts, usedGas)
 		if err != nil {
@@ -1439,7 +1490,7 @@ Error: %v
 // chain, possibly creating a reorg. If an error is returned, it will return the
 // index number of the failing header as well an error describing what went wrong.
 //
-// The verify parameter can be used to fine tune whwon nonce verification
+// The verify parameter can be used to fine tune whether nonce verification
 // should be done or not. The reason behind the optional check is because some
 // of the header retrieval mechanisms already need to verify nonces, as well as
 // because nonces can be verified sparsely, not needing to check each.

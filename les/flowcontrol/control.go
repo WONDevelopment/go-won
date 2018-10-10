@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/common/mclock"
 )
 
 const fcTimeConst = time.Millisecond

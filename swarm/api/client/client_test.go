@@ -25,8 +25,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/worldopennet/go-won/swarm/api"
-	"github.com/worldopennet/go-won/swarm/testutil"
+	"github.com/worldopennetwork/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/swarm/testutil"
 )
 
 // TestClientUploadDownloadRaw test uploading and downloading raw data to swarm

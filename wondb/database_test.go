@@ -25,7 +25,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 func newTestLDB() (*wondb.LDBDatabase, func()) {

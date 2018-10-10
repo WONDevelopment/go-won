@@ -22,7 +22,7 @@ package gwon
 import (
 	"errors"
 
-	"github.com/worldopennet/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
 )
 
 // Enode represents a host on the network.

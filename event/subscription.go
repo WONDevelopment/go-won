@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/common/mclock"
 )
 
 // Subscription represents a stream of events. The carrier of the events is typically a

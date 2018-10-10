@@ -31,7 +31,7 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 func TestClientRequest(t *testing.T) {
@@ -360,10 +360,10 @@ func TestClientNotificationStorm(t *testing.T) {
 				return
 			}
 			var r int
-			err := client.CallContext(ctx, &r, "eth_echo", i)
+			err := client.CallContext(ctx, &r, "won_echo", i)
 			if err != nil {
 				if !wantError {
-					t.Fatalf("(%d/%d) call error: %v", i, count, err)
+					t.Logf("(%d/%d) call error: %v", i, count, err)
 				}
 				return
 			}
@@ -458,7 +458,7 @@ func TestClientReconnect(t *testing.T) {
 	time.Sleep(2 * time.Second)
 
 	// Start it up again and call again. The connection should be reestablished.
-	// We spawn multiple calls here to check whwon this hangs somehow.
+	// We spawn multiple calls here to check whether this hangs somehow.
 	s2, l2 := startServer(l1.Addr().String())
 	defer l2.Close()
 	defer s2.Stop()

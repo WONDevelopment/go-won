@@ -27,8 +27,8 @@ import (
 	"testing/quick"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 type nullTransport struct{}
@@ -62,7 +62,7 @@ func (nullTransport) Close()                                                {}
 // 		}
 // 		if newNodeIsResponding {
 // 			// second ping goes to oldest node in bucket
-// 			// to see whwon it is still alive.
+// 			// to see whether it is still alive.
 // 			if !transport.pinged[last.ID] {
 // 				t.Error("table did not ping last node in bucket")
 // 			}

@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // SampleService is a trivial network service that can be attached to a node for

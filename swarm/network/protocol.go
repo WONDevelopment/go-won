@@ -37,13 +37,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/worldopennet/go-won/contracts/chequebook"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/p2p"
-	bzzswap "github.com/worldopennet/go-won/swarm/services/swap"
-	"github.com/worldopennet/go-won/swarm/services/swap/swap"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/contracts/chequebook"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/p2p"
+	bzzswap "github.com/worldopennetwork/go-won/swarm/services/swap"
+	"github.com/worldopennetwork/go-won/swarm/services/swap/swap"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 //metrics variables

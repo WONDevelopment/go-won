@@ -19,7 +19,7 @@ package vm
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 const (

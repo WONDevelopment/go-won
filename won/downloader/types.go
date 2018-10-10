@@ -19,7 +19,7 @@ package downloader
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // peerDropFn is a callback type for dropping a peer detected as malicious.

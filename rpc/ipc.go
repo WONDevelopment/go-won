@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // CreateIPCListener creates an listener, on Unix platforms this is a unix socket, on

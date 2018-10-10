@@ -20,9 +20,9 @@ import (
 	"context"
 	"sync"
 
-	ethereum "github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/rpc"
+	ethereum "github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // PublicDownloaderAPI provides an API which gives information about the current synchronisation status.

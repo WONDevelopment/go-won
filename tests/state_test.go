@@ -22,7 +22,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/worldopennet/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/core/vm"
 )
 
 func TestState(t *testing.T) {

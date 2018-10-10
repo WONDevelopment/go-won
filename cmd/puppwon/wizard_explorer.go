@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // deployExplorer creates a new block explorer based on some user input.

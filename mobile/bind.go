@@ -22,10 +22,10 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/worldopennet/go-won/accounts/abi"
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // Signer is an interaface defining the callback when a contract requires a

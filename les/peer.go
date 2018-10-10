@@ -26,13 +26,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/les/flowcontrol"
-	"github.com/worldopennet/go-won/light"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/les/flowcontrol"
+	"github.com/worldopennetwork/go-won/light"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/won"
 )
 
 var (

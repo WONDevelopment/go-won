@@ -22,8 +22,8 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	swarm "github.com/worldopennet/go-won/swarm/api/client"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	swarm "github.com/worldopennetwork/go-won/swarm/api/client"
 	"gopkg.in/urfave/cli.v1"
 )
 

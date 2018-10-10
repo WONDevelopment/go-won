@@ -21,11 +21,11 @@ import (
 	"net"
 	"time"
 
-	"github.com/worldopennet/go-won/contracts/chequebook"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/swarm/network/kademlia"
-	"github.com/worldopennet/go-won/swarm/services/swap"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/contracts/chequebook"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/swarm/network/kademlia"
+	"github.com/worldopennetwork/go-won/swarm/services/swap"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 /*
@@ -193,7 +193,7 @@ The encoding of a peer is identical to that in the devp2p base protocol peers
 messages: [IP, Port, NodeID]
 note that a node's DPA address is not the NodeID but the hash of the NodeID.
 
-Timeout serves to indicate whwon the responder is forwarding the query within
+Timeout serves to indicate whether the responder is forwarding the query within
 the timeout or not.
 
 NodeID serves as the owner of payment contracts and signer of proofs of transfer.
@@ -206,7 +206,7 @@ Peers message is requested by retrieval requests with a missing or zero value re
 type peersMsgData struct {
 	Peers   []*peerAddr //
 	Timeout uint64      //
-	timeout *time.Time  // indicate whwon responder is expected to deliver content
+	timeout *time.Time  // indicate whether responder is expected to deliver content
 	Key     storage.Key // present if a response to a retrieval request
 	Id      uint64      // present if a response to a retrieval request
 	from    *peer

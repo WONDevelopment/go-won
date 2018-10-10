@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // deployNode creates a new node configuration based on some user input.

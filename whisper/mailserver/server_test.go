@@ -25,9 +25,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	whisper "github.com/worldopennet/go-won/whisper/whisperv6"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	whisper "github.com/worldopennetwork/go-won/whisper/whisperv6"
 )
 
 const powRequirement = 0.00001

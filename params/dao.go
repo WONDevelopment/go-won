@@ -19,7 +19,7 @@ package params
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // DAOForkBlockExtra is the block header extra-data field to set for the DAO fork

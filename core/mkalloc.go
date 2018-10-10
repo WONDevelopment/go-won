@@ -34,8 +34,8 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 type allocItem struct{ Addr, Balance *big.Int }

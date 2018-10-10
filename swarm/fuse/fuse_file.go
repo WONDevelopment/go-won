@@ -26,8 +26,8 @@ import (
 
 	"bazil.org/fuse"
 	"bazil.org/fuse/fs"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 	"golang.org/x/net/context"
 )
 

@@ -21,7 +21,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/worldopennet/go-won/event"
+	"github.com/worldopennetwork/go-won/event"
 )
 
 // Manager is an overarching account manager that can communicate with various

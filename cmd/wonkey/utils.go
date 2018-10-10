@@ -22,9 +22,9 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/console"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/console"
+	"github.com/worldopennetwork/go-won/crypto"
 	"gopkg.in/urfave/cli.v1"
 )
 

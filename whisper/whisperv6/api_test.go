@@ -22,7 +22,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 	set "gopkg.in/fatih/set.v0"
 )
 

@@ -29,9 +29,9 @@ import (
 
 	"bazil.org/fuse"
 	"bazil.org/fuse/fs"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/swarm/api"
 )
 
 var (

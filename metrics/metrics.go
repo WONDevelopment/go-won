@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // Enabled is checked by the constructor functions for all of the

@@ -16,7 +16,7 @@
 
 package wonclient
 
-import "github.com/worldopennet/go-won"
+import "github.com/worldopennetwork/go-won"
 
 // Verify that Client implements the ethereum interfaces.
 var (

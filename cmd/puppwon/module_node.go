@@ -26,8 +26,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // nodeDockerfile is the Dockerfile required to run an WorldOpenNetwork node.
@@ -102,7 +102,7 @@ func deployNode(client *sshClient, network string, bootnodes []string, config *n
 		"LightFlag": lightFlag,
 		"Bootnodes": strings.Join(bootnodes, ","),
 		"Ethstats":  config.ethstats,
-		"Wonbase": config.wonbase,
+		"Wonbase":   config.wonbase,
 		"GasTarget": uint64(1000000 * config.gasTarget),
 		"GasPrice":  uint64(1000000000 * config.gasPrice),
 		"Unlock":    config.keyJSON != "",
@@ -120,7 +120,7 @@ func deployNode(client *sshClient, network string, bootnodes []string, config *n
 		"Light":      config.peersLight > 0,
 		"LightPeers": config.peersLight,
 		"Ethstats":   config.ethstats[:strings.Index(config.ethstats, ":")],
-		"Wonbase":  config.wonbase,
+		"Wonbase":    config.wonbase,
 		"GasTarget":  config.gasTarget,
 		"GasPrice":   config.gasPrice,
 	})
@@ -156,7 +156,7 @@ type nodeInfos struct {
 	enode      string
 	peersTotal int
 	peersLight int
-	wonbase  string
+	wonbase    string
 	keyJSON    string
 	keyPass    string
 	gasTarget  float64
@@ -199,7 +199,7 @@ func (info *nodeInfos) Report() map[string]string {
 }
 
 // checkNode does a health-check against an boot or seal node server to verify
-// whwon it's running, and if yes, whwon it's responsive.
+// whether it's running, and if yes, whether it's responsive.
 func checkNode(client *sshClient, network string, boot bool) (*nodeInfos, error) {
 	kind := "bootnode"
 	if !boot {
@@ -252,7 +252,7 @@ func checkNode(client *sshClient, network string, boot bool) (*nodeInfos, error)
 		peersTotal: totalPeers,
 		peersLight: lightPeers,
 		ethstats:   infos.envvars["STATS_NAME"],
-		wonbase:  infos.envvars["MINER_NAME"],
+		wonbase:    infos.envvars["MINER_NAME"],
 		keyJSON:    keyJSON,
 		keyPass:    keyPass,
 		gasTarget:  gasTarget,

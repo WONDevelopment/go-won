@@ -21,7 +21,7 @@ package p2p
 import (
 	"net"
 
-	"github.com/worldopennet/go-won/metrics"
+	"github.com/worldopennetwork/go-won/metrics"
 )
 
 var (

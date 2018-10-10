@@ -27,7 +27,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/worldopennet/go-won/common/math"
+	"github.com/worldopennetwork/go-won/common/math"
 	"gopkg.in/urfave/cli.v1"
 )
 

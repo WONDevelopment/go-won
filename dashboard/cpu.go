@@ -21,7 +21,7 @@ package dashboard
 import (
 	"syscall"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // getProcessCPUTime retrieves the process' CPU time since program startup.

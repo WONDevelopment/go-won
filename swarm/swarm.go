@@ -27,24 +27,24 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/contracts/chequebook"
-	"github.com/worldopennet/go-won/contracts/ens"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wonclient"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rpc"
-	"github.com/worldopennet/go-won/swarm/api"
-	httpapi "github.com/worldopennet/go-won/swarm/api/http"
-	"github.com/worldopennet/go-won/swarm/fuse"
-	"github.com/worldopennet/go-won/swarm/network"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/contracts/chequebook"
+	"github.com/worldopennetwork/go-won/contracts/ens"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/swarm/api"
+	httpapi "github.com/worldopennetwork/go-won/swarm/api/http"
+	"github.com/worldopennetwork/go-won/swarm/fuse"
+	"github.com/worldopennetwork/go-won/swarm/network"
+	"github.com/worldopennetwork/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/wonclient"
 )
 
 var (
@@ -252,7 +252,7 @@ func detectEnsAddr(client *rpc.Client) (common.Address, error) {
 		log.Info("using Mainnet ENS contract address", "addr", ens.MainNetAddress)
 		return ens.MainNetAddress, nil
 
-	case version == "20180329" && block.Hash() == params.AlphanetGenesisHash:
+	case version == "2" && block.Hash() == params.TestnetGenesisHash:
 		log.Info("using Testnet ENS contract address", "addr", ens.TestNetAddress)
 		return ens.TestNetAddress, nil
 

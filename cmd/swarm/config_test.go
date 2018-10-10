@@ -25,9 +25,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/rpc"
-	"github.com/worldopennet/go-won/swarm"
-	"github.com/worldopennet/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/swarm"
+	"github.com/worldopennetwork/go-won/swarm/api"
 
 	"github.com/docker/docker/pkg/reexec"
 )

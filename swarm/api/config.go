@@ -22,14 +22,14 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/contracts/ens"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/swarm/network"
-	"github.com/worldopennet/go-won/swarm/services/swap"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/contracts/ens"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/swarm/network"
+	"github.com/worldopennetwork/go-won/swarm/services/swap"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 const (
@@ -76,7 +76,7 @@ func NewDefaultConfig() (self *Config) {
 		Port:          DefaultHTTPPort,
 		Path:          node.DefaultDataDir(),
 		EnsAPIs:       nil,
-		EnsRoot:       ens.TestNetAddress,
+		EnsRoot:       ens.TestNetAddress, // TODO ens.TestNetAddress
 		NetworkId:     network.NetworkId,
 		SwapEnabled:   false,
 		SyncEnabled:   true,

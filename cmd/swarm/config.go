@@ -28,13 +28,13 @@ import (
 
 	cli "gopkg.in/urfave/cli.v1"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/node"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/node"
 	"github.com/naoina/toml"
 
-	bzzapi "github.com/worldopennet/go-won/swarm/api"
+	bzzapi "github.com/worldopennetwork/go-won/swarm/api"
 )
 
 var (
@@ -84,7 +84,7 @@ var tomlSettings = toml.Config{
 	MissingField: func(rt reflect.Type, field string) error {
 		link := ""
 		if unicode.IsUpper(rune(rt.Name()[0])) && rt.PkgPath() != "main" {
-			link = fmt.Sprintf(", check github.com/worldopennet/go-won/swarm/api/config.go for available fields")
+			link = fmt.Sprintf(", check github.com/worldopennetwork/go-won/swarm/api/config.go for available fields")
 		}
 		return fmt.Errorf("field '%s' is not defined in %s%s", field, rt.String(), link)
 	},

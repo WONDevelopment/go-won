@@ -6,12 +6,12 @@ package contract
 import (
 	"strings"
 
-	ethereum "github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/accounts/abi"
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/event"
+	ethereum "github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
 )
 
 // ENSABI is the input ABI used to generate the binding from.
@@ -346,11 +346,11 @@ type ENSNewOwnerIterator struct {
 
 	logs chan types.Log        // Log channel receiving the found contract events
 	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whwon the subscription completed delivering logs
+	done bool                  // whether the subscription completed delivering logs
 	fail error                 // Occurred error to stop iteration
 }
 
-// Next advances the iterator to the subsequent event, returning whwon there
+// Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
 func (it *ENSNewOwnerIterator) Next() bool {
@@ -488,11 +488,11 @@ type ENSNewResolverIterator struct {
 
 	logs chan types.Log        // Log channel receiving the found contract events
 	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whwon the subscription completed delivering logs
+	done bool                  // whether the subscription completed delivering logs
 	fail error                 // Occurred error to stop iteration
 }
 
-// Next advances the iterator to the subsequent event, returning whwon there
+// Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
 func (it *ENSNewResolverIterator) Next() bool {
@@ -621,11 +621,11 @@ type ENSNewTTLIterator struct {
 
 	logs chan types.Log        // Log channel receiving the found contract events
 	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whwon the subscription completed delivering logs
+	done bool                  // whether the subscription completed delivering logs
 	fail error                 // Occurred error to stop iteration
 }
 
-// Next advances the iterator to the subsequent event, returning whwon there
+// Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
 func (it *ENSNewTTLIterator) Next() bool {
@@ -754,11 +754,11 @@ type ENSTransferIterator struct {
 
 	logs chan types.Log        // Log channel receiving the found contract events
 	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whwon the subscription completed delivering logs
+	done bool                  // whether the subscription completed delivering logs
 	fail error                 // Occurred error to stop iteration
 }
 
-// Next advances the iterator to the subsequent event, returning whwon there
+// Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
 func (it *ENSTransferIterator) Next() bool {

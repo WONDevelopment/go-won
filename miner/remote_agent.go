@@ -23,11 +23,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 type hashrate struct {
@@ -50,7 +50,7 @@ type RemoteAgent struct {
 	hashrateMu sync.RWMutex
 	hashrate   map[common.Hash]hashrate
 
-	running int32 // running indicates whwon the agent is active. Call atomically
+	running int32 // running indicates whether the agent is active. Call atomically
 }
 
 func NewRemoteAgent(chain consensus.ChainReader, engine consensus.Engine) *RemoteAgent {
@@ -132,7 +132,7 @@ func (a *RemoteAgent) GetWork() ([3]string, error) {
 }
 
 // SubmitWork tries to inject a pow solution into the remote agent, returning
-// whwon the solution was accepted or not (not can be both a bad pow as well as
+// whether the solution was accepted or not (not can be both a bad pow as well as
 // any other error, like no work pending).
 func (a *RemoteAgent) SubmitWork(nonce types.BlockNonce, mixDigest, hash common.Hash) bool {
 	a.mu.Lock()

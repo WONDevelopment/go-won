@@ -21,12 +21,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/light"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/light"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 var testBankSecureTrieKey = secAddr(testBankAddress)

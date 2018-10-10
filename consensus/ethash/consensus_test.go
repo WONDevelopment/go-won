@@ -23,9 +23,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 type diffTest struct {
@@ -70,7 +70,7 @@ func TestCalcDifficulty(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	config := &params.ChainConfig{HomesteadBlock: big.NewInt(1150000)}
+	config := &params.ChainConfig{}
 
 	for name, test := range tests {
 		number := new(big.Int).Sub(test.CurrentBlocknumber, big.NewInt(1))

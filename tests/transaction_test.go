@@ -17,10 +17,10 @@
 package tests
 
 import (
-	"math/big"
+	//"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 func TestTransaction(t *testing.T) {
@@ -28,21 +28,21 @@ func TestTransaction(t *testing.T) {
 
 	txt := new(testMatcher)
 	txt.config(`^Homestead/`, params.ChainConfig{
-		HomesteadBlock: big.NewInt(0),
+		//HomesteadBlock: big.NewInt(0),
 	})
 	txt.config(`^EIP155/`, params.ChainConfig{
-		HomesteadBlock: big.NewInt(0),
-		EIP150Block:    big.NewInt(0),
-		EIP155Block:    big.NewInt(0),
-		EIP158Block:    big.NewInt(0),
-		ChainId:        big.NewInt(1),
+		//HomesteadBlock: big.NewInt(0),
+		//EIP150Block:    big.NewInt(0),
+		//EIP155Block:    big.NewInt(0),
+		//EIP158Block:    big.NewInt(0),
+		//ChainId:        big.NewInt(1),
 	})
 	txt.config(`^Byzantium/`, params.ChainConfig{
-		HomesteadBlock: big.NewInt(0),
-		EIP150Block:    big.NewInt(0),
-		EIP155Block:    big.NewInt(0),
-		EIP158Block:    big.NewInt(0),
-		ByzantiumBlock: big.NewInt(0),
+		//HomesteadBlock: big.NewInt(0),
+		//EIP150Block:    big.NewInt(0),
+		//EIP155Block:    big.NewInt(0),
+		//EIP158Block:    big.NewInt(0),
+		//ByzantiumBlock: big.NewInt(0),
 	})
 
 	txt.walk(t, transactionTestDir, func(t *testing.T, name string, test *TransactionTest) {

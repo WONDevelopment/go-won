@@ -20,7 +20,7 @@ import (
 	"html/template"
 	"path"
 
-	"github.com/worldopennet/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/swarm/api"
 )
 
 type htmlListData struct {

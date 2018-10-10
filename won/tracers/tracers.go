@@ -21,7 +21,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/worldopennet/go-won/won/tracers/internal/tracers"
+	"github.com/worldopennetwork/go-won/won/tracers/internal/tracers"
 )
 
 // all contains all the built in JavaScript tracers by name.

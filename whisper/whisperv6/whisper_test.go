@@ -24,7 +24,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 	"golang.org/x/crypto/pbkdf2"
 )
 

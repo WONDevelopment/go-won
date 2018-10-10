@@ -1,1 +1,1 @@
---datadir /Volumes/WDC1T/woneth2/data --networkid 20180329 --unlock 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce --password /Volumes/WDC1T/woneth2/password.txt --mine --etherbase 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce   --verbosity 4
+--datadir /Volumes/WDC1T/woneth2/data --networkid 20180827 --unlock 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce --password /Volumes/WDC1T/woneth2/password.txt --mine --etherbase 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce   --verbosity 4

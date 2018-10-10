@@ -24,9 +24,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 var (
@@ -103,7 +103,7 @@ func TestNodeUsedDataDir(t *testing.T) {
 	}
 }
 
-// Tests whwon services can be registered and duplicates caught.
+// Tests whether services can be registered and duplicates caught.
 func TestServiceRegistry(t *testing.T) {
 	stack, err := New(testNodeConfig())
 	if err != nil {

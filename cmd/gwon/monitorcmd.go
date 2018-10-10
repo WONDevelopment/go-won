@@ -25,9 +25,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/rpc"
 	"github.com/gizak/termui"
 	"gopkg.in/urfave/cli.v1"
 )

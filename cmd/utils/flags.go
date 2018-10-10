@@ -28,35 +28,36 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/fdlimit"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/clique"
-	"github.com/worldopennet/go-won/consensus/dpos"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/dashboard"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/won/gasprice"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/wonstats"
-	"github.com/worldopennet/go-won/les"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/discv5"
-	"github.com/worldopennet/go-won/p2p/nat"
-	"github.com/worldopennet/go-won/p2p/netutil"
-	"github.com/worldopennet/go-won/params"
-	whisper "github.com/worldopennet/go-won/whisper/whisperv6"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/fdlimit"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/consensus/clique"
+	"github.com/worldopennetwork/go-won/consensus/dpos"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/dashboard"
+	"github.com/worldopennetwork/go-won/les"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/p2p/nat"
+	"github.com/worldopennetwork/go-won/p2p/netutil"
+	"github.com/worldopennetwork/go-won/params"
+	whisper "github.com/worldopennetwork/go-won/whisper/whisperv6"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/won/gasprice"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/wonstats"
+
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -129,17 +130,17 @@ var (
 	}
 	NetworkIdFlag = cli.Uint64Flag{
 		Name:  "networkid",
-		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 20180329=Alpha, 4=Rinkeby)",
+		Usage: "Network identifier (integer, 1=Mainnet, 2=Testnet )",
 		Value: won.DefaultConfig.NetworkId,
 	}
-	AlphanetFlag = cli.BoolFlag{
-		Name:  "alphanet",
-		Usage: "Won alpha network: pre-configured proof-of-work alpha network",
+	TestnetFlag = cli.BoolFlag{
+		Name:  "testnet",
+		Usage: "Won test network: pre-configured dpos test network",
 	}
-	RinkebyFlag = cli.BoolFlag{
-		Name:  "rinkeby",
-		Usage: "Rinkeby network: pre-configured proof-of-authority test network",
-	}
+	//BetanetFlag = cli.BoolFlag{
+	//	Name:  "betanet",
+	//	Usage: "Won beta network: pre-configured dpos test network",
+	//}
 	DeveloperFlag = cli.BoolFlag{
 		Name:  "dev",
 		Usage: "Ephemeral proof-of-authority network with a pre-funded developer account, mining enabled",
@@ -545,12 +546,12 @@ var (
 // the a subdirectory of the specified datadir will be used.
 func MakeDataDir(ctx *cli.Context) string {
 	if path := ctx.GlobalString(DataDirFlag.Name); path != "" {
-		if ctx.GlobalBool(AlphanetFlag.Name) {
-			return filepath.Join(path, "alphanet")
+		if ctx.GlobalBool(TestnetFlag.Name) {
+			return filepath.Join(path, "testnet")
 		}
-		if ctx.GlobalBool(RinkebyFlag.Name) {
-			return filepath.Join(path, "rinkeby")
-		}
+		//if ctx.GlobalBool(BetanetFlag.Name) {
+		//	return filepath.Join(path, "betanet")
+		//}
 		return path
 	}
 	Fatalf("Cannot determine default data directory, please set manually (--datadir)")
@@ -601,10 +602,10 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 		} else {
 			urls = strings.Split(ctx.GlobalString(BootnodesFlag.Name), ",")
 		}
-	case ctx.GlobalBool(AlphanetFlag.Name):
-		urls = params.AlphanetBootnodes
-	case ctx.GlobalBool(RinkebyFlag.Name):
-		urls = params.RinkebyBootnodes
+	case ctx.GlobalBool(TestnetFlag.Name):
+		urls = params.TestnetBootnodes
+	//case ctx.GlobalBool(BetanetFlag.Name):
+	//	urls = params.BetanetBootnodes
 	case cfg.BootstrapNodes != nil:
 		return // already set, don't apply defaults.
 	}
@@ -631,8 +632,8 @@ func setBootstrapNodesV5(ctx *cli.Context, cfg *p2p.Config) {
 		} else {
 			urls = strings.Split(ctx.GlobalString(BootnodesFlag.Name), ",")
 		}
-	case ctx.GlobalBool(RinkebyFlag.Name):
-		urls = params.RinkebyBootnodes
+	//case ctx.GlobalBool(BetanetFlag.Name):
+	//	urls = params.BetanetBootnodes
 	case cfg.BootstrapNodesV5 != nil:
 		return // already set, don't apply defaults.
 	}
@@ -887,10 +888,10 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = ctx.GlobalString(DataDirFlag.Name)
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		cfg.DataDir = "" // unless explicitly requested, use memory databases
-	case ctx.GlobalBool(AlphanetFlag.Name):
-		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "alphanet")
-	case ctx.GlobalBool(RinkebyFlag.Name):
-		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "rinkeby")
+	case ctx.GlobalBool(TestnetFlag.Name):
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "testnet")
+	case ctx.GlobalBool(DeveloperFlag.Name):
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "devnet")
 	}
 
 	if ctx.GlobalIsSet(KeyStoreDirFlag.Name) {
@@ -914,7 +915,7 @@ func setGPO(ctx *cli.Context, cfg *gasprice.Config) {
 
 	if ctx.GlobalIsSet(GpoFixedGasPrice.Name) {
 		cfg.FixedGasPrice = ctx.GlobalInt(GpoFixedGasPrice.Name)
-	}	
+	}
 }
 
 func setTxPool(ctx *cli.Context, cfg *core.TxPoolConfig) {
@@ -1022,7 +1023,7 @@ func SetShhConfig(ctx *cli.Context, stack *node.Node, cfg *whisper.Config) {
 // SetEthConfig applies won-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *won.Config) {
 	// Avoid conflicting network flags
-	checkExclusive(ctx, DeveloperFlag, AlphanetFlag, RinkebyFlag)
+	checkExclusive(ctx, DeveloperFlag, TestnetFlag)
 	checkExclusive(ctx, FastSyncFlag, LightModeFlag, SyncModeFlag)
 	checkExclusive(ctx, LightServFlag, LightModeFlag)
 	checkExclusive(ctx, LightServFlag, SyncModeFlag, "light")
@@ -1083,16 +1084,17 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *won.Config) {
 
 	// Override any default configs for hard coded networks.
 	switch {
-	case ctx.GlobalBool(AlphanetFlag.Name):
+	case ctx.GlobalBool(TestnetFlag.Name):
 		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			cfg.NetworkId = 20180329
+			cfg.NetworkId = 2
 		}
-		cfg.Genesis = core.DefaultAlphanetGenesisBlock()
-	case ctx.GlobalBool(RinkebyFlag.Name):
-		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
-			cfg.NetworkId = 4
-		}
-		cfg.Genesis = core.DefaultRinkebyGenesisBlock()
+		cfg.Genesis = core.DefaultTestnetGenesisBlock()
+	//case ctx.GlobalBool(RinkebyFlag.Name):
+	//	if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
+	//		cfg.NetworkId = 4
+	//	}
+	//	cfg.Genesis = core.DefaultRinkebyGenesisBlock()
+
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		// Create new developer account or reuse existing one
 		var (
@@ -1211,10 +1213,11 @@ func MakeChainDatabase(ctx *cli.Context, stack *node.Node) wondb.Database {
 func MakeGenesis(ctx *cli.Context) *core.Genesis {
 	var genesis *core.Genesis
 	switch {
-	case ctx.GlobalBool(AlphanetFlag.Name):
-		genesis = core.DefaultAlphanetGenesisBlock()
-	case ctx.GlobalBool(RinkebyFlag.Name):
-		genesis = core.DefaultRinkebyGenesisBlock()
+	case ctx.GlobalBool(TestnetFlag.Name):
+		genesis = core.DefaultTestnetGenesisBlock()
+	//case ctx.GlobalBool(RinkebyFlag.Name):
+	//	genesis = core.DefaultRinkebyGenesisBlock()
+
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		Fatalf("Developer chains are ephemeral")
 	}

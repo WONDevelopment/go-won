@@ -25,8 +25,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/crypto"
 	"github.com/pborman/uuid"
 	"golang.org/x/crypto/pbkdf2"
 )

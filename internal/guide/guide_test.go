@@ -30,8 +30,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // Tests that the account management snippets work correctly.

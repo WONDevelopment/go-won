@@ -24,13 +24,13 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/misc"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/consensus/misc"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/params"
 	set "gopkg.in/fatih/set.v0"
 )
 
@@ -64,7 +64,7 @@ func (ethash *Ethash) Author(header *types.Header) (common.Address, error) {
 	return header.Coinbase, nil
 }
 
-// VerifyHeader checks whwon a header conforms to the consensus rules of the
+// VerifyHeader checks whether a header conforms to the consensus rules of the
 // stock WorldOpenNetwork ethash engine.
 func (ethash *Ethash) VerifyHeader(chain consensus.ChainReader, header *types.Header, seal bool) error {
 	// If we're running a full engine faking, accept any input as valid
@@ -217,7 +217,7 @@ func (ethash *Ethash) VerifyUncles(chain consensus.ChainReader, block *types.Blo
 	return nil
 }
 
-// verifyHeader checks whwon a header conforms to the consensus rules of the
+// verifyHeader checks whether a header conforms to the consensus rules of the
 // stock WorldOpenNetwork ethash engine.
 // See YP section 4.3.4. "Block Header Validity"
 func (ethash *Ethash) verifyHeader(chain consensus.ChainReader, header, parent *types.Header, uncle bool, seal bool) error {
@@ -295,15 +295,15 @@ func (ethash *Ethash) CalcDifficulty(chain consensus.ChainReader, time uint64, p
 // the difficulty that a new block should have when created at time
 // given the parent block's time and difficulty.
 func CalcDifficulty(config *params.ChainConfig, time uint64, parent *types.Header) *big.Int {
-	next := new(big.Int).Add(parent.Number, big1)
-	switch {
-	case config.IsByzantium(next):
-		return calcDifficultyByzantium(time, parent)
-	case config.IsHomestead(next):
-		return calcDifficultyHomestead(time, parent)
-	default:
-		return calcDifficultyFrontier(time, parent)
-	}
+	//next := new(big.Int).Add(parent.Number, big1)
+	//switch {
+	//case config.IsByzantium(next):
+	return calcDifficultyByzantium(time, parent)
+	//case config.IsHomestead(next):
+	//	return calcDifficultyHomestead(time, parent)
+	//default:
+	//	return calcDifficultyFrontier(time, parent)
+	//}
 }
 
 // Some weird constants to avoid constant memory allocs for them.
@@ -458,7 +458,7 @@ func calcDifficultyFrontier(time uint64, parent *types.Header) *big.Int {
 	return diff
 }
 
-// VerifySeal implements consensus.Engine, checking whwon the given block satisfies
+// VerifySeal implements consensus.Engine, checking whether the given block satisfies
 // the PoW difficulty requirements.
 func (ethash *Ethash) VerifySeal(chain consensus.ChainReader, header *types.Header) error {
 	// If we're running a fake PoW, accept any seal as valid
@@ -516,7 +516,7 @@ func (ethash *Ethash) Prepare(chain consensus.ChainReader, header *types.Header)
 func (ethash *Ethash) Finalize(chain consensus.ChainReader, header *types.Header, state *state.StateDB, txs []*types.Transaction, uncles []*types.Header, receipts []*types.Receipt) (*types.Block, error) {
 	// Accumulate any block and uncle rewards and commit the final state root
 	accumulateRewards(chain.Config(), state, header, uncles)
-	header.Root = state.IntermediateRoot(chain.Config().IsEIP158(header.Number))
+	header.Root = state.IntermediateRoot(true /*chain.Config().IsEIP158(header.Number)*/)
 
 	// Header seems complete, assemble into a block and return
 	return types.NewBlock(header, txs, uncles, receipts), nil
@@ -534,7 +534,7 @@ var (
 func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header *types.Header, uncles []*types.Header) {
 	// Select the correct block reward based on chain progression
 	blockReward := FrontierBlockReward
-	if config.IsByzantium(header.Number) {
+	if true /*config.IsByzantium(header.Number) */ {
 		blockReward = ByzantiumBlockReward
 	}
 	// Accumulate the rewards for the miner and any included uncles

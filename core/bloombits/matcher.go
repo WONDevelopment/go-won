@@ -26,8 +26,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common/bitutil"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/common/bitutil"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 // bloomIndexes represents the bit indexes inside the bloom filter that belong
@@ -83,7 +83,7 @@ type Matcher struct {
 	retrievals chan chan *Retrieval // Retriever processes waiting for task allocations
 	deliveries chan *Retrieval      // Retriever processes waiting for task response deliveries
 
-	running uint32 // Atomic flag whwon a session is live or not
+	running uint32 // Atomic flag whether a session is live or not
 }
 
 // NewMatcher creates a new pipeline for retrieving bloom bit streams and doing

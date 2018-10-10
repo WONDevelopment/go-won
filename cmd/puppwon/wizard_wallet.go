@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // deployWallet creates a new web wallet based on some user input.

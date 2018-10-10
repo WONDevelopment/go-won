@@ -23,10 +23,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/simulations/adapters"
-	p2ptest "github.com/worldopennet/go-won/p2p/testing"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/simulations/adapters"
+	p2ptest "github.com/worldopennetwork/go-won/p2p/testing"
 )
 
 // handshake message type

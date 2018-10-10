@@ -26,7 +26,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 	"golang.org/x/tools/imports"
 )
 

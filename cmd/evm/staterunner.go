@@ -23,10 +23,10 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/tests"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/tests"
 
 	cli "gopkg.in/urfave/cli.v1"
 )

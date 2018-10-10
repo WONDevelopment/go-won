@@ -954,29 +954,29 @@ func (m *GetAddress) GetScriptType() InputScriptType {
 }
 
 // *
-// Request: Ask device for WorldOpenNetwork address corresponding to address_n path
+// Request: Ask device for Ethereum address corresponding to address_n path
 // @next PassphraseRequest
-// @next WorldOpenNetworkAddress
+// @next EthereumAddress
 // @next Failure
-type WorldOpenNetworkGetAddress struct {
+type EthereumGetAddress struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	ShowDisplay      *bool    `protobuf:"varint,2,opt,name=show_display,json=showDisplay" json:"show_display,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *WorldOpenNetworkGetAddress) Reset()                    { *m = WorldOpenNetworkGetAddress{} }
-func (m *WorldOpenNetworkGetAddress) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkGetAddress) ProtoMessage()               {}
-func (*WorldOpenNetworkGetAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{22} }
+func (m *EthereumGetAddress) Reset()                    { *m = EthereumGetAddress{} }
+func (m *EthereumGetAddress) String() string            { return proto.CompactTextString(m) }
+func (*EthereumGetAddress) ProtoMessage()               {}
+func (*EthereumGetAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{22} }
 
-func (m *WorldOpenNetworkGetAddress) GetAddressN() []uint32 {
+func (m *EthereumGetAddress) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkGetAddress) GetShowDisplay() bool {
+func (m *EthereumGetAddress) GetShowDisplay() bool {
 	if m != nil && m.ShowDisplay != nil {
 		return *m.ShowDisplay
 	}
@@ -1004,19 +1004,19 @@ func (m *Address) GetAddress() string {
 }
 
 // *
-// Response: Contains an WorldOpenNetwork address derived from device private seed
-// @prev WorldOpenNetworkGetAddress
-type WorldOpenNetworkAddress struct {
+// Response: Contains an Ethereum address derived from device private seed
+// @prev EthereumGetAddress
+type EthereumAddress struct {
 	Address          []byte `protobuf:"bytes,1,req,name=address" json:"address,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *WorldOpenNetworkAddress) Reset()                    { *m = WorldOpenNetworkAddress{} }
-func (m *WorldOpenNetworkAddress) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkAddress) ProtoMessage()               {}
-func (*WorldOpenNetworkAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{24} }
+func (m *EthereumAddress) Reset()                    { *m = EthereumAddress{} }
+func (m *EthereumAddress) String() string            { return proto.CompactTextString(m) }
+func (*EthereumAddress) ProtoMessage()               {}
+func (*EthereumAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{24} }
 
-func (m *WorldOpenNetworkAddress) GetAddress() []byte {
+func (m *EthereumAddress) GetAddress() []byte {
 	if m != nil {
 		return m.Address
 	}
@@ -2006,9 +2006,9 @@ func (m *TxAck) GetTx() *TransactionType {
 // Note: the first at most 1024 bytes of data MUST be transmitted as part of this message.
 // @next PassphraseRequest
 // @next PinMatrixRequest
-// @next WorldOpenNetworkTxRequest
+// @next EthereumTxRequest
 // @next Failure
-type WorldOpenNetworkSignTx struct {
+type EthereumSignTx struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	Nonce            []byte   `protobuf:"bytes,2,opt,name=nonce" json:"nonce,omitempty"`
 	GasPrice         []byte   `protobuf:"bytes,3,opt,name=gas_price,json=gasPrice" json:"gas_price,omitempty"`
@@ -2021,68 +2021,68 @@ type WorldOpenNetworkSignTx struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *WorldOpenNetworkSignTx) Reset()                    { *m = WorldOpenNetworkSignTx{} }
-func (m *WorldOpenNetworkSignTx) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkSignTx) ProtoMessage()               {}
-func (*WorldOpenNetworkSignTx) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{49} }
+func (m *EthereumSignTx) Reset()                    { *m = EthereumSignTx{} }
+func (m *EthereumSignTx) String() string            { return proto.CompactTextString(m) }
+func (*EthereumSignTx) ProtoMessage()               {}
+func (*EthereumSignTx) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{49} }
 
-func (m *WorldOpenNetworkSignTx) GetAddressN() []uint32 {
+func (m *EthereumSignTx) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetNonce() []byte {
+func (m *EthereumSignTx) GetNonce() []byte {
 	if m != nil {
 		return m.Nonce
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetGasPrice() []byte {
+func (m *EthereumSignTx) GetGasPrice() []byte {
 	if m != nil {
 		return m.GasPrice
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetGasLimit() []byte {
+func (m *EthereumSignTx) GetGasLimit() []byte {
 	if m != nil {
 		return m.GasLimit
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetTo() []byte {
+func (m *EthereumSignTx) GetTo() []byte {
 	if m != nil {
 		return m.To
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetValue() []byte {
+func (m *EthereumSignTx) GetValue() []byte {
 	if m != nil {
 		return m.Value
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetDataInitialChunk() []byte {
+func (m *EthereumSignTx) GetDataInitialChunk() []byte {
 	if m != nil {
 		return m.DataInitialChunk
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignTx) GetDataLength() uint32 {
+func (m *EthereumSignTx) GetDataLength() uint32 {
 	if m != nil && m.DataLength != nil {
 		return *m.DataLength
 	}
 	return 0
 }
 
-func (m *WorldOpenNetworkSignTx) GetChainId() uint32 {
+func (m *EthereumSignTx) GetChainId() uint32 {
 	if m != nil && m.ChainId != nil {
 		return *m.ChainId
 	}
@@ -2093,9 +2093,9 @@ func (m *WorldOpenNetworkSignTx) GetChainId() uint32 {
 // Response: Device asks for more data from transaction payload, or returns the signature.
 // If data_length is set, device awaits that many more bytes of payload.
 // Otherwise, the signature_* fields contain the computed transaction signature. All three fields will be present.
-// @prev WorldOpenNetworkSignTx
-// @next WorldOpenNetworkTxAck
-type WorldOpenNetworkTxRequest struct {
+// @prev EthereumSignTx
+// @next EthereumTxAck
+type EthereumTxRequest struct {
 	DataLength       *uint32 `protobuf:"varint,1,opt,name=data_length,json=dataLength" json:"data_length,omitempty"`
 	SignatureV       *uint32 `protobuf:"varint,2,opt,name=signature_v,json=signatureV" json:"signature_v,omitempty"`
 	SignatureR       []byte  `protobuf:"bytes,3,opt,name=signature_r,json=signatureR" json:"signature_r,omitempty"`
@@ -2103,33 +2103,33 @@ type WorldOpenNetworkTxRequest struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *WorldOpenNetworkTxRequest) Reset()                    { *m = WorldOpenNetworkTxRequest{} }
-func (m *WorldOpenNetworkTxRequest) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkTxRequest) ProtoMessage()               {}
-func (*WorldOpenNetworkTxRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{50} }
+func (m *EthereumTxRequest) Reset()                    { *m = EthereumTxRequest{} }
+func (m *EthereumTxRequest) String() string            { return proto.CompactTextString(m) }
+func (*EthereumTxRequest) ProtoMessage()               {}
+func (*EthereumTxRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{50} }
 
-func (m *WorldOpenNetworkTxRequest) GetDataLength() uint32 {
+func (m *EthereumTxRequest) GetDataLength() uint32 {
 	if m != nil && m.DataLength != nil {
 		return *m.DataLength
 	}
 	return 0
 }
 
-func (m *WorldOpenNetworkTxRequest) GetSignatureV() uint32 {
+func (m *EthereumTxRequest) GetSignatureV() uint32 {
 	if m != nil && m.SignatureV != nil {
 		return *m.SignatureV
 	}
 	return 0
 }
 
-func (m *WorldOpenNetworkTxRequest) GetSignatureR() []byte {
+func (m *EthereumTxRequest) GetSignatureR() []byte {
 	if m != nil {
 		return m.SignatureR
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkTxRequest) GetSignatureS() []byte {
+func (m *EthereumTxRequest) GetSignatureS() []byte {
 	if m != nil {
 		return m.SignatureS
 	}
@@ -2138,19 +2138,19 @@ func (m *WorldOpenNetworkTxRequest) GetSignatureS() []byte {
 
 // *
 // Request: Transaction payload data.
-// @prev WorldOpenNetworkTxRequest
-// @next WorldOpenNetworkTxRequest
-type WorldOpenNetworkTxAck struct {
+// @prev EthereumTxRequest
+// @next EthereumTxRequest
+type EthereumTxAck struct {
 	DataChunk        []byte `protobuf:"bytes,1,opt,name=data_chunk,json=dataChunk" json:"data_chunk,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *WorldOpenNetworkTxAck) Reset()                    { *m = WorldOpenNetworkTxAck{} }
-func (m *WorldOpenNetworkTxAck) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkTxAck) ProtoMessage()               {}
-func (*WorldOpenNetworkTxAck) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{51} }
+func (m *EthereumTxAck) Reset()                    { *m = EthereumTxAck{} }
+func (m *EthereumTxAck) String() string            { return proto.CompactTextString(m) }
+func (*EthereumTxAck) ProtoMessage()               {}
+func (*EthereumTxAck) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{51} }
 
-func (m *WorldOpenNetworkTxAck) GetDataChunk() []byte {
+func (m *EthereumTxAck) GetDataChunk() []byte {
 	if m != nil {
 		return m.DataChunk
 	}
@@ -2159,27 +2159,27 @@ func (m *WorldOpenNetworkTxAck) GetDataChunk() []byte {
 
 // *
 // Request: Ask device to sign message
-// @next WorldOpenNetworkMessageSignature
+// @next EthereumMessageSignature
 // @next Failure
-type WorldOpenNetworkSignMessage struct {
+type EthereumSignMessage struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	Message          []byte   `protobuf:"bytes,2,req,name=message" json:"message,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *WorldOpenNetworkSignMessage) Reset()                    { *m = WorldOpenNetworkSignMessage{} }
-func (m *WorldOpenNetworkSignMessage) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkSignMessage) ProtoMessage()               {}
-func (*WorldOpenNetworkSignMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{52} }
+func (m *EthereumSignMessage) Reset()                    { *m = EthereumSignMessage{} }
+func (m *EthereumSignMessage) String() string            { return proto.CompactTextString(m) }
+func (*EthereumSignMessage) ProtoMessage()               {}
+func (*EthereumSignMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{52} }
 
-func (m *WorldOpenNetworkSignMessage) GetAddressN() []uint32 {
+func (m *EthereumSignMessage) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkSignMessage) GetMessage() []byte {
+func (m *EthereumSignMessage) GetMessage() []byte {
 	if m != nil {
 		return m.Message
 	}
@@ -2190,33 +2190,33 @@ func (m *WorldOpenNetworkSignMessage) GetMessage() []byte {
 // Request: Ask device to verify message
 // @next Success
 // @next Failure
-type WorldOpenNetworkVerifyMessage struct {
+type EthereumVerifyMessage struct {
 	Address          []byte `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
 	Signature        []byte `protobuf:"bytes,2,opt,name=signature" json:"signature,omitempty"`
 	Message          []byte `protobuf:"bytes,3,opt,name=message" json:"message,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *WorldOpenNetworkVerifyMessage) Reset()                    { *m = WorldOpenNetworkVerifyMessage{} }
-func (m *WorldOpenNetworkVerifyMessage) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkVerifyMessage) ProtoMessage()               {}
-func (*WorldOpenNetworkVerifyMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{53} }
+func (m *EthereumVerifyMessage) Reset()                    { *m = EthereumVerifyMessage{} }
+func (m *EthereumVerifyMessage) String() string            { return proto.CompactTextString(m) }
+func (*EthereumVerifyMessage) ProtoMessage()               {}
+func (*EthereumVerifyMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{53} }
 
-func (m *WorldOpenNetworkVerifyMessage) GetAddress() []byte {
+func (m *EthereumVerifyMessage) GetAddress() []byte {
 	if m != nil {
 		return m.Address
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkVerifyMessage) GetSignature() []byte {
+func (m *EthereumVerifyMessage) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkVerifyMessage) GetMessage() []byte {
+func (m *EthereumVerifyMessage) GetMessage() []byte {
 	if m != nil {
 		return m.Message
 	}
@@ -2225,26 +2225,26 @@ func (m *WorldOpenNetworkVerifyMessage) GetMessage() []byte {
 
 // *
 // Response: Signed message
-// @prev WorldOpenNetworkSignMessage
-type WorldOpenNetworkMessageSignature struct {
+// @prev EthereumSignMessage
+type EthereumMessageSignature struct {
 	Address          []byte `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
 	Signature        []byte `protobuf:"bytes,2,opt,name=signature" json:"signature,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *WorldOpenNetworkMessageSignature) Reset()                    { *m = WorldOpenNetworkMessageSignature{} }
-func (m *WorldOpenNetworkMessageSignature) String() string            { return proto.CompactTextString(m) }
-func (*WorldOpenNetworkMessageSignature) ProtoMessage()               {}
-func (*WorldOpenNetworkMessageSignature) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{54} }
+func (m *EthereumMessageSignature) Reset()                    { *m = EthereumMessageSignature{} }
+func (m *EthereumMessageSignature) String() string            { return proto.CompactTextString(m) }
+func (*EthereumMessageSignature) ProtoMessage()               {}
+func (*EthereumMessageSignature) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{54} }
 
-func (m *WorldOpenNetworkMessageSignature) GetAddress() []byte {
+func (m *EthereumMessageSignature) GetAddress() []byte {
 	if m != nil {
 		return m.Address
 	}
 	return nil
 }
 
-func (m *WorldOpenNetworkMessageSignature) GetSignature() []byte {
+func (m *EthereumMessageSignature) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
@@ -2806,9 +2806,9 @@ func init() {
 	proto.RegisterType((*GetPublicKey)(nil), "GetPublicKey")
 	proto.RegisterType((*PublicKey)(nil), "PublicKey")
 	proto.RegisterType((*GetAddress)(nil), "GetAddress")
-	proto.RegisterType((*WorldOpenNetworkGetAddress)(nil), "WorldOpenNetworkGetAddress")
+	proto.RegisterType((*EthereumGetAddress)(nil), "EthereumGetAddress")
 	proto.RegisterType((*Address)(nil), "Address")
-	proto.RegisterType((*WorldOpenNetworkAddress)(nil), "WorldOpenNetworkAddress")
+	proto.RegisterType((*EthereumAddress)(nil), "EthereumAddress")
 	proto.RegisterType((*WipeDevice)(nil), "WipeDevice")
 	proto.RegisterType((*LoadDevice)(nil), "LoadDevice")
 	proto.RegisterType((*ResetDevice)(nil), "ResetDevice")
@@ -2833,12 +2833,12 @@ func init() {
 	proto.RegisterType((*SimpleSignTx)(nil), "SimpleSignTx")
 	proto.RegisterType((*TxRequest)(nil), "TxRequest")
 	proto.RegisterType((*TxAck)(nil), "TxAck")
-	proto.RegisterType((*WorldOpenNetworkSignTx)(nil), "WorldOpenNetworkSignTx")
-	proto.RegisterType((*WorldOpenNetworkTxRequest)(nil), "WorldOpenNetworkTxRequest")
-	proto.RegisterType((*WorldOpenNetworkTxAck)(nil), "WorldOpenNetworkTxAck")
-	proto.RegisterType((*WorldOpenNetworkSignMessage)(nil), "WorldOpenNetworkSignMessage")
-	proto.RegisterType((*WorldOpenNetworkVerifyMessage)(nil), "WorldOpenNetworkVerifyMessage")
-	proto.RegisterType((*WorldOpenNetworkMessageSignature)(nil), "WorldOpenNetworkMessageSignature")
+	proto.RegisterType((*EthereumSignTx)(nil), "EthereumSignTx")
+	proto.RegisterType((*EthereumTxRequest)(nil), "EthereumTxRequest")
+	proto.RegisterType((*EthereumTxAck)(nil), "EthereumTxAck")
+	proto.RegisterType((*EthereumSignMessage)(nil), "EthereumSignMessage")
+	proto.RegisterType((*EthereumVerifyMessage)(nil), "EthereumVerifyMessage")
+	proto.RegisterType((*EthereumMessageSignature)(nil), "EthereumMessageSignature")
 	proto.RegisterType((*SignIdentity)(nil), "SignIdentity")
 	proto.RegisterType((*SignedIdentity)(nil), "SignedIdentity")
 	proto.RegisterType((*GetECDHSessionKey)(nil), "GetECDHSessionKey")

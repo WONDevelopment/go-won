@@ -23,9 +23,9 @@ import (
 	"math/rand"
 	"reflect"
 
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/crypto/sha3"
 	"encoding/binary"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
 )
 
 const (
@@ -133,9 +133,6 @@ func (h UnprefixedHash) MarshalText() ([]byte, error) {
 	return []byte(hex.EncodeToString(h[:])), nil
 }
 
-
-
-
 /////////// Address
 
 // Address represents the 20 byte address of an WorldOpenNetwork account.
@@ -149,7 +146,7 @@ func BytesToAddress(b []byte) Address {
 func BigToAddress(b *big.Int) Address { return BytesToAddress(b.Bytes()) }
 func HexToAddress(s string) Address   { return BytesToAddress(FromHex(s)) }
 
-// IsHexAddress verifies whwon a string can represent a valid hex-encoded
+// IsHexAddress verifies whether a string can represent a valid hex-encoded
 // WorldOpenNetwork address or not.
 func IsHexAddress(s string) bool {
 	if hasHexPrefix(s) {
@@ -253,25 +250,20 @@ func BytesToInt64(buf []byte) int64 {
 	return int64(binary.BigEndian.Uint64(buf))
 }
 
-
-func AddressToHashWithPrefix(addr *Address, prefix int64 ) (Hash){
-	a := addr.Bytes();
+func AddressToHashWithPrefix(addr *Address, prefix int64) Hash {
+	a := addr.Bytes()
 	b := make([]byte, HashLength)
 	copy(b[HashLength-AddressLength:], a)
-	c := Int64ToBytes(prefix);
-	copy(b[0:],c)
+	c := Int64ToBytes(prefix)
+	copy(b[0:], c)
 
-	return BytesToHash(b);
+	return BytesToHash(b)
 }
-
-
 
 type ProducerInfo struct {
-	Owner 			*Address
-	Url   			string;
-	TotalVotes           *big.Int;
-	IsActive       bool;
-	Location        *big.Int;
+	Owner      *Address
+	Url        string
+	TotalVotes *big.Int
+	IsActive   bool
+	Location   *big.Int
 }
-
-

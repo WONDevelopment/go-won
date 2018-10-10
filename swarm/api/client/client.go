@@ -33,7 +33,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/worldopennet/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/swarm/api"
 )
 
 var (

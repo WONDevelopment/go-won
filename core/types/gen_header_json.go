@@ -7,8 +7,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
 )
 
 var _ = (*headerMarshaling)(nil)

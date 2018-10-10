@@ -23,8 +23,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/log"
 	"github.com/olekukonko/tablewriter"
 )
 

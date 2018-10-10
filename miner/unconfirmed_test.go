@@ -19,8 +19,8 @@ package miner
 import (
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // noopHeaderRetriever is an implementation of headerRetriever that always

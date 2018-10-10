@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
 )
 
 //metrics variables

@@ -25,8 +25,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
 	"github.com/jackpal/go-nat-pmp"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // An implementation of nat.Interface can map local ports to ports
@@ -148,7 +148,7 @@ func (extIP) DeleteMapping(string, int, int) error                     { return 
 // Any returns a port mapper that tries to discover any supported
 // mechanism on the local network.
 func Any() Interface {
-	// TODO: attempt to discover whwon the local machine has an
+	// TODO: attempt to discover whether the local machine has an
 	// Internet-class address. Return ExtIP in this case.
 	return startautodisc("UPnP or NAT-PMP", func() Interface {
 		found := make(chan Interface, 2)

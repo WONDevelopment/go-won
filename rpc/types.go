@@ -23,7 +23,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/worldopennet/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/hexutil"
 	"gopkg.in/fatih/set.v0"
 )
 

@@ -27,12 +27,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/simulations/adapters"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/simulations/adapters"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // testService implements the node.Service interface and provides protocols

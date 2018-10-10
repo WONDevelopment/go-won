@@ -22,7 +22,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // In this example, our client whishes to track the latest 'block number'
@@ -75,7 +75,7 @@ func subscribeBlocks(client *rpc.Client, subch chan Block) {
 	// The connection is established now.
 	// Update the channel with the current block.
 	var lastBlock Block
-	if err := client.CallContext(ctx, &lastBlock, "eth_getBlockByNumber", "latest"); err != nil {
+	if err := client.CallContext(ctx, &lastBlock, "won_getBlockByNumber", "latest"); err != nil {
 		fmt.Println("can't get latest block:", err)
 		return
 	}

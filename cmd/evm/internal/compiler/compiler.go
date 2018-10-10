@@ -20,7 +20,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/worldopennet/go-won/core/asm"
+	"github.com/worldopennetwork/go-won/core/asm"
 )
 
 func Compile(fn string, src []byte, debug bool) (string, error) {

@@ -30,9 +30,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/log"
 	"golang.org/x/crypto/ssh/terminal"
 )
 

@@ -16,7 +16,7 @@
 
 package core
 
-import "github.com/worldopennet/go-won/common"
+import "github.com/worldopennetwork/go-won/common"
 
 // BadHashes represent a set of manually tracked bad hashes (usually hard forks)
 var BadHashes = map[common.Hash]bool{

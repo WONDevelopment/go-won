@@ -54,7 +54,7 @@ func TestBloom(t *testing.T) {
 import (
 	"testing"
 
-	"github.com/worldopennet/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/state"
 )
 
 func TestBloom9(t *testing.T) {

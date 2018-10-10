@@ -22,8 +22,8 @@ import (
 	"io"
 	"net"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // Entry is implemented by known node record entry types.
@@ -152,7 +152,7 @@ func (err *KeyError) Error() string {
 	return fmt.Sprintf("ENR key %q: %v", err.Key, err.Err)
 }
 
-// IsNotFound reports whwon the given error means that a key/value pair is
+// IsNotFound reports whether the given error means that a key/value pair is
 // missing from a record.
 func IsNotFound(err error) bool {
 	kerr, ok := err.(*KeyError)

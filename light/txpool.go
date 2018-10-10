@@ -22,17 +22,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/core/vm"
 	"encoding/binary"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (
@@ -309,7 +309,7 @@ func (pool *TxPool) setNewHead(head *types.Header) {
 	txc, _ := pool.reorgOnNewHead(ctx, head)
 	m, r := txc.getLists()
 	pool.relay.NewHead(pool.head, m, r)
-	pool.homestead = pool.config.IsHomestead(head.Number)
+	pool.homestead = true //pool.config.IsHomestead(head.Number)
 	pool.signer = types.MakeSigner(pool.config, head.Number)
 }
 
@@ -338,7 +338,7 @@ func (pool *TxPool) Stats() (pending int) {
 	return
 }
 
-// validateTx checks whwon a transaction is valid according to the consensus rules.
+// validateTx checks whether a transaction is valid according to the consensus rules.
 func (pool *TxPool) validateTx(ctx context.Context, tx *types.Transaction) error {
 	// Validate sender
 	var (
@@ -377,16 +377,15 @@ func (pool *TxPool) validateTx(ctx context.Context, tx *types.Transaction) error
 		return core.ErrInsufficientFunds
 	}
 
-
 	//check for dpos inc/dec stake the value is in input data
-	if tx.To() !=nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 36 {
+	if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 36 {
 		input := tx.Data()
 		funcid := binary.BigEndian.Uint32(input[0:4])
 		value := common.BytesToHash(input[4:]).Big()
 
 		if funcid == vm.DposMethodAddStake {
-			b := currentState.GetBalance(from);
-			if b.Cmp(value) <= 0  {
+			b := currentState.GetBalance(from)
+			if b.Cmp(value) <= 0 {
 				return core.ErrInsufficientFunds
 			}
 		} else if funcid == vm.DposMethodSubStake {
@@ -407,7 +406,6 @@ func (pool *TxPool) validateTx(ctx context.Context, tx *types.Transaction) error
 	if tx.Gas() < gas {
 		return core.ErrIntrinsicGas
 	}
-
 
 	return currentState.Error()
 }

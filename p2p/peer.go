@@ -24,11 +24,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common/mclock"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 const (

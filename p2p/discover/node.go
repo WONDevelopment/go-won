@@ -31,9 +31,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/secp256k1"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/secp256k1"
 )
 
 const NodeIDBits = 512
@@ -80,7 +80,7 @@ func (n *Node) Incomplete() bool {
 	return n.IP == nil
 }
 
-// checks whwon n is a valid complete node.
+// checks whether n is a valid complete node.
 func (n *Node) validateComplete() error {
 	if n.Incomplete() {
 		return errors.New("incomplete node")

@@ -20,12 +20,12 @@ import (
 	"container/ring"
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
 )
 
-// headerRetriever is used by the unconfirmed block set to verify whwon a previously
+// headerRetriever is used by the unconfirmed block set to verify whether a previously
 // mined block is part of the canonical chain or not.
 type headerRetriever interface {
 	// GetHeaderByNumber retrieves the canonical header associated with a block number.

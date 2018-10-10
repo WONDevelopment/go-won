@@ -35,13 +35,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/ecies"
-	"github.com/worldopennet/go-won/crypto/secp256k1"
-	"github.com/worldopennet/go-won/crypto/sha3"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/rlp"
 	"github.com/golang/snappy"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/ecies"
+	"github.com/worldopennetwork/go-won/crypto/secp256k1"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 const (
@@ -173,7 +173,7 @@ func readProtocolHandshake(rw MsgReader, our *protoHandshake) (*protoHandshake, 
 
 // doEncHandshake runs the protocol handshake using authenticated
 // messages. the protocol handshake is the first authenticated message
-// and also verifies whwon the encryption handshake 'worked' and the
+// and also verifies whether the encryption handshake 'worked' and the
 // remote side actually provided the right public key.
 func (t *rlpx) doEncHandshake(prv *ecdsa.PrivateKey, dial *discover.Node) (discover.NodeID, error) {
 	var (
@@ -216,7 +216,7 @@ type secrets struct {
 
 // RLPx v4 handshake auth (defined in EIP-8).
 type authMsgV4 struct {
-	gotPlain bool // whwon read packet had plain format.
+	gotPlain bool // whether read packet had plain format.
 
 	Signature       [sigLen]byte
 	InitiatorPubkey [pubLen]byte

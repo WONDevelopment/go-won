@@ -26,7 +26,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 var (

@@ -23,10 +23,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/params"
 	"gopkg.in/urfave/cli.v1"
 )
 

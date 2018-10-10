@@ -20,7 +20,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/worldopennet/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/hexutil"
 )
 
 type MyType [5]byte

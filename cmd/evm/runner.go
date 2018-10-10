@@ -27,16 +27,16 @@ import (
 
 	goruntime "runtime"
 
-	"github.com/worldopennet/go-won/cmd/evm/internal/compiler"
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/core/vm/runtime"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/cmd/evm/internal/compiler"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/core/vm/runtime"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
 	cli "gopkg.in/urfave/cli.v1"
 )
 

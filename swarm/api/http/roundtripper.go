@@ -20,17 +20,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 /*
 http roundtripper to register for bzz url scheme
-see https://github.com/worldopennet/go-won/issues/2040
+see https://github.com/worldopennetwork/go-won/issues/2040
 Usage:
 
 import (
- "github.com/worldopennet/go-won/common/httpclient"
- "github.com/worldopennet/go-won/swarm/api/http"
+ "github.com/worldopennetwork/go-won/common/httpclient"
+ "github.com/worldopennetwork/go-won/swarm/api/http"
 )
 client := httpclient.New()
 // for (private) swarm proxy running locally

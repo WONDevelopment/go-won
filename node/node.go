@@ -26,14 +26,14 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/internal/debug"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rpc"
 	"github.com/prometheus/prometheus/util/flock"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/internal/debug"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // Node is a container on which services can be registered.

@@ -19,7 +19,7 @@ package tests
 import (
 	"testing"
 
-	"github.com/worldopennet/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/core/vm"
 )
 
 func TestVM(t *testing.T) {

@@ -28,8 +28,8 @@ import (
 	"testing/quick"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 func TestTable_pingReplace(t *testing.T) {
@@ -72,7 +72,7 @@ func testPingReplace(t *testing.T, newNodeIsResponding, lastInBucketIsResponding
 	}
 	if !transport.pinged[last.ID] {
 		// second ping goes to oldest node in bucket
-		// to see whwon it is still alive.
+		// to see whether it is still alive.
 		t.Error("table did not ping last node in bucket")
 	}
 

@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // deployEthstats queries the user for various input on deploying an ethstats

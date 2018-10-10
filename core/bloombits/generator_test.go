@@ -21,7 +21,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // Tests that batched bloom bits are correctly rotated from the input bloom

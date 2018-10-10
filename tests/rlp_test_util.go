@@ -24,13 +24,13 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // RLPTest is the JSON structure of a single RLP test.
 type RLPTest struct {
 	// If the value of In is "INVALID" or "VALID", the test
-	// checks whwon Out can be decoded into a value of
+	// checks whether Out can be decoded into a value of
 	// type interface{}.
 	//
 	// For other JSON values, In is treated as a driver for
@@ -54,7 +54,7 @@ func (t *RLPTest) Run() error {
 		return checkDecodeInterface(outb, t.In == "VALID")
 	}
 
-	// Check whwon encoding the value produces the same bytes.
+	// Check whether encoding the value produces the same bytes.
 	in := translateJSON(t.In)
 	b, err := rlp.EncodeToBytes(in)
 	if err != nil {

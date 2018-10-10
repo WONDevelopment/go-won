@@ -17,8 +17,8 @@
 package core
 
 import (
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // TxPreEvent is posted when a transaction enters the transaction pool.

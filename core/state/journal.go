@@ -19,7 +19,7 @@ package state
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // journalEntry is a modification entry in the state change journal that can be
@@ -94,7 +94,7 @@ type (
 	}
 	suicideChange struct {
 		account     *common.Address
-		prev        bool // whwon account had already suicided
+		prev        bool // whether account had already suicided
 		prevbalance *big.Int
 	}
 

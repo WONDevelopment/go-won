@@ -26,11 +26,11 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/swarm/api"
-	swarm "github.com/worldopennet/go-won/swarm/api/client"
-	"github.com/worldopennet/go-won/swarm/storage"
-	"github.com/worldopennet/go-won/swarm/testutil"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/swarm/api"
+	swarm "github.com/worldopennetwork/go-won/swarm/api/client"
+	"github.com/worldopennetwork/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/swarm/testutil"
 )
 
 func TestBzzGetPath(t *testing.T) {

@@ -25,16 +25,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/console"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/wonclient"
-	"github.com/worldopennet/go-won/internal/debug"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/node"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/console"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/wonclient"
+	"github.com/worldopennetwork/go-won/internal/debug"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/node"
+
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -105,8 +106,8 @@ var (
 		utils.NodeKeyHexFlag,
 		utils.DeveloperFlag,
 		utils.DeveloperPeriodFlag,
-		utils.AlphanetFlag,
-		utils.RinkebyFlag,
+		utils.TestnetFlag,
+		//utils.BetanetFlag,
 		utils.VMEnableDebugFlag,
 		utils.NetworkIdFlag,
 		utils.RPCCORSDomainFlag,

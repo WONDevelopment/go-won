@@ -21,8 +21,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 const requesterCount = 3

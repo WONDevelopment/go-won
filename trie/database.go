@@ -20,9 +20,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // secureKeyPrefix is the database key prefix used to store trie node preimages.
@@ -36,7 +36,7 @@ type DatabaseReader interface {
 	// Get retrieves the value associated with key form the database.
 	Get(key []byte) (value []byte, err error)
 
-	// Has retrieves whwon a key is present in the database.
+	// Has retrieves whether a key is present in the database.
 	Has(key []byte) (bool, error)
 }
 

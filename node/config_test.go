@@ -24,8 +24,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/p2p"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/p2p"
 )
 
 // Tests that datadirs can be successfully created, be them manually configured

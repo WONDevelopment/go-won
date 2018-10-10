@@ -22,8 +22,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/nat"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/nat"
 )
 
 const (

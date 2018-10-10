@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // manageServers displays a list of servers the user can disconnect from, and an
