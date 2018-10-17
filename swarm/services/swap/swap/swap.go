@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // SwAP Swarm Accounting Protocol with

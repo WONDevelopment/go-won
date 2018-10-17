@@ -26,11 +26,11 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/ecies"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/ecies"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // Envelope represents a clear-text data packet to transmit through the Whisper

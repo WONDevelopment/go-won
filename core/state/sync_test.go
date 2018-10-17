@@ -21,10 +21,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/trie"
 )
 
 // testAccount is the data associated with an account used by the state tests.

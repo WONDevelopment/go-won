@@ -27,8 +27,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/worldopennet/go-won/swarm/api"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 type fileInfo struct {

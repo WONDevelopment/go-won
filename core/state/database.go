@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/trie"
 	lru "github.com/hashicorp/golang-lru"
 )
 

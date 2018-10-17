@@ -23,11 +23,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // ChainIndexerBackend defines the methods needed to process chain segments in
@@ -70,7 +70,7 @@ type ChainIndexer struct {
 	backend  ChainIndexerBackend // Background processor generating the index data content
 	children []*ChainIndexer     // Child indexers to cascade chain updates to
 
-	active uint32          // Flag whwon the event loop was started
+	active uint32          // Flag whether the event loop was started
 	update chan struct{}   // Notification channel that headers should be processed
 	quit   chan chan error // Quit channel to tear down running goroutines
 

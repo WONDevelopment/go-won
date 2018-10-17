@@ -26,11 +26,11 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/secp256k1"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/secp256k1"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // Constants to match up protocol versions and messages

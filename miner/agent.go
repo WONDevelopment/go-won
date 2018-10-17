@@ -21,8 +21,8 @@ import (
 
 	"sync/atomic"
 
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 type CpuAgent struct {
@@ -36,7 +36,7 @@ type CpuAgent struct {
 	chain  consensus.ChainReader
 	engine consensus.Engine
 
-	isMining int32 // isMining indicates whwon the agent is currently mining
+	isMining int32 // isMining indicates whether the agent is currently mining
 }
 
 func NewCpuAgent(chain consensus.ChainReader, engine consensus.Engine) *CpuAgent {

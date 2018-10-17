@@ -19,10 +19,10 @@ package downloader
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // FakePeer is a mock downloader peer that operates on a local database instance

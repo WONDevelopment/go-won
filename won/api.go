@@ -25,42 +25,42 @@ import (
 	"os"
 	"strings"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/miner"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/rpc"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/miner"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/trie"
 )
 
-// PublicWonChainAPI provides an API to access WorldOpenNetwork full node-related
+// PublicWorldOpenNetworkAPI provides an API to access WorldOpenNetwork full node-related
 // information.
-type PublicWonChainAPI struct {
+type PublicWorldOpenNetworkAPI struct {
 	e *WorldOpenNetwork
 }
 
-// NewPublicWonChainAPI creates a new WorldOpenNetwork protocol API for full nodes.
-func NewPublicWonChainAPI(e *WorldOpenNetwork) *PublicWonChainAPI {
-	return &PublicWonChainAPI{e}
+// NewPublicWorldOpenNetworkAPI creates a new WorldOpenNetwork protocol API for full nodes.
+func NewPublicWorldOpenNetworkAPI(e *WorldOpenNetwork) *PublicWorldOpenNetworkAPI {
+	return &PublicWorldOpenNetworkAPI{e}
 }
 
 // Wonbase is the address that mining rewards will be send to
-func (api *PublicWonChainAPI) Wonbase() (common.Address, error) {
+func (api *PublicWorldOpenNetworkAPI) Wonbase() (common.Address, error) {
 	return api.e.Wonbase()
 }
 
 // Coinbase is the address that mining rewards will be send to (alias for Wonbase)
-func (api *PublicWonChainAPI) Coinbase() (common.Address, error) {
+func (api *PublicWorldOpenNetworkAPI) Coinbase() (common.Address, error) {
 	return api.Wonbase()
 }
 
 // Hashrate returns the POW hashrate
-func (api *PublicWonChainAPI) Hashrate() hexutil.Uint64 {
+func (api *PublicWorldOpenNetworkAPI) Hashrate() hexutil.Uint64 {
 	return hexutil.Uint64(api.e.Miner().HashRate())
 }
 

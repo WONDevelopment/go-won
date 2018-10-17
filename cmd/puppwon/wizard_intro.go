@@ -26,7 +26,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // makeWizard creates and returns a new puppwon wizard.

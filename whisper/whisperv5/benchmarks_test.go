@@ -19,7 +19,7 @@ package whisperv5
 import (
 	"testing"
 
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 func BenchmarkDeriveKeyMaterial(b *testing.B) {

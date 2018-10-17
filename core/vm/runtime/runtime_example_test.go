@@ -19,8 +19,8 @@ package runtime_test
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/vm/runtime"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/vm/runtime"
 )
 
 func ExampleExecute() {

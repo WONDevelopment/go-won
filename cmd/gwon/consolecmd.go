@@ -24,10 +24,10 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/console"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/console"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/rpc"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -43,7 +43,7 @@ var (
 		Description: `
 The Gwon console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/worldopennet/go-won/wiki/JavaScript-Console.`,
+See https://github.com/worldopennetwork/go-won/wiki/JavaScript-Console.`,
 	}
 
 	attachCommand = cli.Command{
@@ -56,7 +56,7 @@ See https://github.com/worldopennet/go-won/wiki/JavaScript-Console.`,
 		Description: `
 The Gwon console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/worldopennet/go-won/wiki/JavaScript-Console.
+See https://github.com/worldopennetwork/go-won/wiki/JavaScript-Console.
 This command allows to open a console on a running gwon node.`,
 	}
 
@@ -69,7 +69,7 @@ This command allows to open a console on a running gwon node.`,
 		Category:  "CONSOLE COMMANDS",
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
-JavaScript API. See https://github.com/worldopennet/go-won/wiki/JavaScript-Console`,
+JavaScript API. See https://github.com/worldopennetwork/go-won/wiki/JavaScript-Console`,
 	}
 )
 
@@ -122,11 +122,12 @@ func remoteConsole(ctx *cli.Context) error {
 			path = ctx.GlobalString(utils.DataDirFlag.Name)
 		}
 		if path != "" {
-			if ctx.GlobalBool(utils.AlphanetFlag.Name) {
-				path = filepath.Join(path, "alphanet")
-			} else if ctx.GlobalBool(utils.RinkebyFlag.Name) {
-				path = filepath.Join(path, "rinkeby")
+			if ctx.GlobalBool(utils.TestnetFlag.Name) {
+				path = filepath.Join(path, "testnet")
 			}
+			//else if ctx.GlobalBool(utils.BetanetFlag.Name) {
+			//	path = filepath.Join(path, "betanet")
+			//}
 		}
 		endpoint = fmt.Sprintf("%s/gwon.ipc", path)
 	}

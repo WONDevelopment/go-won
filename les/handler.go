@@ -26,22 +26,22 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/light"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/discv5"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/light"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/trie"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (
@@ -1154,7 +1154,7 @@ func (pm *ProtocolManager) txStatus(hashes []common.Hash) []txStatus {
 // NodeInfo represents a short summary of the WorldOpenNetwork sub-protocol metadata
 // known about the host peer.
 type NodeInfo struct {
-	Network    uint64              `json:"network"`    // WorldOpenNetwork network ID (1=Frontier, 2=Morden, Ropsten=3, Rinkeby=4)
+	Network    uint64              `json:"network"`    // WorldOpenNetwork network ID (1=Mainnet, 2=Testnet)
 	Difficulty *big.Int            `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash         `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Config     *params.ChainConfig `json:"config"`     // Chain configuration for the fork rules

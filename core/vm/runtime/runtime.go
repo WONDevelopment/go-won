@@ -21,12 +21,12 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 // Config is a basic type specifying certain configuration flags for running
@@ -53,12 +53,12 @@ func setDefaults(cfg *Config) {
 	if cfg.ChainConfig == nil {
 		cfg.ChainConfig = &params.ChainConfig{
 			ChainId:        big.NewInt(1),
-			HomesteadBlock: new(big.Int),
-			DAOForkBlock:   new(big.Int),
-			DAOForkSupport: false,
-			EIP150Block:    new(big.Int),
-			EIP155Block:    new(big.Int),
-			EIP158Block:    new(big.Int),
+			//HomesteadBlock: new(big.Int),
+			//DAOForkBlock:   new(big.Int),
+			//DAOForkSupport: false,
+			//EIP150Block:    new(big.Int),
+			//EIP155Block:    new(big.Int),
+			//EIP158Block:    new(big.Int),
 		}
 	}
 

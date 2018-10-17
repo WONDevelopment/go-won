@@ -19,10 +19,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
-// ensureVirtualHost checks whwon a reverse-proxy is running on the specified
+// ensureVirtualHost checks whether a reverse-proxy is running on the specified
 // host machine, and if yes requests a virtual host from the user to host a
 // specific web service on. If no proxy exists, the method will offer to deploy
 // one.

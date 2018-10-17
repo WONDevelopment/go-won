@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/common/math"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/math"
 )
 
 var _ = (*stTransactionMarshaling)(nil)

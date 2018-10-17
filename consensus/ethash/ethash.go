@@ -33,11 +33,11 @@ import (
 	"unsafe"
 
 	mmap "github.com/edsrzf/mmap-go"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/rpc"
 	"github.com/hashicorp/golang-lru/simplelru"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 var ErrInvalidDumpMagic = errors.New("invalid dump magic")
@@ -56,7 +56,7 @@ var (
 	dumpMagic = []uint32{0xbaddcafe, 0xfee1dead}
 )
 
-// isLittleEndian returns whwon the local system is running in little or big
+// isLittleEndian returns whether the local system is running in little or big
 // endian byte order.
 func isLittleEndian() bool {
 	n := uint32(0x01020304)

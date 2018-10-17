@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/crypto"
 	"gopkg.in/urfave/cli.v1"
 )
 

@@ -26,20 +26,20 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/misc"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/won/fetcher"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	//"github.com/worldopennetwork/go-won/consensus/misc"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/won/fetcher"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (
@@ -66,8 +66,8 @@ func errResp(code errCode, format string, v ...interface{}) error {
 type ProtocolManager struct {
 	networkId uint64
 
-	fastSync  uint32 // Flag whwon fast sync is enabled (gets disabled if we already have blocks)
-	acceptTxs uint32 // Flag whwon we're considered synchronised (enables transaction processing)
+	fastSync  uint32 // Flag whether fast sync is enabled (gets disabled if we already have blocks)
+	acceptTxs uint32 // Flag whether we're considered synchronised (enables transaction processing)
 
 	txpool      txPool
 	blockchain  *core.BlockChain
@@ -112,7 +112,7 @@ func NewProtocolManager(config *params.ChainConfig, mode downloader.SyncMode, ne
 		txsyncCh:    make(chan *txsync),
 		quitSync:    make(chan struct{}),
 	}
-	// Figure out whwon to allow fast sync or not
+	// Figure out whether to allow fast sync or not
 	if mode == downloader.FastSync && blockchain.CurrentBlock().NumberU64() > 0 {
 		log.Warn("Blockchain not empty, fast sync disabled")
 		mode = downloader.FullSync
@@ -286,24 +286,24 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	pm.syncTransactions(p)
 
 	// If we're DAO hard-fork aware, validate any remote peer with regard to the hard-fork
-	if daoBlock := pm.chainconfig.DAOForkBlock; daoBlock != nil {
-		// Request the peer's DAO fork header for extra-data validation
-		if err := p.RequestHeadersByNumber(daoBlock.Uint64(), 1, 0, false); err != nil {
-			return err
-		}
-		// Start a timer to disconnect if the peer doesn't reply in time
-		p.forkDrop = time.AfterFunc(daoChallengeTimeout, func() {
-			p.Log().Debug("Timed out DAO fork-check, dropping")
-			pm.removePeer(p.id)
-		})
-		// Make sure it's cleaned up if the peer dies off
-		defer func() {
-			if p.forkDrop != nil {
-				p.forkDrop.Stop()
-				p.forkDrop = nil
-			}
-		}()
-	}
+	//if daoBlock := pm.chainconfig.DAOForkBlock; daoBlock != nil {
+	//	// Request the peer's DAO fork header for extra-data validation
+	//	if err := p.RequestHeadersByNumber(daoBlock.Uint64(), 1, 0, false); err != nil {
+	//		return err
+	//	}
+	//	// Start a timer to disconnect if the peer doesn't reply in time
+	//	p.forkDrop = time.AfterFunc(daoChallengeTimeout, func() {
+	//		p.Log().Debug("Timed out DAO fork-check, dropping")
+	//		pm.removePeer(p.id)
+	//	})
+	//	// Make sure it's cleaned up if the peer dies off
+	//	defer func() {
+	//		if p.forkDrop != nil {
+	//			p.forkDrop.Stop()
+	//			p.forkDrop = nil
+	//		}
+	//	}()
+	//}
 	// main loop. handle incoming messages.
 	for {
 		if err := pm.handleMsg(p); err != nil {
@@ -418,42 +418,42 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			return errResp(ErrDecode, "msg %v: %v", msg, err)
 		}
 		// If no headers were received, but we're expending a DAO fork check, maybe it's that
-		if len(headers) == 0 && p.forkDrop != nil {
-			// Possibly an empty reply to the fork header checks, sanity check TDs
-			verifyDAO := true
-
-			// If we already have a DAO header, we can check the peer's TD against it. If
-			// the peer's ahead of this, it too must have a reply to the DAO check
-			if daoHeader := pm.blockchain.GetHeaderByNumber(pm.chainconfig.DAOForkBlock.Uint64()); daoHeader != nil {
-				if _, td := p.Head(); td.Cmp(pm.blockchain.GetTd(daoHeader.Hash(), daoHeader.Number.Uint64())) >= 0 {
-					verifyDAO = false
-				}
-			}
-			// If we're seemingly on the same chain, disable the drop timer
-			if verifyDAO {
-				p.Log().Debug("Seems to be on the same side of the DAO fork")
-				p.forkDrop.Stop()
-				p.forkDrop = nil
-				return nil
-			}
-		}
+		//if len(headers) == 0 && p.forkDrop != nil {
+		//	// Possibly an empty reply to the fork header checks, sanity check TDs
+		//	verifyDAO := true
+		//
+		//	// If we already have a DAO header, we can check the peer's TD against it. If
+		//	// the peer's ahead of this, it too must have a reply to the DAO check
+		//	if daoHeader := pm.blockchain.GetHeaderByNumber(pm.chainconfig.DAOForkBlock.Uint64()); daoHeader != nil {
+		//		if _, td := p.Head(); td.Cmp(pm.blockchain.GetTd(daoHeader.Hash(), daoHeader.Number.Uint64())) >= 0 {
+		//			verifyDAO = false
+		//		}
+		//	}
+		//	// If we're seemingly on the same chain, disable the drop timer
+		//	if verifyDAO {
+		//		p.Log().Debug("Seems to be on the same side of the DAO fork")
+		//		p.forkDrop.Stop()
+		//		p.forkDrop = nil
+		//		return nil
+		//	}
+		//}
 		// Filter out any explicitly requested headers, deliver the rest to the downloader
 		filter := len(headers) == 1
 		if filter {
 			// If it's a potential DAO fork check, validate against the rules
-			if p.forkDrop != nil && pm.chainconfig.DAOForkBlock.Cmp(headers[0].Number) == 0 {
-				// Disable the fork drop timer
-				p.forkDrop.Stop()
-				p.forkDrop = nil
-
-				// Validate the header and either drop the peer or continue
-				if err := misc.VerifyDAOHeaderExtraData(pm.chainconfig, headers[0]); err != nil {
-					p.Log().Debug("Verified to be on the other side of the DAO fork, dropping")
-					return err
-				}
-				p.Log().Debug("Verified to be on the same side of the DAO fork")
-				return nil
-			}
+			//if p.forkDrop != nil && pm.chainconfig.DAOForkBlock.Cmp(headers[0].Number) == 0 {
+			//	// Disable the fork drop timer
+			//	p.forkDrop.Stop()
+			//	p.forkDrop = nil
+			//
+			//	// Validate the header and either drop the peer or continue
+			//	if err := misc.VerifyDAOHeaderExtraData(pm.chainconfig, headers[0]); err != nil {
+			//		p.Log().Debug("Verified to be on the other side of the DAO fork, dropping")
+			//		return err
+			//	}
+			//	p.Log().Debug("Verified to be on the same side of the DAO fork")
+			//	return nil
+			//}
 			// Irrelevant of the fork checks, send the header to the fetcher just in case
 			headers = pm.fetcher.FilterHeaders(p.id, headers, time.Now())
 		}
@@ -752,7 +752,7 @@ func (self *ProtocolManager) txBroadcastLoop() {
 // NodeInfo represents a short summary of the WorldOpenNetwork sub-protocol metadata
 // known about the host peer.
 type NodeInfo struct {
-	Network    uint64              `json:"network"`    // WorldOpenNetwork network ID (1=Frontier, 2=Morden, Ropsten=3, Rinkeby=4)
+	Network    uint64              `json:"network"`    // WorldOpenNetwork network ID (1=Mainnet, 2=testnet)
 	Difficulty *big.Int            `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash         `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Config     *params.ChainConfig `json:"config"`     // Chain configuration for the fork rules

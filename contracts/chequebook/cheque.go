@@ -36,14 +36,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/contracts/chequebook/contract"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/swarm/services/swap/swap"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/contracts/chequebook/contract"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/swarm/services/swap/swap"
 )
 
 // TODO(zelig): watch peer solvency and notify of bouncing cheques

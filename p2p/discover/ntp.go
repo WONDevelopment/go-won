@@ -25,7 +25,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 const (

@@ -19,7 +19,7 @@ package wonapi
 import (
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 type AddrLocker struct {

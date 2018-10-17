@@ -19,11 +19,11 @@ package node
 import (
 	"reflect"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // ServiceContext is a collection of service independent options inherited from

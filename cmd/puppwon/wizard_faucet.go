@@ -20,8 +20,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // deployFaucet queries the user for various input on deploying a faucet, after

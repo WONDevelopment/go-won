@@ -311,7 +311,7 @@ func encode(e Event) uint32 {
 	return uint32(e)
 }
 
-// decode uses internally stored mask to distinguish whwon system-independent
+// decode uses internally stored mask to distinguish whether system-independent
 // or system-dependent event is requested. The first one is created by modifying
 // `e` argument. decode method sets e.event value to 0 when an event should be
 // skipped. System-dependent event is set as the function's return value which

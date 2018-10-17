@@ -21,8 +21,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 	"gopkg.in/urfave/cli.v1"
 )
 

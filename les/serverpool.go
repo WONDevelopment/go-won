@@ -27,13 +27,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common/mclock"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/discv5"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (

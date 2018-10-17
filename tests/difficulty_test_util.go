@@ -20,11 +20,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 //go:generate gencodec -type DifficultyTest -field-override difficultyTestMarshaling -out gen_difficultytest.go

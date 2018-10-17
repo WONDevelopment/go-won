@@ -42,7 +42,7 @@ import (
 	"fmt"
 	"hash"
 
-	ethcrypto "github.com/worldopennet/go-won/crypto"
+	ethcrypto "github.com/worldopennetwork/go-won/crypto"
 )
 
 var (

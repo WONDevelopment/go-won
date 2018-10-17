@@ -25,18 +25,19 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/console"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/trie"
 	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/console"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/trie"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/wondb"
+
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -134,8 +135,8 @@ The export-preimages command export hash preimages to an RLP encoded stream`,
 			utils.CacheFlag,
 			utils.SyncModeFlag,
 			utils.FakePoWFlag,
-			utils.AlphanetFlag,
-			utils.RinkebyFlag,
+			utils.TestnetFlag,
+			//utils.BetanetFlag,
 		},
 		Category: "BLOCKCHAIN COMMANDS",
 		Description: `

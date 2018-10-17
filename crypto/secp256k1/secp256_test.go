@@ -24,8 +24,8 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/crypto/randentropy"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/crypto/randentropy"
 )
 
 const TestCount = 1000

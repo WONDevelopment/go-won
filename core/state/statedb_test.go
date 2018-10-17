@@ -20,19 +20,23 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"github.com/worldopennetwork/go-won/params"
 	"math"
 	"math/big"
 	"math/rand"
 	"reflect"
+	"sort"
+	"strconv"
 	"strings"
 	"testing"
 	"testing/quick"
+	"time"
 
 	check "gopkg.in/check.v1"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // Tests that updating a state trie does not leak any database writes prior to
@@ -119,7 +123,7 @@ func TestIntermediateLeaks(t *testing.T) {
 
 // TestCopy tests that copying a statedb object indeed makes the original and
 // the copy independent of each other. This test is a regression test against
-// https://github.com/worldopennet/go-won/pull/15549.
+// https://github.com/worldopennetwork/go-won/pull/15549.
 func TestCopy(t *testing.T) {
 	// Create a random state test to copy and modify "independently"
 	db, _ := wondb.NewMemDatabase()
@@ -424,7 +428,7 @@ func (s *StateSuite) TestTouchDelete(c *check.C) {
 }
 
 // TestCopyOfCopy tests that modified objects are carried over to the copy, and the copy of the copy.
-// See https://github.com/worldopennet/go-won/pull/15225#issuecomment-380191512
+// See https://github.com/worldopennetwork/go-won/pull/15225#issuecomment-380191512
 func TestCopyOfCopy(t *testing.T) {
 	db, _ := wondb.NewMemDatabase()
 	sdb, _ := New(common.Hash{}, NewDatabase(db))
@@ -437,4 +441,192 @@ func TestCopyOfCopy(t *testing.T) {
 	if got := sdb.Copy().Copy().GetBalance(addr).Uint64(); got != 42 {
 		t.Fatalf("2nd copy fail, expected 42, got %v", got)
 	}
+}
+
+func TestKycInfo(t *testing.T) {
+	transDb, _ := wondb.NewMemDatabase()
+	transState, _ := New(common.Hash{}, NewDatabase(transDb))
+
+	addr := common.HexToAddress("1FF")
+	transState.SetKycLevel(addr, 32)
+	transState.SetKycZone(addr, 86)
+	transState.SetKycProvider(addr, common.BytesToAddress([]byte{101}))
+	transState.SetKycProviderCount(5)
+
+	// Write modifications to trie.
+	transState.IntermediateRoot(false)
+
+	// Commit to databases.
+	if _, err := transState.Commit(false); err != nil {
+		t.Fatalf("failed to commit transition state: %v", err)
+	}
+
+	checkEq := func(op string, a, b interface{}) bool {
+		if !reflect.DeepEqual(a, b) {
+			t.Errorf("got %s(%s) == %v, want %v", op, addr.Hex(), a, b)
+			return false
+		}
+		return true
+	}
+	checkEq("KycLevel", transState.GetKycLevel(addr), uint32(32))
+	checkEq("KycZone", transState.GetKycZone(addr), uint32(86))
+	checkEq("KycProvider", transState.GetKycProvider(addr), common.BytesToAddress([]byte{101}))
+	checkEq("KycProviderCount", transState.GetKycProviderCount(), int64(5))
+}
+
+func TestKycProposal(t *testing.T) {
+	transDb, _ := wondb.NewMemDatabase()
+	transState, _ := New(common.Hash{}, NewDatabase(transDb))
+	addr1 := common.HexToAddress("1FF1")
+
+	transState.AddKycProvider(addr1)
+	transState.AddKycProvider(common.HexToAddress("2ff1"))
+	addrList := transState.GetKycProviderList()
+	t.Logf("After add got provider %v", addrList)
+	transState.RemoveKycProvider(common.HexToAddress("2ff1"))
+	addrList = transState.GetKycProviderList()
+	t.Logf("After remove got provider %v", addrList)
+	transState.RemoveKycProvider(common.HexToAddress("2ff4"))
+	addrList = transState.GetKycProviderList()
+	t.Logf("After remove got provider %v", addrList)
+
+	addr2 := common.HexToAddress("1FF2")
+
+	// vote for additional provider
+	transState.SetKycProviderProposol(addr2, big.NewInt(time.Now().Unix()), big.NewInt(1))
+
+	candidateAddr, startTime, votesTotal, proposalType, votesYes, votesNo := transState.GetKycProviderProposol()
+	t.Logf("The type %d proposal info is: candidate address=%s, start time=%v, total votes=%d, yes=%d, no=%d.",
+		proposalType, candidateAddr.String(), startTime, votesTotal, votesYes, votesNo)
+
+	transState.SetVoteForKycProviderProposol(addr1, 0)
+	_, _, _, _, votesYes, votesNo = transState.GetKycProviderProposol()
+	t.Logf("The type %d proposal info is: candidate address=%s, start time=%v, total votes=%d, yes=%d, no=%d.",
+		proposalType, candidateAddr.String(), startTime, votesTotal, votesYes, votesNo)
+
+	if votesYes.Uint64() > votesTotal.Uint64()/2 {
+		transState.AddKycProvider(candidateAddr)
+	}
+
+	addrList = transState.GetKycProviderList()
+	t.Logf("After vote got provider %v", addrList)
+
+	// vote for removal provider
+	transState.SetKycProviderProposol(addr2, big.NewInt(time.Now().Unix()), big.NewInt(2))
+
+	transState.SetVoteForKycProviderProposol(addr1, 0)
+	transState.SetVoteForKycProviderProposol(addr2, 0)
+	candidateAddr, startTime, votesTotal, proposalType, votesYes, votesNo = transState.GetKycProviderProposol()
+	t.Logf("The type %d proposal info is: candidate address=%s, start time=%v, total votes=%d, yes=%d, no=%d.",
+		proposalType, candidateAddr.String(), startTime, votesTotal, votesYes, votesNo)
+
+	if votesYes.Uint64() > votesTotal.Uint64()/2 {
+		transState.RemoveKycProvider(candidateAddr)
+	}
+
+	addrList = transState.GetKycProviderList()
+	t.Logf("After vote got provider %v", addrList)
+
+	// Write modifications to trie.
+	transState.IntermediateRoot(false)
+}
+
+func TestDposInfoRw(t *testing.T) {
+	db, _ := wondb.NewMemDatabase()
+	state, _ := New(common.Hash{}, NewDatabase(db))
+
+	state.SetDposTotalActivatedStake(big.NewInt(100))
+	state.SetDposThreshActivatedStakeTime(big.NewInt(1536654737))
+	state.SetDposTotalProducerWeight(big.NewInt(30))
+	state.SetDposProducerCount(big.NewInt(50))
+	state.SetVoterStaking(&addr, big.NewInt(10000))
+	state.SetDposVoterLastVoteWeight(&addr, big.NewInt(90))
+	state.SetDposLastProducerScheduleUpdateTime(big.NewInt(1536654868))
+	state.SetDposTopProducerElectedDone(big.NewInt(1))
+
+	// Write modifications to trie.
+	state.IntermediateRoot(false)
+
+	checkEq := func(op string, a, b interface{}) bool {
+		if !reflect.DeepEqual(a, b) {
+			t.Errorf("got %s(%s) == %v, want %v", op, addr.Hex(), a, b)
+			return false
+		}
+		return true
+	}
+	checkEq("TotalActivatedStake", state.GetDposTotalActivatedStake(), big.NewInt(100))
+	checkEq("ThreshActivatedStakeTime", state.GetDposThreshActivatedStakeTime(), big.NewInt(1536654737))
+	checkEq("TotalProducerWeight", state.GetDposTotalProducerWeight(), big.NewInt(30))
+	checkEq("ProducerCount", state.GetDposProducerCount(), big.NewInt(50))
+	checkEq("VoterStaking", state.GetVoterStaking(&addr), big.NewInt(10000))
+	checkEq("VoterLastVoteWeight", state.GetDposVoterLastVoteWeight(&addr), big.NewInt(90))
+	checkEq("LastProducerScheduleUpdateTime", state.GetDposLastProducerScheduleUpdateTime(), big.NewInt(1536654868))
+	checkEq("TopProducerElectedDone", state.GetDposTopProducerElectedDone(), big.NewInt(1))
+}
+
+func TestDposProducerInfo(t *testing.T) {
+	db, _ := wondb.NewMemDatabase()
+	state, _ := New(common.Hash{}, NewDatabase(db))
+
+	t.Logf("The current producer number = %d", state.GetDposProducerCount())
+	state.RegisterProducer(&addr, "https://127.0.0.1:808")
+	state.RegisterProducer(&addr, "https://node111.worldopennetwork.net:2808")
+	t.Logf("The current producer number = %d", state.GetDposProducerCount())
+
+	t.Logf("The producer info is: %v", state.GetProducerInfo(&addr))
+
+	state.UpdateProducerTotalVotes(&addr, big.NewInt(10))
+	state.UpdateProducerActive(&addr, false)
+	state.UpdateProducerLocation(&addr, big.NewInt(658685))
+
+	t.Logf("The producer info is: %v", state.GetProducerInfo(&addr))
+}
+
+func TestDposProducerList(t *testing.T) {
+	db, _ := wondb.NewMemDatabase()
+	state, _ := New(common.Hash{}, NewDatabase(db))
+
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 60; i++ {
+		addr := common.BigToAddress(big.NewInt(rand.Int63n(999999)))
+		state.RegisterProducer(&addr, "https://node.woncoin.net:"+strconv.Itoa(rand.Intn(65535)))
+	}
+	count := state.GetDposProducerCount()
+	t.Logf("The current producer number = %d", count)
+
+	prList := state.GetProducerList(0, count.Int64())
+	var votesList []int
+	for i := 0; i < len(prList); i++ {
+		votes := rand.Intn(1000)
+		state.UpdateProducerTotalVotes(&prList[i], big.NewInt(int64(votes)))
+		votesList = append(votesList, votes)
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(votesList)))
+	t.Logf("Votes rank is : %v", votesList[:21])
+
+	state.SetDposTotalActivatedStake(big.NewInt(0).Mul(big.NewInt(25000000), big.NewInt(params.WON)))
+	topList := state.GetProducerTopList()
+	for _, val := range topList {
+		t.Logf("The producer info is: %v", state.GetProducerInfo(&val))
+	}
+
+}
+
+func TestRefundRequestInfo(t *testing.T) {
+	db, _ := wondb.NewMemDatabase()
+	state, _ := New(common.Hash{}, NewDatabase(db))
+
+	state.SetRefundRequestInfo(&addr, big.NewInt(399), big.NewInt(time.Now().Unix()))
+
+	checkEq := func(op string, a, b interface{}) bool {
+		if !reflect.DeepEqual(a, b) {
+			t.Errorf("got %s(%s) == %v, want %v", op, addr.Hex(), a, b)
+			return false
+		}
+		return true
+	}
+
+	stake, reqTime := state.GetRefundRequestInfo(&addr)
+	checkEq("RefundStake", stake, big.NewInt(399))
+	checkEq("RefundTime", reqTime, big.NewInt(time.Now().Unix()))
 }

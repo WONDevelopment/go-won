@@ -20,7 +20,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discover"
 )
 
 // Simulation provides a framework for running actions in a simulated network
@@ -129,7 +129,7 @@ type Expectation struct {
 	// Nodes is a list of nodes to check
 	Nodes []discover.NodeID
 
-	// Check checks whwon a given node meets the expectation
+	// Check checks whether a given node meets the expectation
 	Check func(context.Context, discover.NodeID) (bool, error)
 }
 

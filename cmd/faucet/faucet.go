@@ -41,23 +41,23 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/wonclient"
-	"github.com/worldopennet/go-won/wonstats"
-	"github.com/worldopennet/go-won/les"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/discv5"
-	"github.com/worldopennet/go-won/p2p/nat"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/wonclient"
+	"github.com/worldopennetwork/go-won/wonstats"
+	"github.com/worldopennetwork/go-won/les"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/p2p/nat"
+	"github.com/worldopennetwork/go-won/params"
 	"golang.org/x/net/websocket"
 )
 
@@ -88,7 +88,7 @@ var (
 )
 
 var (
-	won = new(big.Int).Exp(big.NewInt(10), big.NewInt(18), nil)
+	won1 = new(big.Int).Exp(big.NewInt(10), big.NewInt(18), nil)
 )
 
 func main() {
@@ -352,7 +352,7 @@ func (f *faucet) apiHandler(conn *websocket.Conn) {
 	}
 	// Send over the initial stats and the latest header
 	if err = send(conn, map[string]interface{}{
-		"funds":    balance.Div(balance, won),
+		"funds":    balance.Div(balance, won1),
 		"funded":   nonce,
 		"peers":    f.stack.Server().PeerCount(),
 		"requests": f.reqs,
@@ -450,7 +450,7 @@ func (f *faucet) apiHandler(conn *websocket.Conn) {
 		case *noauthFlag:
 			username, avatar, address, err = authNoAuth(msg.URL)
 		default:
-			err = errors.New("Something funky happened, please open an issue at https://github.com/worldopennet/go-won/issues")
+			err = errors.New("Something funky happened, please open an issue at https://github.com/worldopennetwork/go-won/issues")
 		}
 		if err != nil {
 			if err = sendError(conn, err); err != nil {
@@ -469,7 +469,7 @@ func (f *faucet) apiHandler(conn *websocket.Conn) {
 		)
 		if timeout = f.timeouts[username]; time.Now().After(timeout) {
 			// User wasn't funded recently, create the funding transaction
-			amount := new(big.Int).Mul(big.NewInt(int64(*payoutFlag)), won)
+			amount := new(big.Int).Mul(big.NewInt(int64(*payoutFlag)), won1)
 			amount = new(big.Int).Mul(amount, new(big.Int).Exp(big.NewInt(5), big.NewInt(int64(msg.Tier)), nil))
 			amount = new(big.Int).Div(amount, new(big.Int).Exp(big.NewInt(2), big.NewInt(int64(msg.Tier)), nil))
 
@@ -563,7 +563,7 @@ func (f *faucet) loop() {
 				log.Info("Updated faucet state", "block", head.Number, "hash", head.Hash(), "balance", balance, "nonce", nonce, "price", price)
 			}
 			// Faucet state retrieved, update locally and send to clients
-			balance = new(big.Int).Div(balance, won)
+			balance = new(big.Int).Div(balance, won1)
 
 			f.lock.Lock()
 			f.price, f.nonce = price, nonce

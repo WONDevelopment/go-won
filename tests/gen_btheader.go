@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 var _ = (*btHeaderMarshaling)(nil)

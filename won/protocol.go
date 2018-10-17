@@ -21,11 +21,11 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // Constants to match up protocol versions and messages

@@ -20,10 +20,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
-// Method represents a callable given a `Name` and whwon the method is a constant.
+// Method represents a callable given a `Name` and whether the method is a constant.
 // If the method is `Const` no transaction needs to be created for this
 // particular Method call. It can easily be simulated using a local VM.
 // For example a `Balance()` method only needs to retrieve something

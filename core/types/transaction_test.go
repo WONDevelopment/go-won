@@ -23,9 +23,9 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // The values in those tests are from the Transaction Tests

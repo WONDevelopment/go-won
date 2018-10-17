@@ -45,12 +45,12 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/simulations"
-	"github.com/worldopennet/go-won/p2p/simulations/adapters"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/simulations"
+	"github.com/worldopennetwork/go-won/p2p/simulations/adapters"
+	"github.com/worldopennetwork/go-won/rpc"
 	"gopkg.in/urfave/cli.v1"
 )
 

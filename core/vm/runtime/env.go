@@ -17,9 +17,9 @@
 package runtime
 
 import (
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/vm"
 )
 
 func NewEnv(cfg *Config) *vm.EVM {

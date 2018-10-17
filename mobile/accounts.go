@@ -23,10 +23,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 const (
@@ -93,7 +93,7 @@ func NewKeyStore(keydir string, scryptN, scryptP int) *KeyStore {
 	return &KeyStore{keystore: keystore.NewKeyStore(keydir, scryptN, scryptP)}
 }
 
-// HasAddress reports whwon a key with the given address is present.
+// HasAddress reports whether a key with the given address is present.
 func (ks *KeyStore) HasAddress(address *Address) bool {
 	return ks.keystore.HasAddress(address.address)
 }

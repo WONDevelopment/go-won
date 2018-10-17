@@ -25,14 +25,14 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/accounts/usbwallet"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/accounts/usbwallet"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
 )
 
 const (

@@ -19,8 +19,8 @@ package trie
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // SecureTrie wraps a trie with key hashing. In a secure trie, all

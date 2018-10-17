@@ -23,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts/usbwallet"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/rpc"
 	"github.com/robertkrimen/otto"
+	"github.com/worldopennetwork/go-won/accounts/usbwallet"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // bridge is a collection of JavaScript utility methods to bride the .js runtime

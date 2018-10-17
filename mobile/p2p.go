@@ -21,7 +21,7 @@ package gwon
 import (
 	"errors"
 
-	"github.com/worldopennet/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p"
 )
 
 // NodeInfo represents pi short summary of the information known about the host.

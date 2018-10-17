@@ -34,7 +34,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/worldopennet/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p"
 )
 
 // error codes used by this  protocol scheme

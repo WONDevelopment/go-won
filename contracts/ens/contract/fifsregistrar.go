@@ -6,10 +6,10 @@ package contract
 import (
 	"strings"
 
-	"github.com/worldopennet/go-won/accounts/abi"
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // FIFSRegistrarABI is the input ABI used to generate the binding from.

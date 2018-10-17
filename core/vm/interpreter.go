@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 // Config are the configuration options for the Interpreter
@@ -51,26 +51,26 @@ type Interpreter struct {
 	gasTable params.GasTable
 	intPool  *intPool
 
-	readOnly   bool   // Whwon to throw on stateful modifications
+	readOnly   bool   // whether to throw on stateful modifications
 	returnData []byte // Last CALL's return data for subsequent reuse
 }
 
 // NewInterpreter returns a new instance of the Interpreter.
 func NewInterpreter(evm *EVM, cfg Config) *Interpreter {
-	// We use the STOP instruction whwon to see
+	// We use the STOP instruction whether to see
 	// the jump table was initialised. If it was not
 	// we'll set the default jump table.
 	if !cfg.JumpTable[STOP].valid {
-		switch {
-		case evm.ChainConfig().IsConstantinople(evm.BlockNumber):
-			cfg.JumpTable = constantinopleInstructionSet
-		case evm.ChainConfig().IsByzantium(evm.BlockNumber):
-			cfg.JumpTable = byzantiumInstructionSet
-		case evm.ChainConfig().IsHomestead(evm.BlockNumber):
-			cfg.JumpTable = homesteadInstructionSet
-		default:
-			cfg.JumpTable = frontierInstructionSet
-		}
+		//switch {
+		//case evm.ChainConfig().IsConstantinople(evm.BlockNumber):
+		cfg.JumpTable = constantinopleInstructionSet
+		//case evm.ChainConfig().IsByzantium(evm.BlockNumber):
+		//	cfg.JumpTable = byzantiumInstructionSet
+		//case evm.ChainConfig().IsHomestead(evm.BlockNumber):
+		//	cfg.JumpTable = homesteadInstructionSet
+		//default:
+		//	cfg.JumpTable = frontierInstructionSet
+		//}
 	}
 
 	return &Interpreter{
@@ -82,7 +82,7 @@ func NewInterpreter(evm *EVM, cfg Config) *Interpreter {
 }
 
 func (in *Interpreter) enforceRestrictions(op OpCode, operation operation, stack *Stack) error {
-	if in.evm.chainRules.IsByzantium {
+	if true /*in.evm.chainRules.IsByzantium*/ {
 		if in.readOnly {
 			// If the interpreter is operating in readonly mode, make sure no
 			// state-modifying operation is performed. The 3rd stack item

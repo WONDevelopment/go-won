@@ -22,10 +22,10 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 

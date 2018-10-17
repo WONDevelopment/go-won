@@ -25,11 +25,11 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
 	duktape "gopkg.in/olebedev/go-duktape.v3"
 )
 
@@ -277,7 +277,7 @@ func (cw *contractWrapper) pushObject(vm *duktape.Context) {
 // Tracer provides an implementation of Tracer that evaluates a Javascript
 // function for each VM execution step.
 type Tracer struct {
-	inited bool // Flag whwon the context was already inited from the EVM
+	inited bool // Flag whether the context was already inited from the EVM
 
 	vm *duktape.Context // Javascript VM instance
 

@@ -25,7 +25,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 	"gopkg.in/fatih/set.v0"
 )
 

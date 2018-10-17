@@ -24,17 +24,17 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/wonclient"
-	"github.com/worldopennet/go-won/wonstats"
-	"github.com/worldopennet/go-won/les"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/nat"
-	"github.com/worldopennet/go-won/params"
-	whisper "github.com/worldopennet/go-won/whisper/whisperv6"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/les"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/nat"
+	"github.com/worldopennetwork/go-won/params"
+	whisper "github.com/worldopennetwork/go-won/whisper/whisperv6"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/wonclient"
+	"github.com/worldopennetwork/go-won/wonstats"
 )
 
 // NodeConfig represents the collection of configuration values to fine tune the Geth
@@ -49,7 +49,7 @@ type NodeConfig struct {
 	// set to zero, then only the configured static and trusted peers can connect.
 	MaxPeers int
 
-	// WorldOpenNetworkEnabled specifies whwon the node should run the WorldOpenNetwork protocol.
+	// WorldOpenNetworkEnabled specifies whether the node should run the WorldOpenNetwork protocol.
 	WorldOpenNetworkEnabled bool
 
 	// WorldOpenNetworkNetworkID is the network identifier used by the WorldOpenNetwork protocol to
@@ -70,15 +70,15 @@ type NodeConfig struct {
 	// It has the form "nodename:secret@host:port"
 	WorldOpenNetworkNetStats string
 
-	// WhisperEnabled specifies whwon the node should run the Whisper protocol.
+	// WhisperEnabled specifies whether the node should run the Whisper protocol.
 	WhisperEnabled bool
 }
 
 // defaultNodeConfig contains the default node configuration values to use if all
 // or some fields are missing from the user's specified list.
 var defaultNodeConfig = &NodeConfig{
-	BootstrapNodes:        FoundationBootnodes(),
-	MaxPeers:              25,
+	BootstrapNodes:                FoundationBootnodes(),
+	MaxPeers:                      25,
 	WorldOpenNetworkEnabled:       true,
 	WorldOpenNetworkNetworkID:     1,
 	WorldOpenNetworkDatabaseCache: 16,
@@ -136,7 +136,7 @@ func NewNode(datadir string, config *NodeConfig) (stack *Node, _ error) {
 		}
 		// If we have the testnet, hard code the chain configs too
 		if config.WorldOpenNetworkGenesis == TestnetGenesis() {
-			genesis.Config = params.AlphanetChainConfig
+			genesis.Config = params.TestnetChainConfig
 			if config.WorldOpenNetworkNetworkID == 1 {
 				config.WorldOpenNetworkNetworkID = 3
 			}

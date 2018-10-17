@@ -20,8 +20,8 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/iterator"
 )

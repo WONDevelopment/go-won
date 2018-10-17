@@ -19,7 +19,7 @@ package p2p
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discover"
 )
 
 // Protocol represents a P2P subprotocol implementation.

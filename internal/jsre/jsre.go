@@ -26,8 +26,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/internal/jsre/deps"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/internal/jsre/deps"
 	"github.com/robertkrimen/otto"
 )
 

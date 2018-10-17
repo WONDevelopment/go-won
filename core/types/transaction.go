@@ -23,10 +23,10 @@ import (
 	"math/big"
 	"sync/atomic"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 //go:generate gencodec -type txdata -field-override txdataMarshaling -out gen_tx_json.go
@@ -119,7 +119,7 @@ func (tx *Transaction) ChainId() *big.Int {
 	return deriveChainId(tx.data.V)
 }
 
-// Protected returns whwon the transaction is protected from replay protection.
+// Protected returns whether the transaction is protected from replay protection.
 func (tx *Transaction) Protected() bool {
 	return isProtectedV(tx.data.V)
 }

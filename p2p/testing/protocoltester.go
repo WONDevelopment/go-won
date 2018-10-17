@@ -32,14 +32,14 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/simulations"
-	"github.com/worldopennet/go-won/p2p/simulations/adapters"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/simulations"
+	"github.com/worldopennetwork/go-won/p2p/simulations/adapters"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // ProtocolTester is the tester environment used for unit testing protocol

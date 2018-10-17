@@ -22,8 +22,8 @@ package node
 import (
 	"reflect"
 
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // NoopService is a trivial implementation of the Service interface.

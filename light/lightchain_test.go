@@ -21,12 +21,12 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // So we can deterministically seed different blockchains

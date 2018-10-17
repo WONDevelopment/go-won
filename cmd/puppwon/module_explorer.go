@@ -25,7 +25,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // explorerDockerfile is the Dockerfile required to run a block explorer.
@@ -169,7 +169,7 @@ func (info *explorerInfos) Report() map[string]string {
 }
 
 // checkExplorer does a health-check against an block explorer server to verify
-// whwon it's running, and if yes, whwon it's responsive.
+// whether it's running, and if yes, whether it's responsive.
 func checkExplorer(client *sshClient, network string) (*explorerInfos, error) {
 	// Inspect a possible block explorer container on the host
 	infos, err := inspectContainer(client, fmt.Sprintf("%s_explorer_1", network))

@@ -20,8 +20,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // senderFromServer is a types.Signer that remembers the sender address returned by the RPC

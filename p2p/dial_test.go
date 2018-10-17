@@ -24,8 +24,8 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/netutil"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/netutil"
 )
 
 func init() {
@@ -499,7 +499,7 @@ func TestDialStateStaticDial(t *testing.T) {
 				},
 			},
 			// If a static node is dropped, it should be immediately redialed,
-			// irrespective whwon it was originally static or dynamic.
+			// irrespective whether it was originally static or dynamic.
 			{
 				peers: []*Peer{
 					{rw: &conn{flags: dynDialedConn, id: uintID(1)}},

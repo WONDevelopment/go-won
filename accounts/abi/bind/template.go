@@ -16,7 +16,7 @@
 
 package bind
 
-import "github.com/worldopennet/go-won/accounts/abi"
+import "github.com/worldopennetwork/go-won/accounts/abi"
 
 // tmplData is the data structure required to fill the binding template.
 type tmplData struct {
@@ -40,7 +40,7 @@ type tmplContract struct {
 type tmplMethod struct {
 	Original   abi.Method // Original method as parsed by the abi package
 	Normalized abi.Method // Normalized version of the parsed method (capitalized names, non-anonymous args/returns)
-	Structured bool       // Whwon the returns should be accumulated into a struct
+	Structured bool       // whether the returns should be accumulated into a struct
 }
 
 // tmplEvent is a wrapper around an a
@@ -296,10 +296,10 @@ package {{.Package}}
 
 			logs chan types.Log        // Log channel receiving the found contract events
 			sub  ethereum.Subscription // Subscription for errors, completion and termination
-			done bool                  // Whwon the subscription completed delivering logs
+			done bool                  // whether the subscription completed delivering logs
 			fail error                 // Occurred error to stop iteration
 		}
-		// Next advances the iterator to the subsequent event, returning whwon there
+		// Next advances the iterator to the subsequent event, returning whether there
 		// are any more events found. In case of a retrieval or parsing error, false is
 		// returned and Error() can be queried for the exact failure.
 		func (it *{{$contract.Type}}{{.Normalized.Name}}Iterator) Next() bool {

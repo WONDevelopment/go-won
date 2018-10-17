@@ -20,7 +20,7 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 const Version = "1.0"

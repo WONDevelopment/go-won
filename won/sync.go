@@ -21,11 +21,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/won/downloader"
 )
 
 const (
@@ -65,7 +65,7 @@ func (pm *ProtocolManager) syncTransactions(p *peer) {
 func (pm *ProtocolManager) txsyncLoop() {
 	var (
 		pending = make(map[discover.NodeID]*txsync)
-		sending = false               // whwon a send is active
+		sending = false               // whether a send is active
 		pack    = new(txsync)         // the pack that is being sent
 		done    = make(chan error, 1) // result of the send
 	)

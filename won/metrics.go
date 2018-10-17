@@ -17,8 +17,8 @@
 package won
 
 import (
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/p2p"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/p2p"
 )
 
 var (

@@ -25,15 +25,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	ethereum "github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/params"
+	ethereum "github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 var (
@@ -262,7 +262,7 @@ func (d *Downloader) Progress() ethereum.SyncProgress {
 	}
 }
 
-// Synchronising returns whwon the downloader is currently retrieving blocks.
+// Synchronising returns whether the downloader is currently retrieving blocks.
 func (d *Downloader) Synchronising() bool {
 	return atomic.LoadInt32(&d.synchronising) > 0
 }

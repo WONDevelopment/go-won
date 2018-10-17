@@ -20,8 +20,8 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 type twoOperandTest struct {

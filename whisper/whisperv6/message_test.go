@@ -23,9 +23,9 @@ import (
 	mrand "math/rand"
 	"testing"
 
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 func generateMessageParams() (*MessageParams, error) {

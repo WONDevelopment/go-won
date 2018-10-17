@@ -26,8 +26,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // faucetDockerfile is the Dockerfile required to build an faucet container to

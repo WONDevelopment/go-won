@@ -22,8 +22,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // NotFound is returned by API methods if the requested item does not exist.
@@ -75,7 +75,7 @@ type ChainReader interface {
 // The returned error is NotFound if the requested item does not exist.
 type TransactionReader interface {
 	// TransactionByHash checks the pool of pending transactions in addition to the
-	// blockchain. The isPending return value indicates whwon the transaction has been
+	// blockchain. The isPending return value indicates whether the transaction has been
 	// mined yet. Note that the transaction may not be part of the canonical chain even if
 	// it's not pending.
 	TransactionByHash(ctx context.Context, txHash common.Hash) (tx *types.Transaction, isPending bool, err error)

@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p/discover"
 )
 
 type TestPeer interface {

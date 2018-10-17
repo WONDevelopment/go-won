@@ -21,11 +21,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/worldopennet/go-won/accounts/abi"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 func TestDefaults(t *testing.T) {

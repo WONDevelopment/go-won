@@ -20,8 +20,8 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // makeTestTrie create a sample test trie to test node-wise reconstruction.

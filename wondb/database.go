@@ -22,14 +22,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/filter"
 	"github.com/syndtr/goleveldb/leveldb/iterator"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
 )
 
 var OpenFileLimit = 64

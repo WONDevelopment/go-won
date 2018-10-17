@@ -22,7 +22,7 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // reads the integer based on its kind

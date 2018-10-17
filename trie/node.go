@@ -21,8 +21,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 var indices = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "[17]"}
@@ -59,10 +59,10 @@ func (n *shortNode) copy() *shortNode { copy := *n; return &copy }
 type nodeFlag struct {
 	hash  hashNode // cached hash of the node (may be nil)
 	gen   uint16   // cache generation counter
-	dirty bool     // whwon the node has changes that must be written to the database
+	dirty bool     // whether the node has changes that must be written to the database
 }
 
-// canUnload tells whwon a node can be unloaded.
+// canUnload tells whether a node can be unloaded.
 func (n *nodeFlag) canUnload(cachegen, cachelimit uint16) bool {
 	return !n.dirty && cachegen-n.gen >= cachelimit
 }

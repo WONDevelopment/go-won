@@ -22,10 +22,10 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 // NewTransactor is a utility method to easily create a transaction signer from

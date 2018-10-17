@@ -21,7 +21,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // precompiledTest defines the input/output pairs for precompiled contract tests.

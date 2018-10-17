@@ -17,7 +17,7 @@
 package api
 
 import (
-	"github.com/worldopennet/go-won/swarm/network"
+	"github.com/worldopennetwork/go-won/swarm/network"
 )
 
 type Control struct {

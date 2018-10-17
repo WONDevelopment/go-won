@@ -22,13 +22,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/crypto/sha3"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/trie"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // stateReq represents a batch of state fetch requests grouped togwon into
@@ -40,7 +40,7 @@ type stateReq struct {
 	timer    *time.Timer                // Timer to fire when the RTT timeout expires
 	peer     *peerConnection            // Peer that we're requesting from
 	response [][]byte                   // Response data of the peer (nil for timeouts)
-	dropped  bool                       // Flag whwon the peer dropped off early
+	dropped  bool                       // Flag whether the peer dropped off early
 }
 
 // timedOut returns if this request timed out.
@@ -450,7 +450,7 @@ func (s *stateSync) process(req *stateReq) error {
 }
 
 // processNodeData tries to inject a trie node data blob delivered from a remote
-// peer into the state trie, returning whwon anything useful was written or any
+// peer into the state trie, returning whether anything useful was written or any
 // error occurred.
 func (s *stateSync) processNodeData(blob []byte) (bool, common.Hash, error) {
 	res := trie.SyncResult{Data: blob}

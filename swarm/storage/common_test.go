@@ -24,7 +24,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 type brokenLimitedReader struct {

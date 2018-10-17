@@ -23,9 +23,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // A Nonce is a 64-bit hash which proves (combined with the mix-hash) that

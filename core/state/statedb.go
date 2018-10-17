@@ -18,18 +18,19 @@
 package state
 
 import (
+	"bytes"
 	"fmt"
 	"math/big"
 	"sort"
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/trie"
 )
 
 type revision struct {
@@ -44,15 +45,12 @@ var (
 	// emptyCode is the known hash of the empty EVM bytecode.
 	emptyCode = crypto.Keccak256Hash(nil)
 
-	kycProviderStartHash       = int64(10000000000)
-	kycVoterStartHash          = int64(20000000000)
-	maxKycProviderCount        = int64(10000000000)
+	kycProviderStartHash   = int64(10000000000)
+	kycVoterStartHash      = int64(20000000000)
+	kycVoteResultStartHash = int64(21000000000)
+	maxKycProviderCount    = int64(10000000000)
 
-	dposProducerAllStartKey    = int64(30000000000)
-
-
-
-
+	dposProducerAllStartKey = int64(30000000000)
 
 	kycProviderNumberKey       = common.BigToHash(common.Big1)
 	kycProposalAddressKey      = common.BigToHash(common.Big2)
@@ -68,8 +66,8 @@ var (
 	dposLastProducerScheduleUpdateTimeKey = common.BigToHash(big.NewInt(104))
 	dposTopProducerElectedDoneKey         = common.BigToHash(big.NewInt(105))
 
-
 	dposProducerURLKey        = int64(0x1)
+	dposProducerURLKeyHigh    = int64(0x5)
 	dposProducerTotalVotesKey = int64(0x2)
 	dposProducerActiveKey     = int64(0x3)
 	dposProducerLocationKey   = int64(0x4)
@@ -82,10 +80,6 @@ var (
 
 	dposVoterCountKey          = int64(0x90)
 	dposVoterBpAddressBeginKey = int64(0x91)
-
-
-
-
 )
 
 // StateDBs within the ethereum protocol are used to store anything
@@ -218,13 +212,13 @@ func (self *StateDB) AddRefund(gas uint64) {
 	self.refund += gas
 }
 
-// Exist reports whwon the given account address exists in the state.
+// Exist reports whether the given account address exists in the state.
 // Notably this also returns true for suicided accounts.
 func (self *StateDB) Exist(addr common.Address) bool {
 	return self.getStateObject(addr) != nil
 }
 
-// Empty returns whwon the state object is either non-existent
+// Empty returns whether the state object is either non-existent
 // or empty according to the EIP161 specification (balance = nonce = code = 0)
 func (self *StateDB) Empty(addr common.Address) bool {
 	so := self.getStateObject(addr)
@@ -251,7 +245,7 @@ func (self *StateDB) GetNonce(addr common.Address) uint64 {
 func (self *StateDB) GetCode(addr common.Address) []byte {
 	stateObject := self.getStateObject(addr)
 	if stateObject != nil {
-	//	log.Debug("Success to GetCode state object", "addr", addr)
+		//	log.Debug("Success to GetCode state object", "addr", addr)
 		return stateObject.Code(self.db)
 	}
 
@@ -518,7 +512,7 @@ func (self *StateDB) Copy() *StateDB {
 	}
 	// Copy the dirty states, logs, and preimages
 	for addr := range self.journal.dirties {
-		// As documented [here](https://github.com/worldopennet/go-won/pull/16485#issuecomment-380438527),
+		// As documented [here](https://github.com/worldopennetwork/go-won/pull/16485#issuecomment-380438527),
 		// and in the Finalise-method, there is a case where an object is in the journal but not
 		// in the stateObjects: OOG after touch on ripeMD prior to Byzantium. Thus, we need to check for
 		// nil
@@ -672,8 +666,8 @@ func (self *StateDB) KycProviderExists(addr common.Address) bool {
 		return true
 	}
 
-	//loop and look ,  kyc provider should be a very little number, so no worries. we can add a cache here if kycNum becomes
-	//large.
+	//loop and look ,  kyc provider should be a very little number, so no worries.
+	//we can add a cache here if kycNum becomes large.
 	for i := int64(kycProviderStartHash); i < (kycProviderStartHash + kycNum); i++ {
 		haveV := self.GetState(vm.KycContractAddress, common.BigToHash(big.NewInt(int64(i))))
 		if common.BytesToAddress(haveV.Bytes()) == addr {
@@ -691,7 +685,7 @@ func (self *StateDB) GetKycProviderCount() int64 {
 	return haveV.Big().Int64()
 }
 
-func SetKycProviderCount(self *StateDB, c int64) {
+func (self *StateDB) SetKycProviderCount(c int64) {
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
 
 	stateObject.SetState(self.db, kycProviderNumberKey, common.BigToHash(big.NewInt(c)))
@@ -704,11 +698,11 @@ func (self *StateDB) AddKycProvider(addr common.Address) {
 
 	//can not work more
 	if kycNum >= maxKycProviderCount {
-		return ;
+		return
 	}
 
 	stateObject.SetState(self.db, common.BigToHash(big.NewInt(int64(kycProviderStartHash+kycNum))), addr.Hash())
-	SetKycProviderCount(self, kycNum+1)
+	self.SetKycProviderCount(kycNum + 1)
 }
 
 func (self *StateDB) RemoveKycProvider(addr common.Address) {
@@ -721,26 +715,29 @@ func (self *StateDB) RemoveKycProvider(addr common.Address) {
 
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
 
-	//loop and look ,  kyc provider should be a very little number, so no worries. we can add a cache here if kycNum becomes
-	//large.
+	//loop and look ,  kyc provider should be a very little number, so no worries.
+	//we can add a cache here if kycNum becomes large.
 	found := false
 	for i := int64(kycProviderStartHash); i < (kycProviderStartHash + kycNum); i++ {
 		hashK := common.BigToHash(big.NewInt(int64(i)))
 
-		haveV := self.GetState(vm.KycContractAddress, hashK)
-		if common.BytesToAddress(haveV.Bytes()) == addr {
-			stateObject.SetState(self.db, common.BigToHash(big.NewInt(int64(kycNum-1))), common.Hash{})
-			found = true
+		if !found {
+			haveV := self.GetState(vm.KycContractAddress, hashK)
+			if common.BytesToAddress(haveV.Bytes()) == addr {
+				//stateObject.SetState(self.db, common.BigToHash(big.NewInt(int64(kycNum-1))), common.Hash{})
+				found = true
+			}
 		}
 
-		if found && i < kycNum-1 {
+		if found && i < (kycProviderStartHash+kycNum-1) {
 			haveNext := self.GetState(vm.KycContractAddress, common.BigToHash(big.NewInt(int64(i+1))))
 			stateObject.SetState(self.db, hashK, haveNext)
 
 		}
 	}
-
-	SetKycProviderCount(self, kycNum-1)
+	if found {
+		self.SetKycProviderCount(kycNum - 1)
+	}
 }
 
 func (self *StateDB) SetKycProviderProposol(addr common.Address, st *big.Int, pt *big.Int) {
@@ -748,19 +745,22 @@ func (self *StateDB) SetKycProviderProposol(addr common.Address, st *big.Int, pt
 
 	kycNum := self.GetKycProviderCount()
 
-
-
 	self.SetState(vm.KycContractAddress, kycProposalAddressKey, addr.Hash())
 	self.SetState(vm.KycContractAddress, kycProposalStartTimeKey, common.BigToHash(st))
 	self.SetState(vm.KycContractAddress, kycProposalVoteTotalKey, common.BigToHash(big.NewInt(int64(kycNum))))
 	self.SetState(vm.KycContractAddress, kycProposalAlreadyVotedKey, common.BigToHash(pt))
 
+	// initial vote list
 	for i := kycVoterStartHash; i < kycVoterStartHash+kycNum; i++ {
+		stateObject.SetState(self.db, common.BigToHash(big.NewInt(int64(i))), common.BigToHash(common.Big0))
+	}
+	// initial vote result list
+	for i := kycVoteResultStartHash; i < kycVoteResultStartHash+kycNum; i++ {
 		stateObject.SetState(self.db, common.BigToHash(big.NewInt(int64(i))), common.BigToHash(common.Big0))
 	}
 }
 
-func (self *StateDB) GetKycProviderProposol() (common.Address, *big.Int, *big.Int, *big.Int, *big.Int) {
+func (self *StateDB) GetKycProviderProposol() (common.Address, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int) {
 
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
 
@@ -768,37 +768,50 @@ func (self *StateDB) GetKycProviderProposol() (common.Address, *big.Int, *big.In
 	hvTime := stateObject.GetState(self.db, kycProposalStartTimeKey)
 	hvVoteTotal := stateObject.GetState(self.db, kycProposalVoteTotalKey)
 	hvType := stateObject.GetState(self.db, kycProposalAlreadyVotedKey)
-	iVoted := int64(0)
-	emptyhash := common.Hash{}
-	for i := kycVoterStartHash; i < kycVoterStartHash+hvVoteTotal.Big().Int64(); i++ {
+	// get number of vote yes
+	iVotedYes := int64(0)
+	iVotedNo := int64(0)
+	yesHash := common.BigToHash(common.Big1)
+	noHash := common.BigToHash(common.Big2)
+	for i := kycVoteResultStartHash; i < kycVoteResultStartHash+hvVoteTotal.Big().Int64(); i++ {
 		hvVoted := stateObject.GetState(self.db, common.BigToHash(big.NewInt(i)))
-		if hvVoted != emptyhash {
-			iVoted++
-		} else {
-			break
+		if hvVoted == yesHash {
+			iVotedYes++
+		} else if hvVoted == noHash {
+			iVotedNo++
 		}
 	}
-	return common.BytesToAddress(hvAddr.Bytes()), hvTime.Big(), hvVoteTotal.Big(), hvType.Big(), big.NewInt(iVoted)
+
+	return common.BytesToAddress(hvAddr.Bytes()), hvTime.Big(), hvVoteTotal.Big(), hvType.Big(),
+		big.NewInt(iVotedYes), big.NewInt(iVotedNo)
 
 }
 
-func (self *StateDB) SetVoteForKycProviderProposol(addr common.Address) bool {
+func (self *StateDB) SetVoteForKycProviderProposol(addr common.Address, nay uint16) bool {
 
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
 
 	hvVoteTotal := stateObject.GetState(self.db, kycProposalVoteTotalKey)
-	emptyhash := common.Hash{}
-	for i := kycVoterStartHash; i < kycVoterStartHash+hvVoteTotal.Big().Int64(); i++ {
-		hvVoted := stateObject.GetState(self.db, common.BigToHash(big.NewInt(i)))
-		if hvVoted != emptyhash {
+
+	for i := int64(0); i < hvVoteTotal.Big().Int64(); i++ {
+		hvVoted := stateObject.GetState(self.db, common.BigToHash(big.NewInt(kycVoterStartHash+i)))
+		if hvVoted != (common.Hash{}) {
+			// check if the address has been voted
 			if hvVoted == addr.Hash() {
 				return false
 			}
+			continue
 		} else {
-			stateObject.SetState(self.db, common.BigToHash(big.NewInt(i)), addr.Hash())
+			stateObject.SetState(self.db, common.BigToHash(big.NewInt(kycVoterStartHash+i)), addr.Hash())
+			if nay == 0 { // vote yes
+				stateObject.SetState(self.db, common.BigToHash(big.NewInt(kycVoteResultStartHash+i)), common.BigToHash(common.Big1))
+			} else { // vote no
+				stateObject.SetState(self.db, common.BigToHash(big.NewInt(kycVoteResultStartHash+i)), common.BigToHash(common.Big2))
+			}
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -808,8 +821,8 @@ func (self *StateDB) GetKycProviderList() []common.Address {
 	addresses := make([]common.Address, 0)
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
 
-	//loop and look ,  kyc provider should be a very little number, so no worries. we can add a cache here if kycNum becomes
-	//large.
+	//loop and look ,  kyc provider should be a very little number, so no worries.
+	// we can add a cache here if kycNum becomes large.
 	for i := kycProviderStartHash; i < (kycProviderStartHash + kycNum); i++ {
 		haveV := stateObject.GetState(self.db, common.BigToHash(big.NewInt(int64(i))))
 		addresses = append(addresses, common.BytesToAddress(haveV.Bytes()))
@@ -997,11 +1010,16 @@ func (self *StateDB) SetDposProducerCount(val *big.Int) {
 func (self *StateDB) RegisterProducer(pb *common.Address, url string) {
 	hk := common.AddressToHashWithPrefix(pb, dposProducerURLKey)
 	vb := []byte(url)
-	hv := common.BytesToHash(vb)
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
-
 	oldhv := stateObject.GetState(self.db, hk)
-	stateObject.SetState(self.db, hk, hv)
+
+	if len(vb) > common.HashLength {
+		stateObject.SetState(self.db, hk, common.BytesToHash(vb[:common.HashLength]))
+		hk2 := common.AddressToHashWithPrefix(pb, dposProducerURLKeyHigh)
+		stateObject.SetState(self.db, hk2, common.BytesToHash(vb[common.HashLength:]))
+	} else {
+		stateObject.SetState(self.db, hk, common.BytesToHash(vb))
+	}
 
 	if oldhv == common.BytesToHash([]byte{0}) {
 		//new one. add to the end of list
@@ -1014,10 +1032,9 @@ func (self *StateDB) RegisterProducer(pb *common.Address, url string) {
 		pbCount = big.NewInt(pbCount.Int64() + 1)
 		self.SetDposProducerCount(pbCount)
 
-		self.UpdateProducerActive(pb,true)
+		self.UpdateProducerActive(pb, true)
 
 	}
-
 
 }
 
@@ -1050,23 +1067,14 @@ func (self *StateDB) GetProducerInfo(pb *common.Address) *common.ProducerInfo {
 	stateObject := self.GetOrNewStateObject(vm.KycContractAddress)
 	hk := common.AddressToHashWithPrefix(pb, dposProducerURLKey)
 	hv := stateObject.GetState(self.db, hk)
+	hv2 := stateObject.GetState(self.db, common.AddressToHashWithPrefix(pb, dposProducerURLKeyHigh))
 	if hv != common.BytesToHash([]byte{0}) {
 		ret := common.ProducerInfo{}
 		cpaddr := common.BytesToAddress(pb.Bytes())
 		ret.Owner = &cpaddr
 
-		urlbytes := hv.Bytes();
-
-		urlStartPos := 0
-
-		for i,c := range urlbytes {
-			if c != 0 {
-				urlStartPos = i
-				break;
-			}
-		}
-
-		ret.Url = string(urlbytes[urlStartPos:])
+		urlbytes := append(bytes.Trim(hv.Bytes(), "\x00"), bytes.Trim(hv2.Bytes(), "\x00")...)
+		ret.Url = string(urlbytes)
 
 		hk = common.AddressToHashWithPrefix(pb, dposProducerTotalVotesKey)
 		hv = stateObject.GetState(self.db, hk)
@@ -1084,7 +1092,7 @@ func (self *StateDB) GetProducerInfo(pb *common.Address) *common.ProducerInfo {
 		hk = common.AddressToHashWithPrefix(pb, dposProducerLocationKey)
 		hv = stateObject.GetState(self.db, hk)
 		ret.Location = hv.Big()
-		return &ret;
+		return &ret
 	}
 	return nil
 }
@@ -1102,7 +1110,7 @@ func (s *ProducerInfoSorter) Swap(i, j int) {
 }
 
 func (s *ProducerInfoSorter) Less(i, j int) bool {
-	return s.infos[i].TotalVotes.Cmp(s.infos[j].TotalVotes) < 0
+	return s.infos[i].TotalVotes.Cmp(s.infos[j].TotalVotes) > 0
 }
 
 func (self *StateDB) GetProducerTopList() []common.Address {
@@ -1110,9 +1118,9 @@ func (self *StateDB) GetProducerTopList() []common.Address {
 	producerCount := self.GetDposProducerCount().Int64()
 
 	//return empty if we haven't reach the DposActivatedStakeThreshold
-	totalActivatedState := self.GetDposTotalActivatedStake();
+	totalActivatedState := self.GetDposTotalActivatedStake()
 	if totalActivatedState.Cmp(vm.DposActivatedStakeThreshold) < 0 {
-		return addresses;
+		return addresses
 	}
 
 	isElectedDone := self.GetDposTopProducerElectedDone().Int64()
@@ -1121,19 +1129,18 @@ func (self *StateDB) GetProducerTopList() []common.Address {
 
 	if isElectedDone == 0 {
 
-		oldproducerCount := producerCount;
+		oldproducerCount := producerCount
 		//sort firstly
 		pbls := self.GetProducerList(0, producerCount)
 
 		infolist := make([]*common.ProducerInfo, 0)
-
 
 		for _, pb := range pbls {
 			pi := self.GetProducerInfo(&pb)
 			if pi != nil && pi.IsActive {
 				infolist = append(infolist, pi)
 			} else {
-				producerCount = producerCount-1;
+				producerCount = producerCount - 1
 			}
 		}
 
@@ -1175,27 +1182,28 @@ func (self *StateDB) GetProducerList(startPos int64, number int64) []common.Addr
 		return addresses
 	}
 
-	if number > 30 {
-		number = 30
-	}
+	//if number > 30 {
+	//	number = 30
+	//}
 
 	producerCount := self.GetDposProducerCount().Int64()
 	gotlen := int64(0)
-	for i := int64(startPos) + dposProducerAllStartKey; i < producerCount+dposProducerAllStartKey  ; i++ {
+
+	for i := int64(startPos) + dposProducerAllStartKey; i < producerCount+dposProducerAllStartKey; i++ {
 		hk := common.BigToHash(big.NewInt(int64(i)))
 		hv := self.GetState(vm.KycContractAddress, hk)
 		if hv != common.BytesToHash([]byte{0}) {
-			addresses = append(addresses, common.BytesToAddress(hv.Bytes()))
-			gotlen ++;
-			if gotlen >= number{
-				break;
+			pAddress := common.BytesToAddress(hv.Bytes())
+			pi := self.GetProducerInfo(&pAddress)
+			if pi != nil && pi.IsActive {
+				addresses = append(addresses, pAddress)
+				gotlen++
+				if gotlen >= number {
+					break
+				}
 			}
-
 		}
-
-
 	}
-
 
 	return addresses
 }

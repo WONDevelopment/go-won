@@ -25,13 +25,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/simulations"
-	"github.com/worldopennet/go-won/p2p/simulations/adapters"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/simulations"
+	"github.com/worldopennetwork/go-won/p2p/simulations/adapters"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 var adapterType = flag.String("adapter", "sim", `node adapter to use (one of "sim", "exec" or "docker")`)

@@ -22,7 +22,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 func init() {

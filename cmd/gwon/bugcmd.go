@@ -26,10 +26,10 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/worldopennet/go-won/cmd/internal/browser"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/cmd/internal/browser"
+	"github.com/worldopennetwork/go-won/params"
 
-	"github.com/worldopennet/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/cmd/utils"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
@@ -41,7 +41,7 @@ var bugCommand = cli.Command{
 	Category:  "MISCELLANEOUS COMMANDS",
 }
 
-const issueUrl = "https://github.com/worldopennet/go-won/issues/new"
+const issueUrl = "https://github.com/worldopennetwork/go-won/issues/new"
 
 // reportBug reports a bug by opening a new URL to the go-ethereum GH issue
 // tracker and setting default values as the issue body.

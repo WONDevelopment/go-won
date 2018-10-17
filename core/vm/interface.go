@@ -19,8 +19,8 @@ package vm
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // StateDB is an EVM database for full state querying.
@@ -48,10 +48,10 @@ type StateDB interface {
 	Suicide(common.Address) bool
 	HasSuicided(common.Address) bool
 
-	// Exist reports whwon the given account exists in state.
+	// Exist reports whether the given account exists in state.
 	// Notably this should also return true for suicided accounts.
 	Exist(common.Address) bool
-	// Empty returns whwon the given account is empty. Empty
+	// Empty returns whether the given account is empty. Empty
 	// is defined according to EIP161 (balance = nonce = code = 0).
 	Empty(common.Address) bool
 
@@ -75,13 +75,12 @@ type StateDB interface {
 	AddKycProvider(addr common.Address)
 	RemoveKycProvider(addr common.Address)
 	SetKycProviderProposol(addr common.Address, st *big.Int, pt *big.Int)
-	SetVoteForKycProviderProposol(addr common.Address) bool
-	GetKycProviderProposol() (common.Address, *big.Int, *big.Int, *big.Int, *big.Int)
+	SetVoteForKycProviderProposol(addr common.Address, nay uint16) bool
+	GetKycProviderProposol() (common.Address, *big.Int, *big.Int, *big.Int, *big.Int, *big.Int)
 	GetKycProviderList() []common.Address
 	TxKycValidate(addr common.Address, dst common.Address, amount *big.Int) bool
 	IsContractAddress(address common.Address) bool
 	RegisterProducer(pb *common.Address, url string)
-
 
 	UpdateProducerTotalVotes(pb *common.Address, stake *big.Int)
 	UpdateProducerActive(pb *common.Address, val bool)
@@ -101,9 +100,9 @@ type StateDB interface {
 	SetDposLastProducerScheduleUpdateTime(val *big.Int)
 	GetDposTopProducerElectedDone() *big.Int
 	SetDposTopProducerElectedDone(val *big.Int)
-	GetDposTotalActivatedStake() (*big.Int)
+	GetDposTotalActivatedStake() *big.Int
 	SetDposTotalActivatedStake(val *big.Int)
-	GetDposThreshActivatedStakeTime()(*big.Int)
+	GetDposThreshActivatedStakeTime() *big.Int
 	SetDposThreshActivatedStakeTime(val *big.Int)
 }
 

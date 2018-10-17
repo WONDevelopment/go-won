@@ -19,10 +19,10 @@ package les
 import (
 	"context"
 
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/light"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/light"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // LesOdr implements light.OdrBackend

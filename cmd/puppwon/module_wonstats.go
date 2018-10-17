@@ -25,7 +25,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // ethstatsDockerfile is the Dockerfile required to build an ethstats backend

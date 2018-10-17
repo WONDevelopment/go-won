@@ -30,17 +30,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/mclock"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/les"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/les"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/won"
 	"golang.org/x/net/websocket"
 )
 
@@ -69,10 +69,10 @@ type blockChain interface {
 // Service implements an WorldOpenNetwork netstats reporting daemon that pushes local
 // chain statistics up to a monitoring server.
 type Service struct {
-	server *p2p.Server        // Peer-to-peer server to retrieve networking infos
-	won    *won.WorldOpenNetwork      // Full WorldOpenNetwork service if monitoring a full node
-	les    *les.LightEthereum // Light WorldOpenNetwork service if monitoring a light node
-	engine consensus.Engine   // Consensus engine to retrieve variadic block fields
+	server *p2p.Server           // Peer-to-peer server to retrieve networking infos
+	won    *won.WorldOpenNetwork // Full WorldOpenNetwork service if monitoring a full node
+	les    *les.LightEthereum    // Light WorldOpenNetwork service if monitoring a light node
+	engine consensus.Engine      // Consensus engine to retrieve variadic block fields
 
 	node string // Name of the node to display on the monitoring page
 	pass string // Password to authorize access to the monitoring page

@@ -21,17 +21,17 @@ import (
 	"context"
 	"math/big"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // Backend interface provides the common API services (that are provided by
@@ -78,7 +78,7 @@ func GetAPIs(apiBackend Backend) []rpc.API {
 		{
 			Namespace: "won",
 			Version:   "1.0",
-			Service:   NewPublicWonChainAPI(apiBackend),
+			Service:   NewPublicWorldOpenNetworkAPI(apiBackend),
 			Public:    true,
 		}, {
 			Namespace: "won",

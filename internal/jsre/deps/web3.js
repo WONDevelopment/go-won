@@ -5344,11 +5344,11 @@ var methods = function () {
     });
 
 
-    var voteYesForKycProvider =new Method({
-        name: 'voteYesForKycProvider',
-        call: 'won_voteYesForKycProvider',
-        params: 1,
-        inputFormatter: [formatters.inputAddressFormatter]
+    var voteForKycProvider =new Method({
+        name: 'voteForKycProvider',
+        call: 'won_voteForKycProvider',
+        params: 2,
+        inputFormatter: [formatters.inputAddressFormatter, null]
     });
 
 
@@ -5620,7 +5620,7 @@ var methods = function () {
         setKycForAddress,
         getKycProposal,
         makeKycProviderModifyProposal,
-        voteYesForKycProvider,
+        voteForKycProvider,
         getKycProviderList,
         getDposProducerList,
         getDposProducerInfo,
@@ -6039,7 +6039,7 @@ module.exports = Shh;
  * @author Alex Beregszaszi <alex@rtfs.hu>
  * @date 2016
  *
- * Reference: https://github.com/ethereum/go-ethereum/blob/swarm/internal/web3ext/web3ext.go#L33
+ * Reference: https://github.com/worldopennetwork/go-won/blob/swarm/internal/web3ext/web3ext.go#L33
  */
 
 "use strict";
@@ -8585,7 +8585,7 @@ module.exports = transfer;
 	         *
 	         * This method invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
 	         *
-	         * @param {boolean} doFlush Whwon all blocks and partial blocks should be processed.
+	         * @param {boolean} doFlush whether all blocks and partial blocks should be processed.
 	         *
 	         * @return {WordArray} The processed data.
 	         *

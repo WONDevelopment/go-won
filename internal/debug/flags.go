@@ -24,10 +24,10 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/log/term"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/metrics/exp"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/log/term"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/metrics/exp"
 	colorable "github.com/mattn/go-colorable"
 	"gopkg.in/urfave/cli.v1"
 )

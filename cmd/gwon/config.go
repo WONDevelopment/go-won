@@ -27,12 +27,12 @@ import (
 
 	cli "gopkg.in/urfave/cli.v1"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/dashboard"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/params"
-	whisper "github.com/worldopennet/go-won/whisper/whisperv6"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/dashboard"
+	"github.com/worldopennetwork/go-won/won"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/params"
+	whisper "github.com/worldopennetwork/go-won/whisper/whisperv6"
 	"github.com/naoina/toml"
 )
 

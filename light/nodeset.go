@@ -20,10 +20,10 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // NodeSet stores a set of trie nodes. It implements trie.Database and can also

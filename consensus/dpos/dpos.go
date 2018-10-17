@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-won library. If not, see <http://www.gnu.org/licenses/>.
 
-
 package dpos
 
 import (
@@ -25,24 +24,24 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/misc"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/sha3"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/rpc"
 	lru "github.com/hashicorp/golang-lru"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/consensus/misc"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (
-	checkpointInterval = 60 // Number of blocks after which to save the vote snapshot to the database
+	checkpointInterval = 60   // Number of blocks after which to save the vote snapshot to the database
 	inmemorySnapshots  = 128  // Number of recent vote snapshots to keep in memory
 	inmemorySignatures = 4096 // Number of recent block signatures to keep in memory
 
@@ -56,7 +55,6 @@ var (
 
 	extraVanity = 32 // Fixed number of extra-data prefix bytes reserved for signer vanity
 	extraSeal   = 65 // Fixed number of extra-data suffix bytes reserved for signer seal
-
 
 	uncleHash = types.CalcUncleHash(nil) // Always Keccak256(RLP([])) as uncles are meaningless outside of PoW.
 
@@ -193,7 +191,7 @@ type Dpos struct {
 	config *params.DposConfig // Consensus engine configuration parameters
 	db     wondb.Database     // Database to store and retrieve snapshot checkpoints
 
-//	recents    *lru.ARCCache // Snapshots for recent block to speed up reorgs
+	//	recents    *lru.ARCCache // Snapshots for recent block to speed up reorgs
 	signatures *lru.ARCCache // Signatures of recent blocks to speed up mining
 
 	//proposals map[common.Address]bool // Current list of proposals we are pushing
@@ -213,13 +211,13 @@ func New(config *params.DposConfig, db wondb.Database) *Dpos {
 		conf.Epoch = epochLength
 	}
 	// Allocate the snapshot caches and create the engine
-//	recents, _ := lru.NewARC(inmemorySnapshots)
+	//	recents, _ := lru.NewARC(inmemorySnapshots)
 	signatures, _ := lru.NewARC(inmemorySignatures)
 
 	return &Dpos{
-		config:     &conf,
-		db:         db,
-	//	recents:    recents,
+		config: &conf,
+		db:     db,
+		//	recents:    recents,
 		signatures: signatures,
 		//proposals:  make(map[common.Address]bool),
 	}
@@ -231,7 +229,7 @@ func (c *Dpos) Author(header *types.Header) (common.Address, error) {
 	return ecrecover(header, c.signatures)
 }
 
-// VerifyHeader checks whwon a header conforms to the consensus rules.
+// VerifyHeader checks whether a header conforms to the consensus rules.
 func (c *Dpos) VerifyHeader(chain consensus.ChainReader, header *types.Header, seal bool) error {
 	return c.verifyHeader(chain, header, nil)
 }
@@ -257,13 +255,13 @@ func (c *Dpos) VerifyHeaders(chain consensus.ChainReader, headers []*types.Heade
 	return abort, results
 }
 
-// verifyHeader checks whwon a header conforms to the consensus rules.The
+// verifyHeader checks whether a header conforms to the consensus rules.The
 // caller may optionally pass in a batch of parents (ascending order) to avoid
 // looking those up from the database. This is useful for concurrently verifying
 // a batch of new headers.
 func (c *Dpos) verifyHeader(chain consensus.ChainReader, header *types.Header, parents []*types.Header) error {
 
-	if header ==nil {
+	if header == nil {
 		return errUnknownBlock
 	}
 
@@ -286,12 +284,9 @@ func (c *Dpos) verifyHeader(chain consensus.ChainReader, header *types.Header, p
 	//	return errInvalidVote
 	//}
 
-
 	//if checkpoint && !bytes.Equal(header.Nonce[:], nonceDropVote) {
 	//	return errInvalidCheckpointVote
 	//}
-
-
 
 	// Check that the extra-data contains both the vanity and signature
 	if len(header.Extra) < extraVanity {
@@ -302,7 +297,7 @@ func (c *Dpos) verifyHeader(chain consensus.ChainReader, header *types.Header, p
 	}
 	// Ensure that the extra-data contains a signer list on checkpoint, but none otherwise
 	signersBytes := len(header.Extra) - extraVanity - extraSeal
-	if  signersBytes <= 0 {
+	if signersBytes <= 0 {
 		return errExtraSigners
 	}
 
@@ -318,9 +313,6 @@ func (c *Dpos) verifyHeader(chain consensus.ChainReader, header *types.Header, p
 		return errInvalidUncleHash
 	}
 
-
-
-	
 	// If all checks passed, validate any special fields for hard forks
 	if err := misc.VerifyForkHashes(chain.Config(), header, false); err != nil {
 		return err
@@ -349,12 +341,14 @@ func (c *Dpos) verifyCascadingFields(chain consensus.ChainReader, header *types.
 	if parent == nil || parent.Number.Uint64() != number-1 || parent.Hash() != header.ParentHash {
 		return consensus.ErrUnknownAncestor
 	}
+
 	if parent.Time.Uint64()+c.config.Period > header.Time.Uint64() {
 		return ErrInvalidTimestamp
 	}
 
-	
-
+	//if !c.verifySignersElecting(chain, header, parent) {
+	//	return errInvalidVotingChain;
+	//}
 
 	// All basic checks passed, verify the seal and return
 	return c.verifySeal(chain, header, parents)
@@ -365,54 +359,50 @@ func (c *Dpos) snapshot(chain consensus.ChainReader, number uint64, hash common.
 	// Search for a snapshot in memory or on disk for checkpoints
 	var (
 		//headers []*types.Header
-		snap    *DposSnapshot
+		snap   *DposSnapshot
 		header *types.Header
 	)
 
 	for snap == nil {
 
-
-			if number == 0 {
-				header = chain.GetHeaderByNumber(0)
-				if err := c.VerifyHeader(chain, header, false); err != nil {
-					return nil, err
-				}
-			} else {
-				header = chain.GetHeader(hash, number)
+		if number == 0 {
+			header = chain.GetHeaderByNumber(0)
+			if err := c.VerifyHeader(chain, header, false); err != nil {
+				return nil, err
 			}
+		} else {
+			header = chain.GetHeader(hash, number)
+		}
 
-			//if err := c.VerifyHeader(chain, genesis, false); err != nil {
-			//	return nil, err
-			//}
+		//if err := c.VerifyHeader(chain, genesis, false); err != nil {
+		//	return nil, err
+		//}
 
-			if header == nil {
-				if len(parents) > 0 {
-					// If we have explicit parents, pick from there (enforced)
-					header = parents[len(parents)-1]
-					if  header.Hash() != hash || header.Number.Uint64() != number {
-						return nil, consensus.ErrUnknownAncestor
-					}
-				}else{
+		if header == nil {
+			if len(parents) > 0 {
+				// If we have explicit parents, pick from there (enforced)
+				header = parents[len(parents)-1]
+				if header.Hash() != hash || header.Number.Uint64() != number {
 					return nil, consensus.ErrUnknownAncestor
 				}
-
+			} else {
+				return nil, consensus.ErrUnknownAncestor
 			}
 
-			signers := make([]common.Address, (len(header.Extra)-extraVanity-extraSeal)/common.AddressLength)
-			for i := 0; i < len(signers); i++ {
-				copy(signers[i][:], header.Extra[extraVanity+i*common.AddressLength:])
-			}
-			snap = newSnapshot(c.config, c.signatures, number, header.Hash(), signers)
+		}
+
+		signers := make([]common.Address, (len(header.Extra)-extraVanity-extraSeal)/common.AddressLength)
+		for i := 0; i < len(signers); i++ {
+			copy(signers[i][:], header.Extra[extraVanity+i*common.AddressLength:])
+		}
+		snap = newSnapshot(c.config, c.signatures, number, header.Hash(), signers)
 
 		//	log.Debug("newSnapshot ", "signers", snap.Signers, "number",number, "hash", hash, "signers_input", signers)
-			break
+		break
 
 	}
 
-
 	//c.recents.Add(snap.Hash, snap)
-
-
 
 	return snap, nil
 }
@@ -426,13 +416,13 @@ func (c *Dpos) VerifyUncles(chain consensus.ChainReader, block *types.Block) err
 	return nil
 }
 
-// VerifySeal implements consensus.Engine, checking whwon the signature contained
+// VerifySeal implements consensus.Engine, checking whether the signature contained
 // in the header satisfies the consensus protocol requirements.
 func (c *Dpos) VerifySeal(chain consensus.ChainReader, header *types.Header) error {
 	return c.verifySeal(chain, header, nil)
 }
 
-// verifySeal checks whwon the signature contained in the header satisfies the
+// verifySeal checks whether the signature contained in the header satisfies the
 // consensus protocol requirements. The method accepts an optional list of parent
 // headers that aren't yet part of the local blockchain to generate the snapshots
 // from.
@@ -457,7 +447,6 @@ func (c *Dpos) verifySeal(chain consensus.ChainReader, header *types.Header, par
 		return errUnauthorized
 	}
 
-
 	if signer != header.Coinbase {
 		return errUnauthorized
 	}
@@ -470,7 +459,7 @@ func (c *Dpos) verifySeal(chain consensus.ChainReader, header *types.Header, par
 func (c *Dpos) Prepare(chain consensus.ChainReader, header *types.Header) error {
 	// If the block isn't a checkpoint, cast a random vote (good enough for now)
 
-	header.Coinbase =  c.signer;
+	header.Coinbase = c.signer
 
 	header.Nonce = types.BlockNonce{}
 
@@ -493,19 +482,16 @@ func (c *Dpos) Prepare(chain consensus.ChainReader, header *types.Header) error 
 		header.Time = big.NewInt(tnow)
 	}
 
-
-
 	if _, authorized := snap.Signers[header.Coinbase]; !authorized {
-		return  errUnauthorized
+		return errUnauthorized
 	}
 
-	scheduledSigner := c.getScheduledProducer(header.Time,snap)
+	scheduledSigner := c.getScheduledProducer(header.Time, snap)
 
 	if scheduledSigner != header.Coinbase {
-	//	log.Debug("getScheduledProducer", "scheduledSigner", scheduledSigner.String(), "My", header.Coinbase.String())
+		//	log.Debug("getScheduledProducer", "scheduledSigner", scheduledSigner.String(), "My", header.Coinbase.String())
 		return errInvalidDifficulty
 	}
-
 
 	// Ensure the extra data has all it's components
 	if len(header.Extra) < extraVanity {
@@ -513,13 +499,13 @@ func (c *Dpos) Prepare(chain consensus.ChainReader, header *types.Header) error 
 	}
 	header.Extra = header.Extra[:extraVanity]
 
-	signerChanged := false;
+	signerChanged := false
+	signersParent := parent.Extra[extraVanity : len(parent.Extra)-extraSeal]
+	signersMe := make([]byte, 0)
+	if number > 1 {
+		state, err := chain.StateAt(parent.Root)
 
-	if number >1 {
-		headerPrev := chain.GetHeader(header.ParentHash, number-1)
-		state, err := chain.StateAt(headerPrev.Root)
-
-		if err == nil && state != nil && (state.GetDposLastProducerScheduleUpdateTime().Int64() + 60 ) < headerPrev.Time.Int64() {
+		if err == nil && state != nil && (state.GetDposLastProducerScheduleUpdateTime().Int64()+60) < parent.Time.Int64() {
 			signersNew := state.GetProducerTopList()
 			if len(signersNew) > 0 {
 
@@ -533,37 +519,35 @@ func (c *Dpos) Prepare(chain consensus.ChainReader, header *types.Header) error 
 				}
 
 				for _, signer := range signersNew {
-					header.Extra = append(header.Extra, signer[:]...)
+					signersMe = append(signersMe, signer[:]...)
 				}
 
-				signerChanged = true;
-				state.SetDposLastProducerScheduleUpdateTime(headerPrev.Time);
+				if bytes.Compare(signersMe, signersParent) != 0 {
+					signerChanged = true
+					state.SetDposLastProducerScheduleUpdateTime(parent.Time)
+				}
 			}
 		}
 	}
 
 	if !signerChanged {
-		for _, signer := range snap.signers() {
-			header.Extra = append(header.Extra, signer[:]...)
-		}
+		header.Extra = append(header.Extra, signersParent[:]...)
+	} else {
+		header.Extra = append(header.Extra, signersMe[:]...)
 	}
-	header.Extra = append(header.Extra, make([]byte, extraSeal)...)
 
+	header.Extra = append(header.Extra, make([]byte, extraSeal)...)
 
 	// Mix digest is reserved for now, set to empty
 	header.MixDigest = common.Hash{}
 
+	header.Difficulty = c.CalcDifficultyInternal(snap, chain, header.Time.Uint64(), parent) //CalcDifficulty(snap,c.signer);
 
-
-
-	header.Difficulty = c.CalcDifficultyInternal(snap,chain,header.Time.Uint64(),parent) //CalcDifficulty(snap,c.signer);
-
-	header.Nonce = types.EncodeNonce( c.CalcNonce(snap, chain,header.Time.Uint64(),parent))
-
+	header.Nonce = types.EncodeNonce(c.CalcNonce(snap, chain, header.Time.Uint64(), parent))
 
 	return nil
 }
-func (c *Dpos) CalcNonce(snap *DposSnapshot, chain consensus.ChainReader, time uint64, parent *types.Header ) uint64{
+func (c *Dpos) CalcNonce(snap *DposSnapshot, chain consensus.ChainReader, time uint64, parent *types.Header) uint64 {
 
 	//use as last irreversible block using bft, 从最新的块开始，直到最近一个lib, 如果在到达cclib之前的话，就更新，否则使用原来了的
 	//
@@ -571,22 +555,18 @@ func (c *Dpos) CalcNonce(snap *DposSnapshot, chain consensus.ChainReader, time u
 	signhistory := make(map[common.Address]bool)
 	signhistory[parent.Coinbase] = true
 
-	cclib := parent.Nonce.Uint64();
+	cclib := parent.Nonce.Uint64()
 
-	if parent.Number.Uint64() ==0 {
+	if parent.Number.Uint64() == 0 {
 		return cclib
 	}
 
-
-
-	num := parent.Number.Uint64()-1
+	num := parent.Number.Uint64() - 1
 	hash := parent.ParentHash
 
+	retlib := cclib
 
-	retlib := cclib;
-
-	signerLen := len(snap.Signers);
-
+	signerLen := len(snap.Signers)
 
 	for true {
 
@@ -594,37 +574,34 @@ func (c *Dpos) CalcNonce(snap *DposSnapshot, chain consensus.ChainReader, time u
 			break
 		}
 
-
 		if num <= cclib {
-			break;
+			break
 		}
 
-		pp := chain.GetHeader(hash,num)
+		pp := chain.GetHeader(hash, num)
 
-		signhistory[pp.Coinbase] = true;
+		signhistory[pp.Coinbase] = true
 
-		cclen := len(signhistory);
+		cclen := len(signhistory)
 
-		if (signerLen <=3  && cclen > signerLen/2) || (signerLen > 3 && cclen > signerLen*2/3) {
-			retlib = num;
-			break;
+		if (signerLen <= 3 && cclen > signerLen/2) || (signerLen > 3 && cclen > signerLen*2/3) {
+			retlib = num
+			break
 		}
 
-
-		num = num -1
+		num = num - 1
 		hash = pp.ParentHash
 	}
 
-	return retlib;
+	return retlib
 }
-
 
 // Finalize implements consensus.Engine, ensuring no uncles are set, nor block
 // rewards given, and returns the final block.
 func (c *Dpos) Finalize(chain consensus.ChainReader, header *types.Header, state *state.StateDB, txs []*types.Transaction, uncles []*types.Header, receipts []*types.Receipt) (*types.Block, error) {
 
 	// No block rewards in PoA, so the state remains as is and uncles are dropped
-	header.Root = state.IntermediateRoot(chain.Config().IsEIP158(header.Number))
+	header.Root = state.IntermediateRoot(true /*chain.Config().IsEIP158(header.Number)*/)
 	header.UncleHash = types.CalcUncleHash(nil)
 
 	// Assemble and return the final block for sealing
@@ -662,35 +639,28 @@ func (c *Dpos) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan
 		return nil, errUnknownBlock
 	}
 
-
-
-
-
 	// Don't hold the signer fields for the entire sealing procedure
 	c.lock.RLock()
 	signer, signFn := c.signer, c.signFn
 	c.lock.RUnlock()
-
 
 	snap, err := c.snapshot(chain, number-1, header.ParentHash, nil)
 	if err != nil {
 		return nil, err
 	}
 
-
-	scheduledSigner := c.getScheduledProducer(header.Time,snap)
+	scheduledSigner := c.getScheduledProducer(header.Time, snap)
 
 	if scheduledSigner != signer {
-		return nil,errInvalidDifficulty
+		return nil, errInvalidDifficulty
 	}
 
 	tn := time.Now()
-	hst := time.Unix(header.Time.Int64(), 0);
+	hst := time.Unix(header.Time.Int64(), 0)
 
 	//log.Debug("cale time wait:", "tn",tn.Unix(), "hst",hst.Unix())
 	// Sweet, the protocol permits us to sign the block, wait for our time
 	delay := hst.Sub(tn) // nolint: gosimple
-
 
 	log.Debug("Waiting for slot to sign and propagate", "delay", common.PrettyDuration(delay), "signer", signer)
 
@@ -699,7 +669,6 @@ func (c *Dpos) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan
 		return nil, nil
 	case <-time.After(delay):
 	}
-
 
 	// Sign all the things!
 	sighash, err := signFn(accounts.Account{Address: signer}, sigHash(header).Bytes())
@@ -719,7 +688,7 @@ func (c *Dpos) CalcDifficulty(chain consensus.ChainReader, time uint64, parent *
 	if err != nil {
 		return nil
 	}
-	return c.CalcDifficultyInternal(snap,chain,time,parent);
+	return c.CalcDifficultyInternal(snap, chain, time, parent)
 
 	//return CalcDifficulty(snap, c.signer)
 }
@@ -727,22 +696,22 @@ func (c *Dpos) CalcDifficulty(chain consensus.ChainReader, time uint64, parent *
 // CalcDifficulty is the difficulty adjustment algorithm. It returns the difficulty
 // that a new block should have based on the previous blocks in the chain and the
 // current signer.
-func  (c *Dpos) CalcDifficultyInternal(snap *DposSnapshot,chain consensus.ChainReader, time uint64, parent *types.Header) *big.Int {
+func (c *Dpos) CalcDifficultyInternal(snap *DposSnapshot, chain consensus.ChainReader, time uint64, parent *types.Header) *big.Int {
 
-	if  parent.Coinbase == c.signer || parent.Number.Uint64() == 1  || parent.Number.Uint64() == 0 {
+	if parent.Coinbase == c.signer || parent.Number.Uint64() == 1 || parent.Number.Uint64() == 0 {
 		//if we are in continual producing confirm parent.
-		return common.Big1;
+		return common.Big1
 	}
 
-	signerLen := len(snap.Signers);
+	signerLen := len(snap.Signers)
 	signhistory := make(map[common.Address]bool)
 	signhistory[parent.Coinbase] = true
 
-	confirm :=1
-	num := parent.Number.Uint64()-1
+	confirm := 1
+	num := parent.Number.Uint64() - 1
 	hash := parent.ParentHash
 
-	cclib := parent.Nonce.Uint64();
+	cclib := parent.Nonce.Uint64()
 
 	for true {
 
@@ -751,30 +720,28 @@ func  (c *Dpos) CalcDifficultyInternal(snap *DposSnapshot,chain consensus.ChainR
 		}
 
 		confirm = confirm + 1
-		pp := chain.GetHeader(hash,num)
+		pp := chain.GetHeader(hash, num)
 		if pp.Coinbase == c.signer {
-			break;
+			break
 		}
 
 		if num <= cclib {
-			break;
+			break
 		}
 
-		signhistory[pp.Coinbase] = true;
+		signhistory[pp.Coinbase] = true
 
-		cclen := len(signhistory);
+		cclen := len(signhistory)
 
-		if (signerLen <=3  && cclen > signerLen/2) || (signerLen > 3 && cclen > signerLen*2/3) {
-			break;
+		if (signerLen <= 3 && cclen > signerLen/2) || (signerLen > 3 && cclen > signerLen*2/3) {
+			break
 		}
 
-
-		num = num -1
+		num = num - 1
 		hash = pp.ParentHash
 	}
 
-
-	return big.NewInt(int64(confirm));
+	return big.NewInt(int64(confirm))
 }
 
 // APIs implements consensus.Engine, returning the user facing RPC API to allow

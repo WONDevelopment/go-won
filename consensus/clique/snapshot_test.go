@@ -22,12 +22,13 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 type testerVote struct {
@@ -74,7 +75,7 @@ type testerChainReader struct {
 	db wondb.Database
 }
 
-func (r *testerChainReader) Config() *params.ChainConfig                 { return params.AllCliqueProtocolChanges }
+func (r *testerChainReader) Config() *params.ChainConfig                 { return params.DevChainConfig }
 func (r *testerChainReader) CurrentHeader() *types.Header                { panic("not supported") }
 func (r *testerChainReader) GetHeader(common.Hash, uint64) *types.Header { panic("not supported") }
 func (r *testerChainReader) GetBlock(common.Hash, uint64) *types.Block   { panic("not supported") }
@@ -85,6 +86,8 @@ func (r *testerChainReader) GetHeaderByNumber(number uint64) *types.Header {
 	}
 	panic("not supported")
 }
+func (r *testerChainReader) State() (*state.StateDB, error)                   { return nil, nil }
+func (r *testerChainReader) StateAt(root common.Hash) (*state.StateDB, error) { return nil, nil }
 
 // Tests that voting is evaluated correctly for various simple and complex scenarios.
 func TestVoting(t *testing.T) {

@@ -1,6 +1,6 @@
 var token;
 
-won.defaultAccount = won.accounts[0];
+won.defaultAccount = "0x9ab2d92b111b64c2bab3def2569dbd9ecf547fc1";
 
 setToken(tpcTokenAddress);
 

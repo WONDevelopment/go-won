@@ -24,8 +24,8 @@ import (
 
 	"strings"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/internal/debug"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/internal/debug"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -72,8 +72,8 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.KeyStoreDirFlag,
 			utils.NoUSBFlag,
 			utils.NetworkIdFlag,
-			utils.AlphanetFlag,
-			utils.RinkebyFlag,
+			utils.TestnetFlag,
+			//utils.BetanetFlag,
 			utils.SyncModeFlag,
 			utils.GCModeFlag,
 			utils.EthStatsURLFlag,

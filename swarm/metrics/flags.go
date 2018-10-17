@@ -19,10 +19,10 @@ package metrics
 import (
 	"time"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/log"
-	gwonmetrics "github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/metrics/influxdb"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/log"
+	gwonmetrics "github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/metrics/influxdb"
 	"gopkg.in/urfave/cli.v1"
 )
 

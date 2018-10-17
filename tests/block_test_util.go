@@ -24,17 +24,17 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // A BlockTest checks handling of entire blocks.
@@ -152,7 +152,7 @@ func (t *BlockTest) genesis(config *params.ChainConfig) *core.Genesis {
 
 /* See https://github.com/ethereum/tests/wiki/Blockchain-Tests-II
 
-   Whwon a block is valid or not is a bit subtle, it's defined by presence of
+   whether a block is valid or not is a bit subtle, it's defined by presence of
    blockHeader, transactions and uncleHeaders fields. If they are missing, the block is
    invalid and we must verify that we do not accept it.
 

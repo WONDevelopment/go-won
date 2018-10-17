@@ -28,47 +28,47 @@ import (
 	"encoding/binary"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/rpc"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 const (
 	defaultGasPrice = 50 * params.Shannon
 )
 
-// PublicWonChainAPI provides an API to access WorldOpenNetwork related information.
+// PublicWorldOpenNetworkAPI provides an API to access WorldOpenNetwork related information.
 // It offers only methods that operate on public data that is freely available to anyone.
-type PublicWonChainAPI struct {
+type PublicWorldOpenNetworkAPI struct {
 	b Backend
 }
 
-// NewPublicWonChainAPI creates a new WorldOpenNetwork protocol API.
-func NewPublicWonChainAPI(b Backend) *PublicWonChainAPI {
-	return &PublicWonChainAPI{b}
+// NewPublicWorldOpenNetworkAPI creates a new WorldOpenNetwork protocol API.
+func NewPublicWorldOpenNetworkAPI(b Backend) *PublicWorldOpenNetworkAPI {
+	return &PublicWorldOpenNetworkAPI{b}
 }
 
 // GasPrice returns a suggestion for a gas price.
-func (s *PublicWonChainAPI) GasPrice(ctx context.Context) (*big.Int, error) {
+func (s *PublicWorldOpenNetworkAPI) GasPrice(ctx context.Context) (*big.Int, error) {
 	return s.b.SuggestPrice(ctx)
 }
 
 // ProtocolVersion returns the current WorldOpenNetwork protocol version this node supports
-func (s *PublicWonChainAPI) ProtocolVersion() hexutil.Uint {
+func (s *PublicWorldOpenNetworkAPI) ProtocolVersion() hexutil.Uint {
 	return hexutil.Uint(s.b.ProtocolVersion())
 }
 
@@ -79,7 +79,7 @@ func (s *PublicWonChainAPI) ProtocolVersion() hexutil.Uint {
 // - highestBlock:  block number of the highest block header this node has received from peers
 // - pulledStates:  number of state entries processed until now
 // - knownStates:   number of known state entries that still need to be pulled
-func (s *PublicWonChainAPI) Syncing() (interface{}, error) {
+func (s *PublicWorldOpenNetworkAPI) Syncing() (interface{}, error) {
 	progress := s.b.Downloader().Progress()
 
 	// Return not syncing if the synchronisation already completed
@@ -354,7 +354,7 @@ func (s *PrivateAccountAPI) signTransaction(ctx context.Context, args SendTxArgs
 	tx := args.toTransaction()
 
 	var chainID *big.Int
-	if config := s.b.ChainConfig(); config.IsEIP155(s.b.CurrentBlock().Number()) {
+	if config := s.b.ChainConfig(); true /*config.IsEIP155(s.b.CurrentBlock().Number())*/ {
 		chainID = config.ChainId
 	}
 	return wallet.SignTxWithPassphrase(account, passwd, tx, chainID)
@@ -424,7 +424,7 @@ func signHash(data []byte) []byte {
 //
 // The key used to calculate the signature is decrypted with the given password.
 //
-// https://github.com/worldopennet/go-won/wiki/Management-APIs#personal_sign
+// https://github.com/worldopennetwork/go-won/wiki/Management-APIs#personal_sign
 func (s *PrivateAccountAPI) Sign(ctx context.Context, data hexutil.Bytes, addr common.Address, passwd string) (hexutil.Bytes, error) {
 	// Look up the wallet containing the requested signer
 	account := accounts.Account{Address: addr}
@@ -451,7 +451,7 @@ func (s *PrivateAccountAPI) Sign(ctx context.Context, data hexutil.Bytes, addr c
 // Note, the signature must conform to the secp256k1 curve R, S and V values, where
 // the V value must be be 27 or 28 for legacy reasons.
 //
-// https://github.com/worldopennet/go-won/wiki/Management-APIs#personal_ecRecover
+// https://github.com/worldopennetwork/go-won/wiki/Management-APIs#personal_ecRecover
 func (s *PrivateAccountAPI) EcRecover(ctx context.Context, data, sig hexutil.Bytes) (common.Address, error) {
 	if len(sig) != 65 {
 		return common.Address{}, fmt.Errorf("signature must be 65 bytes long")
@@ -530,7 +530,7 @@ func (s *PublicBlockChainAPI) GetKycProposal(ctx context.Context) (map[string]in
 		return nil, err
 	}
 
-	hvAddr, hvTime, hvVoteTotal, hvType, iVoted := state.GetKycProviderProposol()
+	hvAddr, hvTime, hvVoteTotal, hvType, iVoted, iVotedNo := state.GetKycProviderProposol()
 
 	if hvAddr == common.BytesToAddress([]byte{0}) {
 		return nil, nil
@@ -541,7 +541,8 @@ func (s *PublicBlockChainAPI) GetKycProposal(ctx context.Context) (map[string]in
 		"startTime": hvTime.Int64(),
 		"VoteTotal": hvVoteTotal.Int64(),
 		"VoteType":  hvType.Int64(),
-		"Voted":     iVoted.Int64(),
+		"VotedYes":  iVoted.Int64(),
+		"VotedNo":   iVotedNo.Int64(),
 	}
 
 	return fields, nil
@@ -561,6 +562,11 @@ func (s *PublicBlockChainAPI) GetKycProviderList(ctx context.Context) ([]common.
 //for dpos
 func (s *PublicBlockChainAPI) GetDposProducerList(ctx context.Context, startPos int64, number int64) ([]common.Address, error) {
 
+
+	if s.b.ChainConfig().Dpos == nil {
+		return nil, fmt.Errorf("This not a DPOS network")
+	}
+	
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
 		return nil, err
@@ -574,6 +580,12 @@ func (s *PublicBlockChainAPI) GetDposProducerList(ctx context.Context, startPos 
 
 //
 func (s *PublicBlockChainAPI) GetDposVoterInfo(ctx context.Context, voter common.Address) (map[string]interface{}, error) {
+
+	if s.b.ChainConfig().Dpos == nil {
+		return nil, fmt.Errorf("This not a DPOS network")
+	}
+
+
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
 		return nil, err
@@ -599,14 +611,14 @@ func (s *PublicBlockChainAPI) GetDposProducerInfo(ctx context.Context, pb common
 
 	info := state.GetProducerInfo(&pb)
 	if info == nil {
-		return nil,nil
+		return nil, nil
 	}
 
 	fields := map[string]interface{}{
 		"address":    info.Owner,
 		"url":        info.Url,
 		"totalVotes": info.TotalVotes,
-		"isActive": info.IsActive,
+		"isActive":   info.IsActive,
 	}
 
 	return fields, nil
@@ -615,13 +627,17 @@ func (s *PublicBlockChainAPI) GetDposProducerInfo(ctx context.Context, pb common
 
 func (s *PublicBlockChainAPI) GetDposRefundInfo(ctx context.Context, pb common.Address) (map[string]interface{}, error) {
 
+	if s.b.ChainConfig().Dpos == nil {
+		return nil, fmt.Errorf("This not a DPOS network")
+	}
+
+
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
 		return nil, err
 	}
 
 	stake, requestTime := state.GetRefundRequestInfo(&pb)
-
 
 	fields := map[string]interface{}{
 		"stake":       stake,
@@ -1226,7 +1242,7 @@ func (s *PublicTransactionPoolAPI) sign(addr common.Address, tx *types.Transacti
 	}
 	// Request the wallet to sign the transaction
 	var chainID *big.Int
-	if config := s.b.ChainConfig(); config.IsEIP155(s.b.CurrentBlock().Number()) {
+	if config := s.b.ChainConfig(); true /*config.IsEIP155(s.b.CurrentBlock().Number())*/ {
 		chainID = config.ChainId
 	}
 	return wallet.SignTx(account, tx, chainID)
@@ -1353,7 +1369,7 @@ func (s *PublicTransactionPoolAPI) SendTransaction(ctx context.Context, args Sen
 	tx := args.toTransaction()
 
 	var chainID *big.Int
-	if config := s.b.ChainConfig(); config.IsEIP155(s.b.CurrentBlock().Number()) {
+	if config := s.b.ChainConfig(); true /*config.IsEIP155(s.b.CurrentBlock().Number())*/ {
 		chainID = config.ChainId
 	}
 	signed, err := wallet.SignTx(account, tx, chainID)
@@ -1430,7 +1446,7 @@ func (s *PublicTransactionPoolAPI) MakeKycProviderModifyProposal(ctx context.Con
 	return s.SendTransaction(ctx, args)
 }
 
-func (s *PublicTransactionPoolAPI) VoteYesForKycProvider(ctx context.Context, from common.Address) (common.Hash, error) {
+func (s *PublicTransactionPoolAPI) VoteForKycProvider(ctx context.Context, from common.Address, nay uint16) (common.Hash, error) {
 
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 
@@ -1446,9 +1462,10 @@ func (s *PublicTransactionPoolAPI) VoteYesForKycProvider(ctx context.Context, fr
 	args.To = &vm.KycContractAddress
 	args.From = from
 	args.setDefaults(ctx, s.b)
-	inputv := make([]byte, 4)
+	inputv := make([]byte, 4+2)
 	input := (hexutil.Bytes)(inputv)
 	binary.BigEndian.PutUint32(inputv[0:], vm.KycMethodVote)
+	binary.BigEndian.PutUint16(inputv[4:], nay)
 	args.Input = &input
 	return s.SendTransaction(ctx, args)
 }
@@ -1457,7 +1474,9 @@ func (s *PublicTransactionPoolAPI) VoteYesForKycProvider(ctx context.Context, fr
 func (s *PublicTransactionPoolAPI) DposRegisterProducer(ctx context.Context, pb common.Address, url string) (common.Hash, error) {
 
 
-
+	if s.b.ChainConfig().Dpos == nil {
+		return common.Hash{}, fmt.Errorf("This not a DPOS network")
+	}
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress
 	args.From = pb
@@ -1465,7 +1484,7 @@ func (s *PublicTransactionPoolAPI) DposRegisterProducer(ctx context.Context, pb 
 	vb := []byte(url)
 
 	if len(vb) <= 0 {
-		return common.Hash{},errors.New(`url must not empty`)
+		return common.Hash{}, errors.New(`url must not empty`)
 	}
 
 	inputv := make([]byte, 4+len(vb))
@@ -1478,14 +1497,18 @@ func (s *PublicTransactionPoolAPI) DposRegisterProducer(ctx context.Context, pb 
 
 func (s *PublicTransactionPoolAPI) DposUnRegisterProducer(ctx context.Context, pb common.Address) (common.Hash, error) {
 
+	if s.b.ChainConfig().Dpos == nil {
+		return common.Hash{}, fmt.Errorf("This not a DPOS network")
+	}
+
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
 		return common.Hash{}, err
 	}
 
-	pbInfo := state.GetProducerInfo(&pb);
+	pbInfo := state.GetProducerInfo(&pb)
 	if pbInfo == nil {
-		return common.Hash{},errors.New(`producer is not in list`)
+		return common.Hash{}, errors.New(`producer is not in list`)
 	}
 
 	var args = SendTxArgs{}
@@ -1500,15 +1523,21 @@ func (s *PublicTransactionPoolAPI) DposUnRegisterProducer(ctx context.Context, p
 }
 
 func (s *PublicTransactionPoolAPI) DposIncreaseStake(ctx context.Context, from common.Address, value *hexutil.Big) (common.Hash, error) {
+
+
+	if s.b.ChainConfig().Dpos == nil {
+		return common.Hash{}, fmt.Errorf("This not a DPOS network")
+	}
+
+
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress
 	args.From = from
 	args.setDefaults(ctx, s.b)
 
-
-	bValue := value.ToInt();
-	if bValue.Cmp(common.Big0) <=0 {
-		return common.Hash{},errors.New(`value must greate than zero`)
+	bValue := value.ToInt()
+	if bValue.Cmp(common.Big0) <= 0 {
+		return common.Hash{}, errors.New(`value must greate than zero`)
 	}
 
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
@@ -1516,7 +1545,7 @@ func (s *PublicTransactionPoolAPI) DposIncreaseStake(ctx context.Context, from c
 		return common.Hash{}, err
 	}
 
-	balance := state.GetBalance(from);
+	balance := state.GetBalance(from)
 
 	if balance.Cmp(bValue) <= 0 {
 		return common.Hash{}, vm.ErrInsufficientBalance
@@ -1532,14 +1561,19 @@ func (s *PublicTransactionPoolAPI) DposIncreaseStake(ctx context.Context, from c
 }
 
 func (s *PublicTransactionPoolAPI) DposDecreaseStake(ctx context.Context, from common.Address, value *hexutil.Big) (common.Hash, error) {
+
+	if s.b.ChainConfig().Dpos == nil {
+		return common.Hash{}, fmt.Errorf("This not a DPOS network")
+	}
+
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress
 	args.From = from
 	args.setDefaults(ctx, s.b)
 
-	bValue := value.ToInt();
-	if bValue.Cmp(common.Big0) <=0 {
-		return common.Hash{},errors.New(`value must greate than zero`)
+	bValue := value.ToInt()
+	if bValue.Cmp(common.Big0) <= 0 {
+		return common.Hash{}, errors.New(`value must greate than zero`)
 	}
 
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
@@ -1564,11 +1598,13 @@ func (s *PublicTransactionPoolAPI) DposDecreaseStake(ctx context.Context, from c
 
 func (s *PublicTransactionPoolAPI) DposVoteForProducer(ctx context.Context, from common.Address, tos []common.Address) (common.Hash, error) {
 
-
-	if  len(tos) >32 {
-		return common.Hash{},errors.New(`you can only vote for 1-32 producers`)
+	if s.b.ChainConfig().Dpos == nil {
+		return common.Hash{}, fmt.Errorf("This not a DPOS network")
 	}
 
+	if len(tos) > 32 {
+		return common.Hash{}, errors.New(`you can only vote for 1-32 producers`)
+	}
 
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress
@@ -1577,7 +1613,7 @@ func (s *PublicTransactionPoolAPI) DposVoteForProducer(ctx context.Context, from
 
 	inputv := make([]byte, 4+20*len(tos))
 	input := (hexutil.Bytes)(inputv)
-		binary.BigEndian.PutUint32(inputv[0:], vm.DposMethodProdsVote)
+	binary.BigEndian.PutUint32(inputv[0:], vm.DposMethodProdsVote)
 
 	for i := 0; i < len(tos); i++ {
 		copy(inputv[4+i*20:], tos[i].Bytes())
@@ -1590,6 +1626,10 @@ func (s *PublicTransactionPoolAPI) DposVoteForProducer(ctx context.Context, from
 
 func (s *PublicTransactionPoolAPI) DposRefund(ctx context.Context, from common.Address) (common.Hash, error) {
 
+	if s.b.ChainConfig().Dpos == nil {
+		return common.Hash{}, fmt.Errorf("This not a DPOS network")
+	}
+
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
 		return common.Hash{}, err
@@ -1598,15 +1638,13 @@ func (s *PublicTransactionPoolAPI) DposRefund(ctx context.Context, from common.A
 	stake, requestTime := state.GetRefundRequestInfo(&from)
 
 	if stake.Cmp(common.Big0) <= 0 {
-		return common.Hash{},errors.New(`stake is less or equal zero`)
+		return common.Hash{}, errors.New(`stake is less or equal zero`)
 	}
 
-
-	if requestTime.Int64()  +86400*3  > time.Now().Unix() {
-		days := float64(requestTime.Int64() + 86400*3 - time.Now().Unix())/float64(86400);
-		return common.Hash{},errors.New(fmt.Sprintf(`stake can not be refund within 3 days, %f days left.`, days ))
+	if requestTime.Int64()+86400*3 > time.Now().Unix() {
+		days := float64(requestTime.Int64()+86400*3-time.Now().Unix()) / float64(86400)
+		return common.Hash{}, errors.New(fmt.Sprintf(`stake can not be refund within 3 days, %f days left.`, days))
 	}
-
 
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress

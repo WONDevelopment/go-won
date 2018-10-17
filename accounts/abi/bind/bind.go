@@ -17,7 +17,7 @@
 // Package bind generates WorldOpenNetwork contract Go bindings.
 //
 // Detailed usage document and tutorial available on the go-ethereum Wiki page:
-// https://github.com/worldopennet/go-won/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts
+// https://github.com/worldopennetwork/go-won/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts
 package bind
 
 import (
@@ -28,7 +28,7 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/worldopennet/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/accounts/abi"
 	"golang.org/x/tools/imports"
 )
 
@@ -431,7 +431,7 @@ func toCamelCase(input string) string {
 	return result
 }
 
-// structured checks whwon a list of ABI data types has enough information to
+// structured checks whether a list of ABI data types has enough information to
 // operate through a proper Go struct or if flat returns are needed.
 func structured(args abi.Arguments) bool {
 	if len(args) < 2 {

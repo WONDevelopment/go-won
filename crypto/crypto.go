@@ -28,10 +28,10 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/crypto/sha3"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 var (
@@ -88,7 +88,7 @@ func ToECDSAUnsafe(d []byte) *ecdsa.PrivateKey {
 }
 
 // toECDSA creates a private key with the given D value. The strict parameter
-// controls whwon the key's length should be enforced at the curve size or
+// controls whether the key's length should be enforced at the curve size or
 // it can also accept legacy encodings (0 prefixes).
 func toECDSA(d []byte, strict bool) (*ecdsa.PrivateKey, error) {
 	priv := new(ecdsa.PrivateKey)
@@ -176,7 +176,7 @@ func GenerateKey() (*ecdsa.PrivateKey, error) {
 	return ecdsa.GenerateKey(S256(), rand.Reader)
 }
 
-// ValidateSignatureValues verifies whwon the signature values are valid with
+// ValidateSignatureValues verifies whether the signature values are valid with
 // the given chain rules. The v value is assumed to be either 0 or 1.
 func ValidateSignatureValues(v byte, r, s *big.Int, homestead bool) bool {
 	if r.Cmp(common.Big1) < 0 || s.Cmp(common.Big1) < 0 {

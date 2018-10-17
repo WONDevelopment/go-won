@@ -24,13 +24,13 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/won/gasprice"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/won/gasprice"
 )
 
 // DefaultConfig contains default settings for use on the WorldOpenNetwork main net.
@@ -96,7 +96,7 @@ type Config struct {
 	TrieTimeout        time.Duration
 
 	// Mining-related options
-	Wonbase    common.Address `toml:",omitempty"`
+	Wonbase      common.Address `toml:",omitempty"`
 	MinerThreads int            `toml:",omitempty"`
 	ExtraData    []byte         `toml:",omitempty"`
 	GasPrice     *big.Int

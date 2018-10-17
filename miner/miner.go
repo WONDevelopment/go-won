@@ -21,17 +21,17 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/won/downloader"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // Backend wraps all methods required for mining.
@@ -53,8 +53,8 @@ type Miner struct {
 	won      Backend
 	engine   consensus.Engine
 
-	canStart    int32 // can start indicates whwon we can start the mining operation
-	shouldStart int32 // should start indicates whwon we should start after sync
+	canStart    int32 // can start indicates whether we can start the mining operation
+	shouldStart int32 // should start indicates whether we should start after sync
 }
 
 func New(won Backend, config *params.ChainConfig, mux *event.TypeMux, engine consensus.Engine) *Miner {

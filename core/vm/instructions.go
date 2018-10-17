@@ -21,11 +21,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 var (
@@ -640,7 +640,7 @@ func opCreate(pc *uint64, evm *EVM, contract *Contract, memory *Memory, stack *S
 		input        = memory.Get(offset.Int64(), size.Int64())
 		gas          = contract.Gas
 	)
-	if evm.ChainConfig().IsEIP150(evm.BlockNumber) {
+	if /*evm.ChainConfig().IsEIP150(evm.BlockNumber)*/ true {
 		gas -= gas / 64
 	}
 
@@ -650,7 +650,7 @@ func opCreate(pc *uint64, evm *EVM, contract *Contract, memory *Memory, stack *S
 	// homestead we must check for CodeStoreOutOfGasError (homestead only
 	// rule) and treat as an error, if the ruleset is frontier we must
 	// ignore this error and pretend the operation was successful.
-	if evm.ChainConfig().IsHomestead(evm.BlockNumber) && suberr == ErrCodeStoreOutOfGas {
+	if /*evm.ChainConfig().IsHomestead(evm.BlockNumber) && */ suberr == ErrCodeStoreOutOfGas {
 		stack.push(evm.interpreter.intPool.getZero())
 	} else if suberr != nil && suberr != ErrCodeStoreOutOfGas {
 		stack.push(evm.interpreter.intPool.getZero())

@@ -24,8 +24,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common/compiler"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common/compiler"
 )
 
 var (

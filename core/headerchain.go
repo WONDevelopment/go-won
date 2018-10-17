@@ -26,14 +26,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
 	"github.com/hashicorp/golang-lru"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (
@@ -265,7 +265,7 @@ func (bc *HeaderChain) StateAt(root common.Hash) (*state.StateDB, error) {
 // chain, possibly creating a reorg. If an error is returned, it will return the
 // index number of the failing header as well an error describing what went wrong.
 //
-// The verify parameter can be used to fine tune whwon nonce verification
+// The verify parameter can be used to fine tune whether nonce verification
 // should be done or not. The reason behind the optional check is because some
 // of the header retrieval mechanisms already need to verfy nonces, as well as
 // because nonces can be verified sparsely, not needing to check each.

@@ -22,10 +22,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
 	"github.com/karalabe/hid"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // LedgerScheme is the protocol scheme prefixing account and wallet URLs.
@@ -55,7 +55,7 @@ type Hub struct {
 	wallets     []accounts.Wallet       // List of USB wallet devices currently tracking
 	updateFeed  event.Feed              // Event feed to notify wallet additions/removals
 	updateScope event.SubscriptionScope // Subscription scope tracking current live listeners
-	updating    bool                    // Whwon the event notification loop is running
+	updating    bool                    // whether the event notification loop is running
 
 	quit chan chan error
 

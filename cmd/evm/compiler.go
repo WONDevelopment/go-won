@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/worldopennet/go-won/cmd/evm/internal/compiler"
+	"github.com/worldopennetwork/go-won/cmd/evm/internal/compiler"
 
 	cli "gopkg.in/urfave/cli.v1"
 )

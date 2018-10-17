@@ -19,7 +19,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // deployDashboard queries the user for various input on deploying a web-service
@@ -133,7 +133,7 @@ func (w *wizard) deployDashboard() {
 			infos.faucet = page
 		}
 	}
-	// If we have ethstats running, ask whwon to make the secret public or not
+	// If we have ethstats running, ask whether to make the secret public or not
 	if w.conf.ethstats != "" {
 		fmt.Println()
 		fmt.Println("Include ethstats secret on dashboard (y/n)? (default = yes)")

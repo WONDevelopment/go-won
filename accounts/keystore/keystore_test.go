@@ -26,9 +26,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/event"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/event"
 )
 
 var testSigData = make([]byte, 32)

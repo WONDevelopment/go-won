@@ -22,9 +22,9 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/worldopennet/go-won/accounts/abi"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 // makeTopics converts a filter query argument list into a filter topic set.

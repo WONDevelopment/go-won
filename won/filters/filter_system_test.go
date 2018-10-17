@@ -25,16 +25,16 @@ import (
 	"testing"
 	"time"
 
-	ethereum "github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/bloombits"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rpc"
+	ethereum "github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/bloombits"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rpc"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 type testBackend struct {
@@ -192,7 +192,7 @@ func TestBlockSubscription(t *testing.T) {
 	<-sub1.Err()
 }
 
-// TestPendingTxFilter tests whwon pending tx filters retrieve all pending transactions that are posted to the event mux.
+// TestPendingTxFilter tests whether pending tx filters retrieve all pending transactions that are posted to the event mux.
 func TestPendingTxFilter(t *testing.T) {
 	t.Parallel()
 
@@ -256,7 +256,7 @@ func TestPendingTxFilter(t *testing.T) {
 	}
 }
 
-// TestLogFilterCreation test whwon a given filter criteria makes sense.
+// TestLogFilterCreation test whether a given filter criteria makes sense.
 // If not it must return an error.
 func TestLogFilterCreation(t *testing.T) {
 	var (
@@ -303,7 +303,7 @@ func TestLogFilterCreation(t *testing.T) {
 	}
 }
 
-// TestInvalidLogFilterCreation tests whwon invalid filter log criteria results in an error
+// TestInvalidLogFilterCreation tests whether invalid filter log criteria results in an error
 // when the filter is created.
 func TestInvalidLogFilterCreation(t *testing.T) {
 	t.Parallel()
@@ -334,7 +334,7 @@ func TestInvalidLogFilterCreation(t *testing.T) {
 	}
 }
 
-// TestLogFilter tests whwon log filters match the correct logs that are posted to the event feed.
+// TestLogFilter tests whether log filters match the correct logs that are posted to the event feed.
 func TestLogFilter(t *testing.T) {
 	t.Parallel()
 

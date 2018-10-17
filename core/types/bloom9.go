@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/crypto"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/crypto"
 )
 
 type bytesBacked interface {

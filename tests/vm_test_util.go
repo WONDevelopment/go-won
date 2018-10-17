@@ -22,15 +22,15 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // VMTest checks EVM execution without block or transaction context.
@@ -123,12 +123,12 @@ func (t *VMTest) exec(statedb *state.StateDB, vmconfig vm.Config) ([]byte, uint6
 
 func (t *VMTest) newEVM(statedb *state.StateDB, vmconfig vm.Config) *vm.EVM {
 	initialCall := true
-	canTransfer := func(db vm.StateDB, address common.Address,   amount *big.Int) bool {
+	canTransfer := func(db vm.StateDB, address common.Address, amount *big.Int) bool {
 		if initialCall {
 			initialCall = false
 			return true
 		}
-		return core.CanTransfer(db, address,  amount)
+		return core.CanTransfer(db, address, amount)
 	}
 	transfer := func(db vm.StateDB, sender, recipient common.Address, amount *big.Int) {}
 	context := vm.Context{

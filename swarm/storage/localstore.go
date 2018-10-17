@@ -19,7 +19,7 @@ package storage
 import (
 	"encoding/binary"
 
-	"github.com/worldopennet/go-won/metrics"
+	"github.com/worldopennetwork/go-won/metrics"
 )
 
 //metrics variables

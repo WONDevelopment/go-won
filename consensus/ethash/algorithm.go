@@ -27,11 +27,11 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/bitutil"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/sha3"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/bitutil"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 const (
@@ -277,7 +277,7 @@ func generateDataset(dest []uint32, epoch uint64, cache []uint32) {
 		logFn("Generated ethash verification cache", "elapsed", common.PrettyDuration(elapsed))
 	}()
 
-	// Figure out whwon the bytes need to be swapped for the machine
+	// Figure out whether the bytes need to be swapped for the machine
 	swapped := !isLittleEndian()
 
 	// Convert our destination slice to a byte buffer

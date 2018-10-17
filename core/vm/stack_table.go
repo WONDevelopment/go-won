@@ -19,7 +19,7 @@ package vm
 import (
 	"fmt"
 
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 func makeStackFunc(pop, push int) stackValidationFunc {

@@ -21,8 +21,8 @@ package gwon
 import (
 	"errors"
 
-	ethereum "github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/common"
+	ethereum "github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // Subscription represents an event subscription where events are

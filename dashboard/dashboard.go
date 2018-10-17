@@ -33,11 +33,11 @@ import (
 	"time"
 
 	"github.com/elastic/gosigar"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rpc"
 	"golang.org/x/net/websocket"
 )
 

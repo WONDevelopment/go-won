@@ -19,7 +19,7 @@ package vm
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // ContractRef is a reference to the contract's backing object

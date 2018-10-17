@@ -28,9 +28,9 @@ import (
 	"strings"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/node"
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/p2p/discover"
 )
 
 // DockerAdapter is a NodeAdapter which runs simulation nodes inside Docker

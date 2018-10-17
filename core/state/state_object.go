@@ -22,11 +22,11 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 var emptyCodeHash = crypto.Keccak256(nil)
@@ -90,7 +90,7 @@ type stateObject struct {
 	deleted   bool
 }
 
-// empty returns whwon the account is considered empty.
+// empty returns whether the account is considered empty.
 func (s *stateObject) empty() bool {
 	return s.data.Nonce == 0 && s.data.Balance.Sign() == 0 && (s.data.KycProvider == common.Address{}) && bytes.Equal(s.data.CodeHash, emptyCodeHash) && (s.address != vm.KycContractAddress)
 }
@@ -220,7 +220,7 @@ func (self *stateObject) updateTrie(db Database) Trie {
 		}
 
 		if self.address == common.BytesToAddress([]byte{9}) {
-			fmt.Sprintf("update kyc address %X : %X\n", key, value)
+			log.Debug(fmt.Sprintf("update kyc address %X : %X", key, value))
 		}
 		// Encoding []byte cannot fail, ok to ignore the error.
 		v, _ := rlp.EncodeToBytes(bytes.TrimLeft(value[:], "\x00"))

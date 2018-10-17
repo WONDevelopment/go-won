@@ -20,12 +20,12 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/worldopennet/go-won/accounts"
-	"github.com/worldopennet/go-won/accounts/keystore"
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/console"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/accounts"
+	"github.com/worldopennetwork/go-won/accounts/keystore"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/console"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
 	"gopkg.in/urfave/cli.v1"
 )
 

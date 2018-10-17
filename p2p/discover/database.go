@@ -27,15 +27,15 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/rlp"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/iterator"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 	"github.com/syndtr/goleveldb/leveldb/storage"
 	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 var (
@@ -283,7 +283,7 @@ func (db *nodeDB) bondTime(id NodeID) time.Time {
 	return time.Unix(db.fetchInt64(makeKey(id, nodeDBDiscoverPong)), 0)
 }
 
-// hasBond reports whwon the given node is considered bonded.
+// hasBond reports whether the given node is considered bonded.
 func (db *nodeDB) hasBond(id NodeID) bool {
 	return time.Since(db.bondTime(id)) < nodeDBNodeExpiration
 }

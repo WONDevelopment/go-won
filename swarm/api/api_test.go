@@ -24,9 +24,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 func testApi(t *testing.T, f func(*Api)) {

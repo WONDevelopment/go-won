@@ -58,7 +58,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/internal/build"
+	"github.com/worldopennetwork/go-won/internal/build"
 )
 
 var (
@@ -233,7 +233,7 @@ func doInstall(cmdline []string) {
 					gobuild.Args = append(gobuild.Args, "-v")
 					gobuild.Args = append(gobuild.Args, []string{"-o", executablePath(cmd.Name())}...)
 					gobuild.Args = append(gobuild.Args, "."+string(filepath.Separator)+filepath.Join("cmd", cmd.Name()))
-					gobuild.Args = append(gobuild.Args, "-gcflags='-N -l'");
+					gobuild.Args = append(gobuild.Args, "-gcflags='-N -l'")
 					build.MustRun(gobuild)
 					break
 				}
@@ -254,7 +254,6 @@ func buildFlags(env build.Environment) (flags []string) {
 	if len(ld) > 0 {
 		flags = append(flags, "-ldflags", strings.Join(ld, " "))
 	}
-
 
 	return flags
 }
@@ -290,7 +289,7 @@ func goToolArch(arch string, cc string, subcmd string, args ...string) *exec.Cmd
 
 func doTest(cmdline []string) {
 	var (
-		coverage = flag.Bool("coverage", false, "Whwon to record code coverage")
+		coverage = flag.Bool("coverage", false, "whether to record code coverage")
 	)
 	flag.CommandLine.Parse(cmdline)
 	env := build.Env()
@@ -713,7 +712,7 @@ func doWindowsInstaller(cmdline []string) {
 
 func doAndroidArchive(cmdline []string) {
 	var (
-		local  = flag.Bool("local", false, `Flag whwon we're only doing a local build (skip Maven artifacts)`)
+		local  = flag.Bool("local", false, `Flag whether we're only doing a local build (skip Maven artifacts)`)
 		signer = flag.String("signer", "", `Environment variable holding the signing key (e.g. ANDROID_SIGNING_KEY)`)
 		deploy = flag.String("deploy", "", `Destination to deploy the archive (usually "https://oss.sonatype.org")`)
 		upload = flag.String("upload", "", `Destination to upload the archive (usually "gwonstore/builds")`)
@@ -731,7 +730,7 @@ func doAndroidArchive(cmdline []string) {
 	// Build the Android archive and Maven resources
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile", "golang.org/x/mobile/cmd/gobind"))
 	build.MustRun(gomobileTool("init", "--ndk", os.Getenv("ANDROID_NDK")))
-	build.MustRun(gomobileTool("bind", "--target", "android", "--javapkg", "org.ethereum", "-v", "github.com/worldopennet/go-won/mobile"))
+	build.MustRun(gomobileTool("bind", "--target", "android", "--javapkg", "org.ethereum", "-v", "github.com/worldopennetwork/go-won/mobile"))
 
 	if *local {
 		// If we're building locally, copy bundle to build dir and skip Maven
@@ -841,7 +840,7 @@ func newMavenMetadata(env build.Environment) mavenMetadata {
 
 func doXCodeFramework(cmdline []string) {
 	var (
-		local  = flag.Bool("local", false, `Flag whwon we're only doing a local build (skip Maven artifacts)`)
+		local  = flag.Bool("local", false, `Flag whether we're only doing a local build (skip Maven artifacts)`)
 		signer = flag.String("signer", "", `Environment variable holding the signing key (e.g. IOS_SIGNING_KEY)`)
 		deploy = flag.String("deploy", "", `Destination to deploy the archive (usually "trunk")`)
 		upload = flag.String("upload", "", `Destination to upload the archives (usually "gwonstore/builds")`)
@@ -852,7 +851,7 @@ func doXCodeFramework(cmdline []string) {
 	// Build the iOS XCode framework
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile", "golang.org/x/mobile/cmd/gobind"))
 	build.MustRun(gomobileTool("init"))
-	bind := gomobileTool("bind", "--target", "ios", "--tags", "ios", "-v", "github.com/worldopennet/go-won/mobile")
+	bind := gomobileTool("bind", "--target", "ios", "--tags", "ios", "-v", "github.com/worldopennetwork/go-won/mobile")
 
 	if *local {
 		// If we're building locally, use the build folder and stop afterwards
@@ -932,7 +931,7 @@ func newPodMetadata(env build.Environment, archive string) podMetadata {
 
 func doXgo(cmdline []string) {
 	var (
-		alltools = flag.Bool("alltools", false, `Flag whwon we're building all known tools, or only on in particular`)
+		alltools = flag.Bool("alltools", false, `Flag whether we're building all known tools, or only on in particular`)
 	)
 	flag.CommandLine.Parse(cmdline)
 	env := build.Env()

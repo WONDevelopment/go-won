@@ -21,7 +21,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/worldopennet/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/core/vm"
 )
 
 // Iterator for disassembled EVM instructions

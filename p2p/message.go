@@ -25,9 +25,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 // Msg defines the structure of a p2p message.
@@ -119,7 +119,7 @@ type eofSignal struct {
 	eof     chan<- struct{}
 }
 
-// note: when using eofSignal to detect whwon a message payload
+// note: when using eofSignal to detect whether a message payload
 // has been read, Read might not be called for zero sized messages.
 func (r *eofSignal) Read(buf []byte) (int, error) {
 	if r.count == 0 {

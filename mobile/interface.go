@@ -22,7 +22,7 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // Interface represents a wrapped version of Go's interface{}, with the capacity

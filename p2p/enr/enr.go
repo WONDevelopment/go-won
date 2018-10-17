@@ -35,9 +35,9 @@ import (
 	"io"
 	"sort"
 
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/sha3"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/rlp"
 )
 
 const SizeLimit = 300 // maximum encoded size of a node record in bytes
@@ -70,7 +70,7 @@ type pair struct {
 	v rlp.RawValue
 }
 
-// Signed reports whwon the record has a valid signature.
+// Signed reports whether the record has a valid signature.
 func (r *Record) Signed() bool {
 	return r.signature != nil
 }

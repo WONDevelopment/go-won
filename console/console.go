@@ -28,12 +28,12 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/worldopennet/go-won/internal/jsre"
-	"github.com/worldopennet/go-won/internal/web3ext"
-	"github.com/worldopennet/go-won/rpc"
 	"github.com/mattn/go-colorable"
 	"github.com/peterh/liner"
 	"github.com/robertkrimen/otto"
+	"github.com/worldopennetwork/go-won/internal/jsre"
+	"github.com/worldopennetwork/go-won/internal/web3ext"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 var (

@@ -25,10 +25,10 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 // makeGenesis creates a new genesis struct based on some user input.
@@ -39,12 +39,12 @@ func (w *wizard) makeGenesis() {
 		GasLimit:   4700000,
 		Difficulty: big.NewInt(524288),
 		Alloc:      make(core.GenesisAlloc),
-		Config: &params.ChainConfig{
-			HomesteadBlock: big.NewInt(1),
-			EIP150Block:    big.NewInt(2),
-			EIP155Block:    big.NewInt(3),
-			EIP158Block:    big.NewInt(3),
-			ByzantiumBlock: big.NewInt(4),
+		Config:     &params.ChainConfig{
+			//HomesteadBlock: big.NewInt(1),
+			//EIP150Block:    big.NewInt(2),
+			//EIP155Block:    big.NewInt(3),
+			//EIP158Block:    big.NewInt(3),
+			//ByzantiumBlock: big.NewInt(4),
 		},
 	}
 	// Figure out which consensus engine to choose
@@ -56,7 +56,6 @@ func (w *wizard) makeGenesis() {
 
 	choice := w.read()
 	switch {
-
 
 	case choice == "1":
 		// In case of ethash, we're pretty much done
@@ -104,10 +103,10 @@ func (w *wizard) makeGenesis() {
 		// In the case of clique, configure the consensus parameters
 		genesis.Difficulty = big.NewInt(1)
 		genesis.Config.Dpos = &params.DposConfig{
-			Period: 1,
-			Epoch:  30000,
-			MaxDposConfirm:1024,
-			ProducerRepetions:12,
+			Period:            1,
+			Epoch:             30000,
+			MaxDposConfirm:    1024,
+			ProducerRepetions: 12,
 		}
 		fmt.Println()
 
@@ -172,7 +171,7 @@ func (w *wizard) makeGenesis() {
 // manageGenesis permits the modification of chain configuration parameters in
 // a genesis config and the export of the entire genesis spec.
 func (w *wizard) manageGenesis() {
-	// Figure out whwon to modify or export the genesis
+	// Figure out whether to modify or export the genesis
 	fmt.Println()
 	fmt.Println(" 1. Modify existing fork rules")
 	fmt.Println(" 2. Export genesis configuration")
@@ -182,25 +181,25 @@ func (w *wizard) manageGenesis() {
 	switch {
 	case choice == "1":
 		// Fork rule updating requested, iterate over each fork
-		fmt.Println()
-		fmt.Printf("Which block should Homestead come into effect? (default = %v)\n", w.conf.Genesis.Config.HomesteadBlock)
-		w.conf.Genesis.Config.HomesteadBlock = w.readDefaultBigInt(w.conf.Genesis.Config.HomesteadBlock)
-
-		fmt.Println()
-		fmt.Printf("Which block should EIP150 come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP150Block)
-		w.conf.Genesis.Config.EIP150Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP150Block)
-
-		fmt.Println()
-		fmt.Printf("Which block should EIP155 come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP155Block)
-		w.conf.Genesis.Config.EIP155Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP155Block)
-
-		fmt.Println()
-		fmt.Printf("Which block should EIP158 come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP158Block)
-		w.conf.Genesis.Config.EIP158Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP158Block)
-
-		fmt.Println()
-		fmt.Printf("Which block should Byzantium come into effect? (default = %v)\n", w.conf.Genesis.Config.ByzantiumBlock)
-		w.conf.Genesis.Config.ByzantiumBlock = w.readDefaultBigInt(w.conf.Genesis.Config.ByzantiumBlock)
+		//fmt.Println()
+		//fmt.Printf("Which block should Homestead come into effect? (default = %v)\n", w.conf.Genesis.Config.HomesteadBlock)
+		//w.conf.Genesis.Config.HomesteadBlock = w.readDefaultBigInt(w.conf.Genesis.Config.HomesteadBlock)
+		//
+		//fmt.Println()
+		//fmt.Printf("Which block should EIP150 come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP150Block)
+		//w.conf.Genesis.Config.EIP150Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP150Block)
+		//
+		//fmt.Println()
+		//fmt.Printf("Which block should EIP155 come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP155Block)
+		//w.conf.Genesis.Config.EIP155Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP155Block)
+		//
+		//fmt.Println()
+		//fmt.Printf("Which block should EIP158 come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP158Block)
+		//w.conf.Genesis.Config.EIP158Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP158Block)
+		//
+		//fmt.Println()
+		//fmt.Printf("Which block should Byzantium come into effect? (default = %v)\n", w.conf.Genesis.Config.ByzantiumBlock)
+		//w.conf.Genesis.Config.ByzantiumBlock = w.readDefaultBigInt(w.conf.Genesis.Config.ByzantiumBlock)
 
 		out, _ := json.MarshalIndent(w.conf.Genesis.Config, "", "  ")
 		fmt.Printf("Chain configuration updated:\n\n%s\n", out)

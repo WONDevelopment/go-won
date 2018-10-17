@@ -20,11 +20,11 @@ import (
 	"bytes"
 	"encoding/json"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/params"
 	lru "github.com/hashicorp/golang-lru"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 // Vote represents a single vote that an authorized signer made to modify the
@@ -33,13 +33,13 @@ type Vote struct {
 	Signer    common.Address `json:"signer"`    // Authorized signer that cast this vote
 	Block     uint64         `json:"block"`     // Block number the vote was cast in (expire old votes)
 	Address   common.Address `json:"address"`   // Account being voted on to change its authorization
-	Authorize bool           `json:"authorize"` // Whwon to authorize or deauthorize the voted account
+	Authorize bool           `json:"authorize"` // whether to authorize or deauthorize the voted account
 }
 
 // Tally is a simple vote tally to keep the current score of votes. Votes that
 // go against the proposal aren't counted since it's equivalent to not voting.
 type Tally struct {
-	Authorize bool `json:"authorize"` // Whwon the vote is about authorizing or kicking someone
+	Authorize bool `json:"authorize"` // whether the vote is about authorizing or kicking someone
 	Votes     int  `json:"votes"`     // Number of votes until now wanting to pass the proposal
 }
 
@@ -126,7 +126,7 @@ func (s *Snapshot) copy() *Snapshot {
 	return cpy
 }
 
-// validVote returns whwon it makes sense to cast the specified vote in the
+// validVote returns whether it makes sense to cast the specified vote in the
 // given snapshot context (e.g. don't try to add an already authorized signer).
 func (s *Snapshot) validVote(address common.Address, authorize bool) bool {
 	_, signer := s.Signers[address]
@@ -135,7 +135,7 @@ func (s *Snapshot) validVote(address common.Address, authorize bool) bool {
 
 // cast adds a new vote into the tally.
 func (s *Snapshot) cast(address common.Address, authorize bool) bool {
-	// Ensure the vote is meaningful
+	// Ensure the vote is meaningfu7l
 	if !s.validVote(address, authorize) {
 		return false
 	}

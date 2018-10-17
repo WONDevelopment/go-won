@@ -22,9 +22,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 var (
@@ -41,14 +41,14 @@ type sigCache struct {
 // MakeSigner returns a Signer based on the given chain config and block number.
 func MakeSigner(config *params.ChainConfig, blockNumber *big.Int) Signer {
 	var signer Signer
-	switch {
-	case config.IsEIP155(blockNumber):
+//	switch {
+	//case config.IsEIP155(blockNumber):
 		signer = NewEIP155Signer(config.ChainId)
-	case config.IsHomestead(blockNumber):
-		signer = HomesteadSigner{}
-	default:
-		signer = FrontierSigner{}
-	}
+	//case config.IsHomestead(blockNumber):
+	//	signer = HomesteadSigner{}
+	//default:
+	//	signer = FrontierSigner{}
+	//}
 	return signer
 }
 

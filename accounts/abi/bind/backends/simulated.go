@@ -24,21 +24,21 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/accounts/abi/bind"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/bloombits"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/won/filters"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/accounts/abi/bind"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/bloombits"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/won/filters"
+	"github.com/worldopennetwork/go-won/wondb"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rpc"
 )
 
 // This nil assignment ensures compile time that SimulatedBackend implements bind.ContractBackend.
@@ -60,13 +60,15 @@ type SimulatedBackend struct {
 	events *filters.EventSystem // Event system for filtering log events live
 
 	config *params.ChainConfig
+
 }
 
 // NewSimulatedBackend creates a new binding backend using a simulated blockchain
 // for testing purposes.
 func NewSimulatedBackend(alloc core.GenesisAlloc) *SimulatedBackend {
 	database, _ := wondb.NewMemDatabase()
-	genesis := core.Genesis{Config: params.AllEthashProtocolChanges, Alloc: alloc}
+	genesis := core.Genesis{Config: params.DevChainConfig, Alloc: alloc}
+
 	genesis.MustCommit(database)
 	blockchain, _ := core.NewBlockChain(database, nil, genesis.Config, ethash.NewFaker(), vm.Config{})
 
@@ -96,7 +98,6 @@ func (b *SimulatedBackend) Commit() {
 func (b *SimulatedBackend) Rollback() {
 	b.mu.Lock()
 	defer b.mu.Unlock()
-
 	b.rollback()
 }
 

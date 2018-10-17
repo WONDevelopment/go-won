@@ -26,13 +26,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/rpc"
 	"github.com/syndtr/goleveldb/leveldb/errors"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/rpc"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/sync/syncmap"
 	set "gopkg.in/fatih/set.v0"
@@ -745,7 +745,7 @@ func (whisper *Whisper) runMessageLoop(p *Peer, rw p2p.MsgReadWriter) error {
 // add inserts a new envelope into the message pool to be distributed within the
 // whisper network. It also inserts the envelope into the expiration pool at the
 // appropriate time-stamp. In case of error, connection should be dropped.
-// param isP2P indicates whwon the message is peer-to-peer (should not be forwarded).
+// param isP2P indicates whether the message is peer-to-peer (should not be forwarded).
 func (whisper *Whisper) add(envelope *Envelope, isP2P bool) (bool, error) {
 	now := uint32(time.Now().Unix())
 	sent := envelope.Expiry - envelope.TTL

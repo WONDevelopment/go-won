@@ -23,8 +23,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/core/vm"
 )
 
 // Compiler contains information about the parsed source
@@ -234,13 +234,13 @@ func (c *Compiler) pushBin(v interface{}) {
 	c.binary = append(c.binary, v)
 }
 
-// isPush returns whwon the string op is either any of
+// isPush returns whether the string op is either any of
 // push(N).
 func isPush(op string) bool {
 	return op == "push"
 }
 
-// isJump returns whwon the string op is jump(i)
+// isJump returns whether the string op is jump(i)
 func isJump(op string) bool {
 	return op == "jumpi" || op == "jump"
 }

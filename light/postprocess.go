@@ -22,15 +22,14 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/bitutil"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/bitutil"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/trie"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 const (
@@ -55,29 +54,29 @@ type trustedCheckpoint struct {
 	sectionHead, chtRoot, bloomTrieRoot common.Hash
 }
 
-var (
-	mainnetCheckpoint = trustedCheckpoint{
-		name:          "mainnet",
-		sectionIdx:    161,
-		sectionHead:   common.HexToHash("75b0c4baa7a62cece48abdcb03b6f31601961c9bece67dcd61df87aad4fc0d8d"),
-		chtRoot:       common.HexToHash("bbbfaa67b29716348997ec21a39c03b8d1fb973f6a43740b865595ba26ee812f"),
-		bloomTrieRoot: common.HexToHash("d6db6e6248354d7453391ce97830072a28ea4216be0bd95a5db9f53b1a64677b"),
-	}
+// var (
+// 	mainnetCheckpoint = trustedCheckpoint{
+// 		name:          "mainnet",
+// 		sectionIdx:    161,
+// 		sectionHead:   common.HexToHash("75b0c4baa7a62cece48abdcb03b6f31601961c9bece67dcd61df87aad4fc0d8d"),
+// 		chtRoot:       common.HexToHash("bbbfaa67b29716348997ec21a39c03b8d1fb973f6a43740b865595ba26ee812f"),
+// 		bloomTrieRoot: common.HexToHash("d6db6e6248354d7453391ce97830072a28ea4216be0bd95a5db9f53b1a64677b"),
+// 	}
 
-	ropstenCheckpoint = trustedCheckpoint{
-		name:          "ropsten",
-		sectionIdx:    87,
-		sectionHead:   common.HexToHash("ebc0adcb30ed21cbe95bd77499cc1af0bada621fee3644cb80dbcf1444c123fe"),
-		chtRoot:       common.HexToHash("d9830f4893c821ddf149b8cb9d3e3bfe3109d2eea8e3c4a4ede7c8b2ee8a7800"),
-		bloomTrieRoot: common.HexToHash("c76e12d713f65b84c5a36d06bc77d0c8419248ea0b36e0812a78b76aa6da0ddb"),
-	}
-)
+// 	ropstenCheckpoint = trustedCheckpoint{
+// 		name:          "ropsten",
+// 		sectionIdx:    87,
+// 		sectionHead:   common.HexToHash("ebc0adcb30ed21cbe95bd77499cc1af0bada621fee3644cb80dbcf1444c123fe"),
+// 		chtRoot:       common.HexToHash("d9830f4893c821ddf149b8cb9d3e3bfe3109d2eea8e3c4a4ede7c8b2ee8a7800"),
+// 		bloomTrieRoot: common.HexToHash("c76e12d713f65b84c5a36d06bc77d0c8419248ea0b36e0812a78b76aa6da0ddb"),
+// 	}
+// )
 
-// trustedCheckpoints associates each known checkpoint with the genesis hash of the chain it belongs to
-var trustedCheckpoints = map[common.Hash]trustedCheckpoint{
-	params.MainnetGenesisHash: mainnetCheckpoint,
-	params.AlphanetGenesisHash: ropstenCheckpoint,
-}
+// // trustedCheckpoints associates each known checkpoint with the genesis hash of the chain it belongs to
+// var trustedCheckpoints = map[common.Hash]trustedCheckpoint{
+// 	params.MainnetGenesisHash:  mainnetCheckpoint,
+// 	params.TestnetGenesisHash: ropstenCheckpoint,
+// }
 
 var (
 	ErrNoTrustedCht       = errors.New("No trusted canonical hash trie")

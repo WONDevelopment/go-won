@@ -22,7 +22,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/worldopennet/go-won/core/asm"
+	"github.com/worldopennetwork/go-won/core/asm"
 	cli "gopkg.in/urfave/cli.v1"
 )
 

@@ -25,10 +25,10 @@ import (
 	"sort"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/mclock"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 const (
@@ -308,7 +308,7 @@ func (r ticketRef) waitTime() mclock.AbsTime {
 	return r.t.regTime[r.idx] - r.t.issueTime
 }
 
-// Less reports whwon the element with
+// Less reports whether the element with
 // index i should sort before the element with index j.
 func (s ticketRefByWaitTime) Less(i, j int) bool {
 	return s[i].waitTime() < s[j].waitTime()

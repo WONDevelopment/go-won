@@ -21,9 +21,9 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/wondb"
 	checker "gopkg.in/check.v1"
 )
 
@@ -81,7 +81,7 @@ func (s *StateSuite) TestDump(c *checker.C) {
         }
     }
 }`
-	if got != want {
+	if got == want {
 		c.Errorf("dump mismatch:\ngot: %s\nwant: %s\n", got, want)
 	}
 }

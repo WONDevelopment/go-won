@@ -24,13 +24,13 @@ import (
 	"net"
 	"os"
 
-	"github.com/worldopennet/go-won/cmd/utils"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p/discover"
-	"github.com/worldopennet/go-won/p2p/discv5"
-	"github.com/worldopennet/go-won/p2p/nat"
-	"github.com/worldopennet/go-won/p2p/netutil"
+	"github.com/worldopennetwork/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/p2p/nat"
+	"github.com/worldopennetwork/go-won/p2p/netutil"
 )
 
 func main() {

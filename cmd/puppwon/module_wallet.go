@@ -25,7 +25,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 // walletDockerfile is the Dockerfile required to run a web wallet.
@@ -153,7 +153,7 @@ func (info *walletInfos) Report() map[string]string {
 }
 
 // checkWallet does a health-check against web wallet server to verify whether
-// it's running, and if yes, whwon it's responsive.
+// it's running, and if yes, whether it's responsive.
 func checkWallet(client *sshClient, network string) (*walletInfos, error) {
 	// Inspect a possible web wallet container on the host
 	infos, err := inspectContainer(client, fmt.Sprintf("%s_wallet_1", network))

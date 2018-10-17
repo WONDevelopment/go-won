@@ -19,7 +19,7 @@ package state
 import (
 	"sync"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 type account struct {
@@ -108,7 +108,7 @@ func (ms *ManagedState) SetNonce(addr common.Address, nonce uint64) {
 	ms.accounts[addr] = newAccount(so)
 }
 
-// HasAccount returns whwon the given address is managed or not
+// HasAccount returns whether the given address is managed or not
 func (ms *ManagedState) HasAccount(addr common.Address) bool {
 	ms.mu.RLock()
 	defer ms.mu.RUnlock()

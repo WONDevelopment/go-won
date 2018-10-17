@@ -33,10 +33,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/p2p/netutil"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/p2p/netutil"
 )
 
 const (
@@ -238,7 +238,7 @@ func (tab *Table) setFallbackNodes(nodes []*Node) error {
 	return nil
 }
 
-// isInitDone returns whwon the table's initial seeding procedure has completed.
+// isInitDone returns whether the table's initial seeding procedure has completed.
 func (tab *Table) isInitDone() bool {
 	select {
 	case <-tab.initDone:

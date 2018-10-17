@@ -18,11 +18,11 @@
 package consensus
 
 import (
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rpc"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rpc"
 	"math/big"
 )
 
@@ -52,7 +52,6 @@ type ChainReader interface {
 
 	// StateAt returns a new mutable state based on a particular point in time.
 	StateAt(root common.Hash) (*state.StateDB, error)
-
 }
 
 // Engine is an algorithm agnostic consensus engine.
@@ -62,7 +61,7 @@ type Engine interface {
 	// engine is based on signatures.
 	Author(header *types.Header) (common.Address, error)
 
-	// VerifyHeader checks whwon a header conforms to the consensus rules of a
+	// VerifyHeader checks whether a header conforms to the consensus rules of a
 	// given engine. Verifying the seal may be done optionally here, or explicitly
 	// via the VerifySeal method.
 	VerifyHeader(chain ChainReader, header *types.Header, seal bool) error
@@ -77,7 +76,7 @@ type Engine interface {
 	// rules of a given engine.
 	VerifyUncles(chain ChainReader, block *types.Block) error
 
-	// VerifySeal checks whwon the crypto seal on a header is valid according to
+	// VerifySeal checks whether the crypto seal on a header is valid according to
 	// the consensus rules of the given engine.
 	VerifySeal(chain ChainReader, header *types.Header) error
 

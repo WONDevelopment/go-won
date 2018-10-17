@@ -21,9 +21,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/p2p"
-	"github.com/worldopennet/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/p2p"
+	"github.com/worldopennetwork/go-won/p2p/discover"
+	"github.com/worldopennetwork/go-won/won/downloader"
 )
 
 // Tests that fast sync gets disabled as soon as a real block is successfully

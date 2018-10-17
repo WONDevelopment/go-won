@@ -23,7 +23,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/log"
 	"gopkg.in/urfave/cli.v1"
 )
 

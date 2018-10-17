@@ -22,7 +22,7 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/worldopennet/go-won/cmd/utils"
+	"github.com/worldopennetwork/go-won/cmd/utils"
 	"gopkg.in/urfave/cli.v1"
 )
 

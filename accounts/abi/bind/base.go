@@ -22,12 +22,12 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/worldopennet/go-won"
-	"github.com/worldopennet/go-won/accounts/abi"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/event"
+	"github.com/worldopennetwork/go-won"
+	"github.com/worldopennetwork/go-won/accounts/abi"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/event"
 )
 
 // SignerFn is a signer function callback when a contract requires a method to
@@ -36,7 +36,7 @@ type SignerFn func(types.Signer, common.Address, *types.Transaction) (*types.Tra
 
 // CallOpts is the collection of options to fine tune a contract call request.
 type CallOpts struct {
-	Pending bool           // Whwon to operate on the pending state or the last known one
+	Pending bool           // whether to operate on the pending state or the last known one
 	From    common.Address // Optional the sender address, otherwise the first account is used
 
 	Context context.Context // Network context to support cancellation and timeouts (nil = no timeout)

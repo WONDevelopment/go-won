@@ -21,9 +21,9 @@ package gwon
 import (
 	"encoding/json"
 
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/p2p/discv5"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/p2p/discv5"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 // MainnetGenesis returns the JSON spec to use for the main WorldOpenNetwork network. It
@@ -34,7 +34,7 @@ func MainnetGenesis() string {
 
 // TestnetGenesis returns the JSON spec to use for the WorldOpenNetwork test network.
 func TestnetGenesis() string {
-	enc, err := json.Marshal(core.DefaultAlphanetGenesisBlock())
+	enc, err := json.Marshal(core.DefaultTestnetGenesisBlock())
 	if err != nil {
 		panic(err)
 	}
@@ -42,13 +42,13 @@ func TestnetGenesis() string {
 }
 
 // RinkebyGenesis returns the JSON spec to use for the Rinkeby test network
-func RinkebyGenesis() string {
-	enc, err := json.Marshal(core.DefaultRinkebyGenesisBlock())
-	if err != nil {
-		panic(err)
-	}
-	return string(enc)
-}
+//func RinkebyGenesis() string {
+//	enc, err := json.Marshal(core.DefaultRinkebyGenesisBlock())
+//	if err != nil {
+//		panic(err)
+//	}
+//	return string(enc)
+//}
 
 // FoundationBootnodes returns the enode URLs of the P2P bootstrap nodes operated
 // by the foundation running the V5 discovery protocol.

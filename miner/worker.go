@@ -17,24 +17,25 @@
 package miner
 
 import (
-	"bytes"
+	//"bytes"
 	"fmt"
 	"math/big"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus"
-	"github.com/worldopennet/go-won/consensus/misc"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/core/vm"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus"
+	//"github.com/worldopennetwork/go-won/consensus/misc"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/wondb"
+
 	"gopkg.in/fatih/set.v0"
 )
 
@@ -250,12 +251,11 @@ func (self *worker) update() {
 		select {
 		// Handle ChainHeadEvent
 		case <-self.chainHeadCh:
-			if self.config.Dpos != nil  && atomic.LoadInt32(&self.mining) == 1 {
+			if self.config.Dpos != nil && atomic.LoadInt32(&self.mining) == 1 {
 				self.commitNewWork()
 			} else if self.config.Dpos == nil {
 				self.commitNewWork()
 			}
-
 
 		// Handle ChainSideEvent
 		case ev := <-self.chainSideCh:
@@ -402,19 +402,17 @@ func (self *worker) makeCurrent(parent *types.Block, header *types.Header) error
 	return nil
 }
 func (self *worker) waitAndCommitAgain() {
-	delay := time.Duration( self.chain.Config().Dpos.Period *  1000000000)
+	delay := time.Duration(self.chain.Config().Dpos.Period * 1000000000)
 	//delay := hst.Sub(tn) // nolint: gosimple
 	//log.Debug("Waiting and try again for prepare at Dpos", "delay", common.PrettyDuration(delay))
 
-
-	time.AfterFunc(delay,func() {
+	time.AfterFunc(delay, func() {
 		self.commitNewWork()
 	})
 
-
 }
 
-func (self *worker) commitNewWorkIternal()bool{
+func (self *worker) commitNewWorkIternal() bool {
 	self.mu.Lock()
 	defer self.mu.Unlock()
 	self.uncleMu.Lock()
@@ -440,7 +438,7 @@ func (self *worker) commitNewWorkIternal()bool{
 	header := &types.Header{
 		ParentHash: parent.Hash(),
 		Number:     num.Add(num, common.Big1),
-		GasLimit:   core.CalcGasLimit(parent),
+			GasLimit:   core.CalcGasLimit(parent),
 		Extra:      self.extra,
 		Time:       big.NewInt(tstamp),
 	}
@@ -449,33 +447,30 @@ func (self *worker) commitNewWorkIternal()bool{
 		header.Coinbase = self.coinbase
 	}
 
-
 	if err := self.engine.Prepare(self.chain, header); err != nil {
-
-
 
 		//if err == dpos.errInvalidDifficulty {
 
-		if atomic.LoadInt32(&self.mining) == 1  && self.chain.Config().Dpos != nil && err.Error() == "invalid difficulty" {
+		if atomic.LoadInt32(&self.mining) == 1 && self.chain.Config().Dpos != nil && err.Error() == "invalid difficulty" {
 
-			return true;
+			return true
 		}
 		log.Error("Failed to prepare header for mining", "err", err)
-		return false;
+		return false
 	}
-	// If we are care about TheDAO hard-fork check whwon to override the extra-data or not
-	if daoBlock := self.config.DAOForkBlock; daoBlock != nil {
-		// Check whwon the block is among the fork extra-override range
-		limit := new(big.Int).Add(daoBlock, params.DAOForkExtraRange)
-		if header.Number.Cmp(daoBlock) >= 0 && header.Number.Cmp(limit) < 0 {
-			// Depending whwon we support or oppose the fork, override differently
-			if self.config.DAOForkSupport {
-				header.Extra = common.CopyBytes(params.DAOForkBlockExtra)
-			} else if bytes.Equal(header.Extra, params.DAOForkBlockExtra) {
-				header.Extra = []byte{} // If miner opposes, don't let it use the reserved extra-data
-			}
-		}
-	}
+	// If we are care about TheDAO hard-fork check whether to override the extra-data or not
+	//if daoBlock := self.config.DAOForkBlock; daoBlock != nil {
+	//	// Check whether the block is among the fork extra-override range
+	//	limit := new(big.Int).Add(daoBlock, params.DAOForkExtraRange)
+	//	if header.Number.Cmp(daoBlock) >= 0 && header.Number.Cmp(limit) < 0 {
+	//		// Depending whether we support or oppose the fork, override differently
+	//		if self.config.DAOForkSupport {
+	//			header.Extra = common.CopyBytes(params.DAOForkBlockExtra)
+	//		} else if bytes.Equal(header.Extra, params.DAOForkBlockExtra) {
+	//			header.Extra = []byte{} // If miner opposes, don't let it use the reserved extra-data
+	//		}
+	//	}
+	//}
 	// Could potentially happen if starting to mine in an odd state.
 	err := self.makeCurrent(parent, header)
 	if err != nil {
@@ -484,9 +479,9 @@ func (self *worker) commitNewWorkIternal()bool{
 	}
 	// Create the current work task and check any fork transitions needed
 	work := self.current
-	if self.config.DAOForkSupport && self.config.DAOForkBlock != nil && self.config.DAOForkBlock.Cmp(header.Number) == 0 {
-		misc.ApplyDAOHardFork(work.state)
-	}
+	//if self.config.DAOForkSupport && self.config.DAOForkBlock != nil && self.config.DAOForkBlock.Cmp(header.Number) == 0 {
+	//	misc.ApplyDAOHardFork(work.state)
+	//}
 	pending, err := self.won.TxPool().Pending()
 	if err != nil {
 		log.Error("Failed to fetch pending transactions", "err", err)
@@ -501,6 +496,9 @@ func (self *worker) commitNewWorkIternal()bool{
 		badUncles []common.Hash
 	)
 	for hash, uncle := range self.possibleUncles {
+		if self.chain.Config().Clique != nil {
+			break;
+		}
 		if len(uncles) == 2 {
 			break
 		}
@@ -532,9 +530,9 @@ func (self *worker) commitNewWorkIternal()bool{
 }
 
 func (self *worker) commitNewWork() {
-	ret  := self.commitNewWorkIternal()
+	ret := self.commitNewWorkIternal()
 	if ret {
-		self.waitAndCommitAgain();
+		self.waitAndCommitAgain()
 	}
 }
 
@@ -574,10 +572,10 @@ func (env *Work) commitTransactions(mux *event.TypeMux, txs *types.TransactionsB
 		//
 		// We use the eip155 signer regardless of the current hf.
 		from, _ := types.Sender(env.signer, tx)
-		// Check whwon the tx is replay protected. If we're not in the EIP155 hf
+		// Check whether the tx is replay protected. If we're not in the EIP155 hf
 		// phase, start ignoring the sender until we do.
-		if tx.Protected() && !env.config.IsEIP155(env.header.Number) {
-			log.Trace("Ignoring reply protected transaction", "hash", tx.Hash(), "eip155", env.config.EIP155Block)
+		if tx.Protected() && false /* !env.config.IsEIP155(env.header.Number)*/ {
+			log.Trace("Ignoring reply protected transaction", "hash", tx.Hash(), "eip155", 0 /*env.config.EIP155Block*/)
 
 			txs.Pop()
 			continue

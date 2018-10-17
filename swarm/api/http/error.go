@@ -28,9 +28,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/swarm/api"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/swarm/api"
 )
 
 //templateMap holds a mapping of an HTTP error code to a template

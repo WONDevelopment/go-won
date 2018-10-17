@@ -19,8 +19,8 @@ package les
 import (
 	"time"
 
-	"github.com/worldopennet/go-won/common/bitutil"
-	"github.com/worldopennet/go-won/light"
+	"github.com/worldopennetwork/go-won/common/bitutil"
+	"github.com/worldopennetwork/go-won/light"
 )
 
 const (

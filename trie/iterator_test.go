@@ -22,8 +22,8 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/wondb"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 func TestIterator(t *testing.T) {

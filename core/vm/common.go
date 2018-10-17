@@ -19,8 +19,8 @@ package vm
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
 )
 
 // calculates the memory size required for a step
@@ -56,7 +56,7 @@ func getDataBig(data []byte, start *big.Int, size *big.Int) []byte {
 	return common.RightPadBytes(data[s.Uint64():e.Uint64()], int(size.Uint64()))
 }
 
-// bigUint64 returns the integer casted to a uint64 and returns whwon it
+// bigUint64 returns the integer casted to a uint64 and returns whether it
 // overflowed in the process.
 func bigUint64(v *big.Int) (uint64, bool) {
 	return v.Uint64(), v.BitLen() > 64

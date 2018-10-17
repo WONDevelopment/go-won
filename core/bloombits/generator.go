@@ -19,7 +19,7 @@ package bloombits
 import (
 	"errors"
 
-	"github.com/worldopennet/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/types"
 )
 
 // errSectionOutOfBounds is returned if the user tried to add more bloom filters

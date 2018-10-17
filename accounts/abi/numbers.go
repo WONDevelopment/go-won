@@ -20,8 +20,8 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
 )
 
 var (
@@ -49,7 +49,7 @@ func U256(n *big.Int) []byte {
 	return math.PaddedBigBytes(math.U256(n), 32)
 }
 
-// checks whwon the given reflect value is signed. This also works for slices with a number type
+// checks whether the given reflect value is signed. This also works for slices with a number type
 func isSigned(v reflect.Value) bool {
 	switch v.Type() {
 	case intTS, int8TS, int16TS, int32TS, int64TS, intT, int8T, int16T, int32T, int64T:

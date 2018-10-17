@@ -22,11 +22,11 @@ import (
 	"math/big"
 
 	"encoding/binary"
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/crypto/bn256"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/crypto/bn256"
+	"github.com/worldopennetwork/go-won/params"
 	"golang.org/x/crypto/ripemd160"
 )
 
@@ -61,7 +61,7 @@ var PrecompiledContractsByzantium = map[common.Address]PrecompiledContract{
 }
 
 var KycContractAddress = common.BytesToAddress([]byte{9})
-var DposActivatedStakeThreshold = big.NewInt(0).Mul(big.NewInt(15000000),big.NewInt(params.WON))
+var DposActivatedStakeThreshold = big.NewInt(0).Mul(big.NewInt(15000000), big.NewInt(params.WON))
 
 const KycMethodSet = 1
 const KycMethodProviderVoteProposal = 2
@@ -374,7 +374,7 @@ func (c *bn256Pairing) Run(input []byte) ([]byte, error) {
 	return false32Byte, nil
 }
 
-func set_contract_kyc_info_at_create(evm *EVM, caller common.Address, address common.Address) {
+func setContractKycInfoAtCreate(evm *EVM, caller common.Address, address common.Address) {
 
 	humanCaller := caller
 	for evm.StateDB.IsContractAddress(humanCaller) {
@@ -385,10 +385,7 @@ func set_contract_kyc_info_at_create(evm *EVM, caller common.Address, address co
 	evm.StateDB.SetKycLevel(address, evm.StateDB.GetKycLevel(caller))
 }
 
-
-func kyc_set_for_address(evm *EVM, contract *Contract, address common.Address, level uint32, zone uint32) ([]byte, error) {
-
-
+func kycSetForAddress(evm *EVM, contract *Contract, address common.Address, level uint32, zone uint32) ([]byte, error) {
 
 	evm.StateDB.SetKycProvider(address, contract.caller.Address())
 	evm.StateDB.SetKycZone(address, zone)
@@ -396,13 +393,13 @@ func kyc_set_for_address(evm *EVM, contract *Contract, address common.Address, l
 	return nil, nil
 }
 
-func kyc_set_default_info_for_provider(evm *EVM, addr common.Address) {
+func kycSetDefaultInfoForProvider(evm *EVM, addr common.Address) {
 	evm.StateDB.SetKycProvider(addr, addr)
 	evm.StateDB.SetKycZone(addr, 99999999)
 	evm.StateDB.SetKycLevel(addr, 99999999)
 }
 
-func kyc_start_provider_proposal(evm *EVM, contract *Contract, addr common.Address, pt uint64) ([]byte, error) {
+func kycStartProviderProposal(evm *EVM, contract *Contract, addr common.Address, pt uint64) ([]byte, error) {
 
 	if evm.StateDB.IsContractAddress(addr) {
 		return nil, ErrOutOfGas
@@ -423,14 +420,18 @@ func kyc_start_provider_proposal(evm *EVM, contract *Contract, addr common.Addre
 		return nil, ErrOutOfGas
 	}
 
-	if curCount > 0 && evm.StateDB.KycProviderExists(addr) {
+	if pt == 1 && curCount > 0 && evm.StateDB.KycProviderExists(addr) {
+		return nil, ErrOutOfGas
+	}
+
+	if pt == 2 && curCount <= 0 && !evm.StateDB.KycProviderExists(addr) {
 		return nil, ErrOutOfGas
 	}
 
 	if curCount < 2 {
 		if pt == 1 {
 			evm.StateDB.AddKycProvider(addr)
-			kyc_set_default_info_for_provider(evm, addr)
+			kycSetDefaultInfoForProvider(evm, addr)
 
 		} else if pt == 2 {
 			evm.StateDB.RemoveKycProvider(addr)
@@ -438,7 +439,7 @@ func kyc_start_provider_proposal(evm *EVM, contract *Contract, addr common.Addre
 		return nil, nil
 	}
 
-	hvAddr, hvTime, hvVoteTotal, _, iVoted := evm.StateDB.GetKycProviderProposol()
+	hvAddr, hvTime, hvVoteTotal, _, iVoted, _ := evm.StateDB.GetKycProviderProposol()
 
 	//check if the last one is expired or finished .
 	if hvAddr != common.BytesToAddress([]byte{0}) && hvTime.Uint64()+86400 > evm.Time.Uint64() && iVoted.Uint64() <= hvVoteTotal.Uint64()/2 {
@@ -449,28 +450,29 @@ func kyc_start_provider_proposal(evm *EVM, contract *Contract, addr common.Addre
 	ptv := big.NewInt(0)
 	ptv.SetUint64(pt)
 	evm.StateDB.SetKycProviderProposol(addr, evm.Time, ptv)
-	evm.StateDB.SetVoteForKycProviderProposol(contract.caller.Address())
+	evm.StateDB.SetVoteForKycProviderProposol(contract.caller.Address(), 0)
 	return nil, nil
 
 }
 
-func kyc_vote_yes_for_provider(evm *EVM, contract *Contract) ([]byte, error) {
+func kycVoteForProvider(evm *EVM, contract *Contract, nay uint16) ([]byte, error) {
 
-	hvAddr, hvTime, hvVoteTotal, pt, iVoted := evm.StateDB.GetKycProviderProposol()
+	hvAddr, hvTime, hvVoteTotal, pt, iVoted, _ := evm.StateDB.GetKycProviderProposol()
 	//check if the last one is expired or finished .
-	if hvAddr != common.BytesToAddress([]byte{0}) && hvTime.Uint64()+86400 > evm.Time.Uint64() && iVoted.Uint64() <= hvVoteTotal.Uint64()/2 && !evm.StateDB.KycProviderExists(hvAddr) {
+	if hvAddr != common.BytesToAddress([]byte{0}) && hvTime.Uint64()+86400 > evm.Time.Uint64() && iVoted.Uint64() <= hvVoteTotal.Uint64()/2 {
 		//still in voting, not expired
-		voteOk := evm.StateDB.SetVoteForKycProviderProposol(contract.caller.Address())
+		voteOk := evm.StateDB.SetVoteForKycProviderProposol(contract.caller.Address(), nay)
 		if !voteOk {
 			return nil, ErrOutOfGas
 		}
 
-		if iVoted.Uint64()+1 > hvVoteTotal.Uint64()/2 {
-			if pt.Int64() == 1 {
-				evm.StateDB.AddKycProvider(hvAddr)
-				kyc_set_default_info_for_provider(evm, hvAddr)
+		_, _, _, _, iVoted, _ := evm.StateDB.GetKycProviderProposol()
 
-			} else if pt.Int64() == 2 {
+		if iVoted.Uint64() > hvVoteTotal.Uint64()/2 {
+			if pt.Int64() == 1 && !evm.StateDB.KycProviderExists(hvAddr) {
+				evm.StateDB.AddKycProvider(hvAddr)
+				kycSetDefaultInfoForProvider(evm, hvAddr)
+			} else if pt.Int64() == 2 && evm.StateDB.KycProviderExists(hvAddr) {
 				evm.StateDB.RemoveKycProvider(hvAddr)
 			}
 
@@ -483,16 +485,15 @@ func kyc_vote_yes_for_provider(evm *EVM, contract *Contract) ([]byte, error) {
 	return nil, ErrOutOfGas
 }
 
-func dpos_register_producer(evm *EVM, contract *Contract, from common.Address, url string) ([]byte, error) {
+func dposRegisterProducer(evm *EVM, contract *Contract, from common.Address, url string) ([]byte, error) {
 
 	evm.StateDB.RegisterProducer(&from, url)
 	evm.StateDB.SetDposTopProducerElectedDone(common.Big0)
 
-
 	return nil, nil
 }
 
-func dpos_unregister_unproducer(evm *EVM, contract *Contract, from common.Address) ([]byte, error) {
+func dposUnregisterUnproducer(evm *EVM, contract *Contract, from common.Address) ([]byte, error) {
 	pi := evm.StateDB.GetProducerInfo(&from)
 	if pi != nil && pi.IsActive {
 		evm.StateDB.UpdateProducerActive(&from, false)
@@ -501,23 +502,21 @@ func dpos_unregister_unproducer(evm *EVM, contract *Contract, from common.Addres
 	return nil, nil
 }
 
+func calcVoteWeight(value *big.Int, ct *big.Int) *big.Int {
 
-func calc_vote_weight(value *big.Int, ct *big.Int)(*big.Int){
-
-	block_timestamp_epoch := int64(1534154327);
+	block_timestamp_epoch := int64(1534154327)
 
 	/// TODO subtract 2080 brings the large numbers closer to this decade
 	//double weight = int64_t( (now() - (block_timestamp::block_timestamp_epoch / 1000)) / (seconds_per_day * 7) )  / double( 52 );
 	//return double(staked) * std::pow( 2, weigh	t );
-	weight := (ct.Int64() - block_timestamp_epoch)/(24 * 3600)/52
-	ret := big.NewInt(0).Exp(big.NewInt(2),big.NewInt(weight),common.Big0)
-	ret = big.NewInt(0).Mul(value,ret)
-	return  ret;
-
+	weight := (ct.Int64() - block_timestamp_epoch) / (24 * 3600) / 52
+	ret := big.NewInt(0).Exp(big.NewInt(2), big.NewInt(weight), common.Big0)
+	ret = big.NewInt(0).Mul(value, ret)
+	return ret
 }
 
-func do_change_producer_voteing_weight(evm *EVM, from common.Address, newValue *big.Int, ct *big.Int) {
-	vw := calc_vote_weight(newValue, ct)
+func doChangeProducerVoteingWeight(evm *EVM, from common.Address, newValue *big.Int, ct *big.Int) {
+	vw := calcVoteWeight(newValue, ct)
 	lastVw := evm.StateDB.GetDposVoterLastVoteWeight(&from)
 	pbs := evm.StateDB.GetVoterProducers(&from)
 
@@ -528,23 +527,19 @@ func do_change_producer_voteing_weight(evm *EVM, from common.Address, newValue *
 		evm.StateDB.UpdateProducerTotalVotes(&pb, pi.TotalVotes)
 	}
 
-	evm.StateDB.SetDposVoterLastVoteWeight(&from,vw);
-
+	evm.StateDB.SetDposVoterLastVoteWeight(&from, vw)
 }
 
-func dpos_inc_stake(evm *EVM, contract *Contract, from common.Address, value *big.Int) ([]byte, error) {
+func dposIncStake(evm *EVM, contract *Contract, from common.Address, value *big.Int) ([]byte, error) {
 
-	if value.Cmp(common.Big0) <=0 {
+	if value.Cmp(common.Big0) <= 0 {
 		return nil, ErrOutOfGas
 	}
 
-
 	lastVw := evm.StateDB.GetDposVoterLastVoteWeight(&from)
-
 
 	oldValue := evm.StateDB.GetVoterStaking(&from)
 	newValue := big.NewInt(0).Add(oldValue, value)
-
 
 	//check refunding stake, cancel some of stake if we inc
 	stake, rt := evm.StateDB.GetRefundRequestInfo(&from)
@@ -578,36 +573,34 @@ func dpos_inc_stake(evm *EVM, contract *Contract, from common.Address, value *bi
 
 	}
 
-
 	evm.StateDB.SetVoterStaking(&from, newValue)
-	do_change_producer_voteing_weight(evm, from, newValue, evm.Time)
-
+	doChangeProducerVoteingWeight(evm, from, newValue, evm.Time)
 
 	/**
-	  * The first time someone votes we calculate and set last_vote_weight, since they cannot unstake until
-	  * after total_activated_stake hits threshold, we can use last_vote_weight to determine that this is
-	  * their first vote and should consider their stake activated.
-	  */
+	 * The first time someone votes we calculate and set last_vote_weight, since they cannot unstake until
+	 * after total_activated_stake hits threshold, we can use last_vote_weight to determine that this is
+	 * their first vote and should consider their stake activated.
+	 */
 	if lastVw.Cmp(common.Big0) <= 0 {
-		totalActivatedState := evm.StateDB.GetDposTotalActivatedStake();
-		totalActivatedState = big.NewInt(0).Add(totalActivatedState,value);
-		evm.StateDB.SetDposTotalActivatedStake(totalActivatedState);
+		totalActivatedState := evm.StateDB.GetDposTotalActivatedStake()
+		totalActivatedState = big.NewInt(0).Add(totalActivatedState, value)
+		evm.StateDB.SetDposTotalActivatedStake(totalActivatedState)
 	}
 	//evm.StateDB.get
 	evm.StateDB.SetDposTopProducerElectedDone(common.Big0)
 
-	return nil,nil
+	return nil, nil
 }
 
-func dpos_dec_stake(evm *EVM, contract *Contract, from common.Address, value *big.Int) ([]byte, error) {
+func dposDecStake(evm *EVM, contract *Contract, from common.Address, value *big.Int) ([]byte, error) {
 
-	if value.Cmp(common.Big0) <=0 {
+	if value.Cmp(common.Big0) <= 0 {
 		return nil, ErrOutOfGas
 	}
 
 	//don't allow dec stake if not activated
 	//
-	totalActivatedState := evm.StateDB.GetDposTotalActivatedStake();
+	totalActivatedState := evm.StateDB.GetDposTotalActivatedStake()
 	if totalActivatedState.Cmp(DposActivatedStakeThreshold) < 0 {
 		return nil, ErrOutOfGas
 	}
@@ -618,12 +611,10 @@ func dpos_dec_stake(evm *EVM, contract *Contract, from common.Address, value *bi
 		return nil, ErrOutOfGas
 	}
 
-
-
 	newValue := big.NewInt(0).Sub(oldValue, value)
 	evm.StateDB.SetVoterStaking(&from, newValue)
 
-	do_change_producer_voteing_weight(evm, from, newValue, evm.Time)
+	doChangeProducerVoteingWeight(evm, from, newValue, evm.Time)
 
 	stake, _ := evm.StateDB.GetRefundRequestInfo(&from)
 	stake = big.NewInt(0).Add(stake, value)
@@ -634,12 +625,12 @@ func dpos_dec_stake(evm *EVM, contract *Contract, from common.Address, value *bi
 	return nil, nil
 }
 
-func dpos_vote_for_producer(evm *EVM, contract *Contract, from common.Address, tos []common.Address) ([]byte, error) {
+func dposVoteForProducer(evm *EVM, contract *Contract, from common.Address, tos []common.Address) ([]byte, error) {
 
 	evm.StateDB.SetDposTopProducerElectedDone(common.Big0)
 
 	//cancel the old voting for old producers
-	do_change_producer_voteing_weight(evm, from, common.Big0, evm.Time)
+	doChangeProducerVoteingWeight(evm, from, common.Big0, evm.Time)
 
 	validPbs := make([]common.Address, 0)
 
@@ -654,12 +645,12 @@ func dpos_vote_for_producer(evm *EVM, contract *Contract, from common.Address, t
 
 	newValue := evm.StateDB.GetVoterStaking(&from)
 
-	do_change_producer_voteing_weight(evm, from, newValue, evm.Time)
+	doChangeProducerVoteingWeight(evm, from, newValue, evm.Time)
 
 	return nil, nil
 }
 
-func dpos_refund(evm *EVM, contract *Contract, from common.Address) ([]byte, error) {
+func dposRefund(evm *EVM, contract *Contract, from common.Address) ([]byte, error) {
 
 	stake, st := evm.StateDB.GetRefundRequestInfo(&from)
 
@@ -683,7 +674,7 @@ func dpos_refund(evm *EVM, contract *Contract, from common.Address) ([]byte, err
 	return nil, ErrOutOfGas
 }
 
-func kyc_execute(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
+func kycExecute(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
 
 	if input == nil || len(input) < 4 {
 		//for transfer value only
@@ -704,30 +695,31 @@ func kyc_execute(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
 			address := common.BytesToAddress(input[4:24])
 			level := binary.BigEndian.Uint32(input[24:28])
 			zone := binary.BigEndian.Uint32(input[28:32])
-			return kyc_set_for_address(evm, contract, address, level, zone)
+			return kycSetForAddress(evm, contract, address, level, zone)
 		} else if funcid == KycMethodProviderVoteProposal {
 			if !evm.StateDB.KycProviderExists(contract.caller.Address()) {
 				return nil, ErrOutOfGas
 			}
 			address := common.BytesToAddress(input[4:24])
 			pt := binary.BigEndian.Uint64(input[24:])
-			return kyc_start_provider_proposal(evm, contract, address, pt)
+			return kycStartProviderProposal(evm, contract, address, pt)
 		} else if funcid == KycMethodVote {
 			if !evm.StateDB.KycProviderExists(contract.caller.Address()) {
 				return nil, ErrOutOfGas
 			}
-			return kyc_vote_yes_for_provider(evm, contract)
+			nay := binary.BigEndian.Uint16(input[4:])
+			return kycVoteForProvider(evm, contract, nay)
 		} else if funcid == DposMethodRegProds {
 			url := string(input[4:])
-			return dpos_register_producer(evm, contract, contract.caller.Address(), url)
+			return dposRegisterProducer(evm, contract, contract.caller.Address(), url)
 		} else if funcid == DposMethodRmvProds {
-			return dpos_unregister_unproducer(evm, contract, contract.caller.Address())
+			return dposUnregisterUnproducer(evm, contract, contract.caller.Address())
 		} else if funcid == DposMethodAddStake {
 			value := common.BytesToHash(input[4:]).Big()
-			return dpos_inc_stake(evm, contract, contract.caller.Address(), value)
+			return dposIncStake(evm, contract, contract.caller.Address(), value)
 		} else if funcid == DposMethodSubStake {
 			value := common.BytesToHash(input[4:]).Big()
-			return dpos_dec_stake(evm, contract, contract.caller.Address(), value)
+			return dposDecStake(evm, contract, contract.caller.Address(), value)
 		} else if funcid == DposMethodProdsVote {
 			numaddr := (len(input) - 4) / 20
 			if numaddr < 0 {
@@ -735,12 +727,12 @@ func kyc_execute(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
 			}
 			tos := make([]common.Address, 0)
 			for i := 0; i < numaddr; i++ {
-				addr := common.BytesToAddress(input[4+i*20:4+i*20+20])
+				addr := common.BytesToAddress(input[4+i*20 : 4+i*20+20])
 				tos = append(tos, addr)
 			}
-			return dpos_vote_for_producer(evm, contract, contract.caller.Address(), tos)
+			return dposVoteForProducer(evm, contract, contract.caller.Address(), tos)
 		} else if funcid == DposMethodRefund {
-			return dpos_refund(evm, contract, contract.caller.Address())
+			return dposRefund(evm, contract, contract.caller.Address())
 		}
 
 	}

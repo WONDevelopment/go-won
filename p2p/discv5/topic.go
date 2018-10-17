@@ -23,8 +23,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/worldopennet/go-won/common/mclock"
-	"github.com/worldopennet/go-won/log"
+	"github.com/worldopennetwork/go-won/common/mclock"
+	"github.com/worldopennetwork/go-won/log"
 )
 
 const (

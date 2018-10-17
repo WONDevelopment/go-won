@@ -24,8 +24,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/swarm/storage"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/swarm/storage"
 )
 
 var testDownloadDir, _ = ioutil.TempDir(os.TempDir(), "bzz-test")

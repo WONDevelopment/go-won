@@ -21,8 +21,8 @@ package gwon
 import (
 	"math/big"
 
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wonclient"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/wonclient"
 )
 
 // WorldOpenNetworkClient provides access to the WorldOpenNetwork APIs.

@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/worldopennet/go-won/common"
+	"github.com/worldopennetwork/go-won/common"
 )
 
 // Hash represents the 32 byte Keccak256 hash of arbitrary data.

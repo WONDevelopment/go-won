@@ -19,9 +19,9 @@ package state
 import (
 	"bytes"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/rlp"
-	"github.com/worldopennet/go-won/trie"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/trie"
 )
 
 // NewStateSync create a new state trie download scheduler.

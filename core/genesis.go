@@ -25,15 +25,15 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/common/hexutil"
-	"github.com/worldopennet/go-won/common/math"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/wondb"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/params"
-	"github.com/worldopennet/go-won/rlp"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/common/hexutil"
+	"github.com/worldopennetwork/go-won/common/math"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/params"
+	"github.com/worldopennetwork/go-won/rlp"
+	"github.com/worldopennetwork/go-won/wondb"
 )
 
 //go:generate gencodec -type Genesis -field-override genesisSpecMarshaling -out gen_genesis.go
@@ -151,7 +151,8 @@ func (e *GenesisMismatchError) Error() string {
 // The returned chain configuration is never nil.
 func SetupGenesisBlock(db wondb.Database, genesis *Genesis) (*params.ChainConfig, common.Hash, error) {
 	if genesis != nil && genesis.Config == nil {
-		return params.AllEthashProtocolChanges, common.Hash{}, errGenesisNoConfig
+		return params.MainnetChainConfig, common.Hash{}, errGenesisNoConfig
+
 	}
 
 	// Just commit the new block if there is no stored genesis block.
@@ -167,7 +168,7 @@ func SetupGenesisBlock(db wondb.Database, genesis *Genesis) (*params.ChainConfig
 		return genesis.Config, block.Hash(), err
 	}
 
-	// Check whwon the genesis block is already written.
+	// Check whether the genesis block is already written.
 	if genesis != nil {
 		hash := genesis.ToBlock(nil).Hash()
 		if hash != stored {
@@ -212,10 +213,11 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 		return g.Config
 	case ghash == params.MainnetGenesisHash:
 		return params.MainnetChainConfig
-	case ghash == params.AlphanetGenesisHash:
-		return params.AlphaChainConfig
+	case ghash == params.TestnetGenesisHash:
+		return params.TestnetChainConfig
 	default:
-		return params.AllEthashProtocolChanges
+		return params.TestnetChainConfig
+
 	}
 }
 
@@ -287,7 +289,8 @@ func (g *Genesis) Commit(db wondb.Database) (*types.Block, error) {
 	}
 	config := g.Config
 	if config == nil {
-		config = params.AllEthashProtocolChanges
+		config = params.TestnetChainConfig
+
 	}
 	return block, WriteChainConfig(db, block.Hash(), config)
 }
@@ -312,44 +315,45 @@ func GenesisBlockForTesting(db wondb.Database, addr common.Address, balance *big
 func DefaultGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.MainnetChainConfig,
-		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
-		GasLimit:   5000,
-		Difficulty: big.NewInt(17179869184),
+		Nonce:      0,
+		Timestamp:  1537273025,
+		ExtraData:  hexutil.MustDecode("0x0000000000000000000000000000000000000000000000000000000000000000236450bed191debe89aaf081f5f5903f362203774c0104ff04667e5c7f73dcd4e07f58da364a6144093274140f20126fb3a8aa0b776a0a344b473c160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		GasLimit:   0x47b760,
+		Difficulty: big.NewInt(1),
 		Alloc:      decodePrealloc(mainnetAllocData),
 	}
 }
 
-// DefaultAlphanetGenesisBlock returns the Ropsten network genesis block.
-func DefaultAlphanetGenesisBlock() *Genesis {
+// DefaultTestnetGenesisBlock returns the testnet network genesis block.
+func DefaultTestnetGenesisBlock() *Genesis {
 	return &Genesis{
-		Config:     params.AlphanetChainConfig,
+		Config:     params.TestnetChainConfig,
 		Nonce:      0,
-		Timestamp:  1522404691,
-		ExtraData:  hexutil.MustDecode("0x0000000000000000000000000000000000000000000000000000000000000000fa70fcdf43463de2c2ae05a86a2a0cbba7302cce0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
-		GasLimit:   4700000,
+		Timestamp:  1537165871,
+		ExtraData:  hexutil.MustDecode("0x0000000000000000000000000000000000000000000000000000000000000000fa70fcdf43463de2c2ae05a86a2a0cbba7302cce6bb6606805a36e30609ca0ebac6c60563918c3950000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		GasLimit:   0x47b760,
 		Difficulty: big.NewInt(1),
-		Alloc:      decodePrealloc(alphanetAllocData),
+		Alloc:      decodePrealloc(testnetAllocData),
 	}
 }
 
 // DefaultRinkebyGenesisBlock returns the Rinkeby network genesis block.
-func DefaultRinkebyGenesisBlock() *Genesis {
-	return &Genesis{
-		Config:     params.RinkebyChainConfig,
-		Timestamp:  1492009146,
-		ExtraData:  hexutil.MustDecode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
-		GasLimit:   4700000,
-		Difficulty: big.NewInt(1),
-		Alloc:      decodePrealloc(rinkebyAllocData),
-	}
-}
+//func DefaultRinkebyGenesisBlock() *Genesis {
+//	return &Genesis{
+//		Config:     params.RinkebyChainConfig,
+//		Timestamp:  1492009146,
+//		ExtraData:  hexutil.MustDecode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+//		GasLimit:   4700000,
+//		Difficulty: big.NewInt(1),
+//		Alloc:      decodePrealloc(rinkebyAllocData),
+//	}
+//}
 
 // DeveloperGenesisBlock returns the 'gwon --dev' genesis block. Note, this must
 // be seeded with the
 func DeveloperGenesisBlock(period uint64, faucet common.Address) *Genesis {
 	// Override the default period to the user requested one
-	config := *params.AllCliqueProtocolChanges
+	config := *params.DevChainConfig
 	config.Clique.Period = period
 
 	// Assemble and return the genesis with the precompiles and faucet pre-funded
@@ -367,7 +371,7 @@ func DeveloperGenesisBlock(period uint64, faucet common.Address) *Genesis {
 			common.BytesToAddress([]byte{6}): {Balance: big.NewInt(1)}, // ECAdd
 			common.BytesToAddress([]byte{7}): {Balance: big.NewInt(1)}, // ECScalarMul
 			common.BytesToAddress([]byte{8}): {Balance: big.NewInt(1)}, // ECPairing
-			faucet: {Balance: new(big.Int).Sub(new(big.Int).Lsh(big.NewInt(1), 256), big.NewInt(9))},
+			faucet:                           {Balance: new(big.Int).Sub(new(big.Int).Lsh(big.NewInt(1), 256), big.NewInt(9))},
 		},
 	}
 }

@@ -28,7 +28,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/crypto/sha3"
+	"github.com/worldopennetwork/go-won/crypto/sha3"
 )
 
 const (

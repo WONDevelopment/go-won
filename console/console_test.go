@@ -26,12 +26,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/consensus/ethash"
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/won"
-	"github.com/worldopennet/go-won/internal/jsre"
-	"github.com/worldopennet/go-won/node"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/consensus/ethash"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/internal/jsre"
+	"github.com/worldopennetwork/go-won/node"
+	"github.com/worldopennetwork/go-won/won"
 )
 
 const (
@@ -96,7 +96,7 @@ func newTester(t *testing.T, confOverride func(*won.Config)) *tester {
 		t.Fatalf("failed to create node: %v", err)
 	}
 	ethConf := &won.Config{
-		Genesis:   core.DeveloperGenesisBlock(15, common.Address{}),
+		Genesis: core.DeveloperGenesisBlock(15, common.Address{}),
 		Wonbase: common.HexToAddress(testAddress),
 		Ethash: ethash.Config{
 			PowMode: ethash.ModeTest,

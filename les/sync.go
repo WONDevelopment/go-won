@@ -20,9 +20,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/worldopennet/go-won/core"
-	"github.com/worldopennet/go-won/won/downloader"
-	"github.com/worldopennet/go-won/light"
+	"github.com/worldopennetwork/go-won/core"
+	"github.com/worldopennetwork/go-won/light"
+	"github.com/worldopennetwork/go-won/won/downloader"
 )
 
 const (
