@@ -24,15 +24,18 @@ import (
 	"sort"
 	"sync"
 	"time"
+	"encoding/binary"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/core/state"
-	"github.com/worldopennet/go-won/core/types"
-	"github.com/worldopennet/go-won/event"
-	"github.com/worldopennet/go-won/log"
-	"github.com/worldopennet/go-won/metrics"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/core/state"
+	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/event"
+	"github.com/worldopennetwork/go-won/log"
+	"github.com/worldopennetwork/go-won/metrics"
+	"github.com/worldopennetwork/go-won/params"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
+	"github.com/worldopennetwork/go-won/core/vm"
+	"bytes"
 )
 
 const (
@@ -127,7 +130,7 @@ type blockChain interface {
 
 // TxPoolConfig are the configuration parameters of the transaction pool.
 type TxPoolConfig struct {
-	NoLocals  bool          // Whwon local transaction handling should be disabled
+	NoLocals  bool          // whether local transaction handling should be disabled
 	Journal   string        // Journal of local transactions to survive node restarts
 	Rejournal time.Duration // Time interval to regenerate the local transaction journal
 
@@ -287,9 +290,9 @@ func (pool *TxPool) loop() {
 		case ev := <-pool.chainHeadCh:
 			if ev.Block != nil {
 				pool.mu.Lock()
-				if pool.chainconfig.IsHomestead(ev.Block.Number()) {
-					pool.homestead = true
-				}
+				//if pool.chainconfig.IsHomestead(ev.Block.Number()) {
+				pool.homestead = true
+				//}
 				pool.reset(head.Header(), ev.Block.Header())
 				head = ev.Block
 
@@ -553,7 +556,7 @@ func (pool *TxPool) local() map[common.Address]types.Transactions {
 	return txs
 }
 
-// validateTx checks whwon a transaction is valid according to the consensus
+// validateTx checks whether a transaction is valid according to the consensus
 // rules and adheres to some heuristic limits of the local node (price and size).
 func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 	// Heuristic limit, reject transactions over 32KB to prevent DOS attacks
@@ -579,6 +582,7 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 	if !local && pool.gasPrice.Cmp(tx.GasPrice()) > 0 {
 		return ErrUnderpriced
 	}
+
 	// Ensure the transaction adheres to nonce ordering
 	if pool.currentState.GetNonce(from) > tx.Nonce() {
 		return ErrNonceTooLow
@@ -599,6 +603,25 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 		return ErrTxKycValidateFailed
 	}
 
+	//for transfer
+	//"0xa9059cbb000000000000000000000000827a30031717ba622f9b01d5e3a24c6b9f3133310000000000000000000000000000000000000000000000000000000000000001"
+	//a9059cbb000000000000000000000000      :16
+	//827a30031717ba622f9b01d5e3a24c6b9f313331  : 20
+	//0000000000000000000000000000000000000000000000000000000000000001 :32
+	if tx.Data()!=nil && len(tx.Data()) == 68 && pool.currentState.GetCodeSize(*tx.To()) !=0 {
+		methdef := tx.Data()[0:16];
+		//check if a transfer to an address
+		if bytes.Compare(methdef,[]byte {0xa9,0x05,0x9c,0xbb,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00})==0 {
+			addressTo := common.BytesToAddress(tx.Data()[16:36])
+			hs := common.BytesToHash(tx.Data()[36:])
+			tokenCost := hs.Big();
+			if !pool.currentState.TxKycValidate(from, addressTo, tokenCost) {
+				return ErrTxKycValidateFailed
+			}
+		}
+	}
+
+
 	intrGas, err := IntrinsicGas(tx.Data(), tx.To() == nil, pool.homestead)
 	if err != nil {
 		return err
@@ -606,6 +629,31 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 	if tx.Gas() < intrGas {
 		return ErrIntrinsicGas
 	}
+
+	//check for dpos inc/dec stake the value is in input data
+	if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 36 {
+		input := tx.Data()
+		funcid := binary.BigEndian.Uint32(input[0:4])
+		value := common.BytesToHash(input[4:]).Big()
+
+		if funcid == vm.DposMethodAddStake {
+			b := pool.currentState.GetBalance(from)
+			if b.Cmp(value) <= 0 {
+				return ErrInsufficientFunds
+			}
+		} else if funcid == vm.DposMethodSubStake {
+			staking := pool.currentState.GetVoterStaking(&from)
+
+			if staking.Cmp(value) < 0 {
+				return ErrInsufficientFunds
+			}
+		}
+
+	}
+
+
+
+
 	return nil
 }
 

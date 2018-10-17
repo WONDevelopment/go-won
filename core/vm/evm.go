@@ -20,10 +20,11 @@ import (
 	"math/big"
 	"sync/atomic"
 	"time"
+	"bytes"
 
-	"github.com/worldopennet/go-won/common"
-	"github.com/worldopennet/go-won/crypto"
-	"github.com/worldopennet/go-won/params"
+	"github.com/worldopennetwork/go-won/common"
+	"github.com/worldopennetwork/go-won/crypto"
+	"github.com/worldopennetwork/go-won/params"
 )
 
 // emptyCodeHash is used by create to ensure deployment is disallowed to already
@@ -43,11 +44,11 @@ func run(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
 	if contract.CodeAddr != nil {
 		cadd := contract.CodeAddr
 		if KycContractAddress == *cadd {
-			return kyc_execute(evm, contract, input)
+			return kycExecute(evm, contract, input)
 		}
 
 		precompiles := PrecompiledContractsHomestead
-		if evm.ChainConfig().IsByzantium(evm.BlockNumber) {
+		if true /*evm.ChainConfig().IsByzantium(evm.BlockNumber)*/ {
 			precompiles = PrecompiledContractsByzantium
 		}
 		if p := precompiles[*contract.CodeAddr]; p != nil {
@@ -60,7 +61,7 @@ func run(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
 // Context provides the EVM with auxiliary information. Once provided
 // it shouldn't be modified.
 type Context struct {
-	// CanTransfer returns whwon the account contains
+	// CanTransfer returns whether the account contains
 	// sufficient won to transfer the value
 	CanTransfer CanTransferFunc
 	// Transfer transfers won from one account to the other
@@ -166,12 +167,28 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		return nil, gas, ErrTxKycValidateFailed
 	}
 
+	if  evm.chainConfig.CheckForTokenKycBlock == nil || evm.BlockNumber.Cmp(evm.chainConfig.CheckForTokenKycBlock) >=0 {
+		if input != nil && len(input) == 68 && evm.StateDB.GetCodeSize(addr) != 0 {
+			methdef := input[0:16];
+			//check if a transfer to an address
+			if bytes.Compare(methdef, []byte{0xa9, 0x05, 0x9c, 0xbb, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) == 0 {
+				addressTo := common.BytesToAddress(input[16:36])
+				hs := common.BytesToHash(input[36:])
+				tokenCost := hs.Big();
+				if !evm.StateDB.TxKycValidate(caller.Address(), addressTo, tokenCost) {
+					return nil, gas, ErrTxKycValidateFailed
+				}
+			}
+		}
+	}
+
+
 	if !evm.StateDB.Exist(addr) {
 		precompiles := PrecompiledContractsHomestead
-		if evm.ChainConfig().IsByzantium(evm.BlockNumber) {
+		if true /*evm.ChainConfig().IsByzantium(evm.BlockNumber)*/ {
 			precompiles = PrecompiledContractsByzantium
 		}
-		if precompiles[addr] == nil && evm.ChainConfig().IsEIP158(evm.BlockNumber) && value.Sign() == 0 {
+		if precompiles[addr] == nil && /*evm.ChainConfig().IsEIP158(evm.BlockNumber)*/ true && value.Sign() == 0 {
 			return nil, gas, nil
 		}
 		evm.StateDB.CreateAccount(addr)
@@ -361,7 +378,7 @@ func (evm *EVM) Create(caller ContractRef, code []byte, gas uint64, value *big.I
 	// Create a new account on the state
 	snapshot := evm.StateDB.Snapshot()
 	evm.StateDB.CreateAccount(contractAddr)
-	if evm.ChainConfig().IsEIP158(evm.BlockNumber) {
+	if true /*evm.ChainConfig().IsEIP158(evm.BlockNumber)*/ {
 		evm.StateDB.SetNonce(contractAddr, 1)
 	}
 
@@ -385,8 +402,8 @@ func (evm *EVM) Create(caller ContractRef, code []byte, gas uint64, value *big.I
 
 	ret, err = run(evm, contract, nil)
 
-	// check whwon the max code size has been exceeded
-	maxCodeSizeExceeded := evm.ChainConfig().IsEIP158(evm.BlockNumber) && len(ret) > params.MaxCodeSize
+	// check whether the max code size has been exceeded
+	maxCodeSizeExceeded := /*evm.ChainConfig().IsEIP158(evm.BlockNumber) &&*/ len(ret) > params.MaxCodeSize
 	// if the contract creation ran successfully and no errors were returned
 	// calculate the gas required to store the code. If the code could not
 	// be stored due to not enough gas set an error and let it be handled
@@ -397,7 +414,7 @@ func (evm *EVM) Create(caller ContractRef, code []byte, gas uint64, value *big.I
 			evm.StateDB.SetCode(contractAddr, ret)
 			//set contractAddr for owner.
 			//
-			set_contract_kyc_info_at_create(evm, caller.Address(), contractAddr)
+			setContractKycInfoAtCreate(evm, caller.Address(), contractAddr)
 
 		} else {
 			err = ErrCodeStoreOutOfGas
@@ -407,7 +424,7 @@ func (evm *EVM) Create(caller ContractRef, code []byte, gas uint64, value *big.I
 	// When an error was returned by the EVM or when setting the creation code
 	// above we revert to the snapshot and consume any gas remaining. Additionally
 	// when we're in homestead this also counts for code storage gas errors.
-	if maxCodeSizeExceeded || (err != nil && (evm.ChainConfig().IsHomestead(evm.BlockNumber) || err != ErrCodeStoreOutOfGas)) {
+	if maxCodeSizeExceeded || (err != nil && ( /*evm.ChainConfig().IsHomestead(evm.BlockNumber) ||*/ err != ErrCodeStoreOutOfGas)) {
 		evm.StateDB.RevertToSnapshot(snapshot)
 		if err != errExecutionReverted {
 			contract.UseGas(contract.Gas)
