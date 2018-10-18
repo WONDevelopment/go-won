@@ -558,9 +558,9 @@ func newDebMetadata(distro, author string, env build.Environment, t time.Time) d
 // on all executable packages.
 func (meta debMetadata) Name() string {
 	if isUnstableBuild(meta.Env) {
-		return "ethereum-unstable"
+		return "won-unstable"
 	}
-	return "ethereum"
+	return "won"
 }
 
 // VersionString returns the debian version of the packages.
@@ -604,7 +604,7 @@ func (meta debMetadata) ExeConflicts(exe debExecutable) string {
 		// be preferred and the conflicting files should be handled via
 		// alternates. We might do this eventually but using a conflict is
 		// easier now.
-		return "ethereum, " + exe.Name
+		return "won, " + exe.Name
 	}
 	return ""
 }
