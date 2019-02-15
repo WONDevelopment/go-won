@@ -451,7 +451,8 @@ func TestKycInfo(t *testing.T) {
 	transState.SetKycLevel(addr, 32)
 	transState.SetKycZone(addr, 86)
 	transState.SetKycProvider(addr, common.BytesToAddress([]byte{101}))
-	transState.SetKycProviderCount(5)
+	transState.SetKycProviderCount(4)
+	transState.AddKycProvider(common.BytesToAddress([]byte{101}))
 
 	// Write modifications to trie.
 	transState.IntermediateRoot(false)
@@ -472,6 +473,11 @@ func TestKycInfo(t *testing.T) {
 	checkEq("KycZone", transState.GetKycZone(addr), uint32(86))
 	checkEq("KycProvider", transState.GetKycProvider(addr), common.BytesToAddress([]byte{101}))
 	checkEq("KycProviderCount", transState.GetKycProviderCount(), int64(5))
+
+	transState.RemoveKycProvider(common.BytesToAddress([]byte{101}))
+	checkEq("KycLevel", transState.GetKycLevel(addr), uint32(0))
+	checkEq("KycZone", transState.GetKycZone(addr), uint32(0))
+	checkEq("KycProvider", transState.GetKycProvider(addr), common.BytesToAddress([]byte{0}))
 }
 
 func TestKycProposal(t *testing.T) {

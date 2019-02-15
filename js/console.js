@@ -1,6 +1,6 @@
 var token;
 
-won.defaultAccount = "0x9ab2d92b111b64c2bab3def2569dbd9ecf547fc1";
+won.defaultAccount = won.accounts[0];
 
 setToken(tpcTokenAddress);
 
@@ -80,4 +80,34 @@ function findToken(startBlock, endBlock){
             }
         }
     }
+}
+
+function listTransactions(startBlock, endBlock){
+    try{
+        for (var x=startBlock; x < endBlock; x++) {
+            var transactions = won.getBlock(x).transactions;
+            for (var y=0; y < transactions.length; y++) {
+                var transaction = won.getTransaction(transactions[y]);
+                var receipt = won.getTransactionReceipt(transactions[y]);
+                if(receipt ==null || receipt==""){
+                    continue;
+                }
+
+                var ouput = {
+                    "tx":transaction.hash,
+                    "from":receipt.from,
+                    "to":receipt.to,
+                    "blockNumber":transaction.blockNumber,
+                    "gasPrice":transaction.gasPrice,
+                    "gasSupply":transaction.gas,
+                    "gasUsed":receipt.gasUsed,
+                    "status":receipt.status,
+                };
+                console.log(JSON.stringify(ouput));
+            }
+        }
+    }catch (e){
+        console.log(e);
+    }
+
 }

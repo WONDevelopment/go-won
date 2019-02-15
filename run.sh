@@ -26,7 +26,7 @@ INFO [09-11|11:19:20] USB wallet discovered new account        url=trezor://IOSe
 
 
 
-	./gwon  --rpc    --datadir /Volumes/WDC1T/woneth2/data 			         --unlock 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce --password /Volumes/WDC1T/woneth2/password.txt  --wonbase 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce
+/Users/dany/Codes2/blockchain/go-won/gwon  --nousb  --rpc    --datadir /Volumes/WDC1T/woneth2/data 			         --unlock 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce --password /Volumes/WDC1T/woneth2/password.txt  --wonbase 0xfa70fcdf43463de2c2ae05a86a2a0cbba7302cce
 
 
 
@@ -50,5 +50,8 @@ INFO [09-11|11:19:20] USB wallet discovered new account        url=trezor://IOSe
 
 
 
-/Users/dany/Codes2/blockchain/go-won/gwon  --rpc    --datadir /Volumes/WDC1T/woneth3/data 			         --unlock 0x537fd8371725d18479eb72b2acb2b97b625861d5 --password  /Volumes/WDC1T/woneth1/password2.txt   --wonbase 0x537fd8371725d18479eb72b2acb2b97b625861d5 --verbosity 4 --port 30307  --rpcport 8649  --wsport 9648
+/Users/dany/Codes2/blockchain/go-won/gwon  --rpc    --datadir /Volumes/WDC1T/woneth3/data 			        --unlock 0x6bb6606805a36e30609ca0ebac6c60563918c395 --password  /Volumes/WDC1T/woneth1/password2.txt   --wonbase 0x6bb6606805a36e30609ca0ebac6c60563918c395 --verbosity 4 --port 30307  --rpcport 8649  --wsport 9648
+
+
+--rpc    --datadir /Volumes/WDC1T/woneth1/data 			         --unlock 0x6bb6606805a36e30609ca0ebac6c60563918c395 --password  /Volumes/WDC1T/woneth1/password2.txt   --wonbase 0x6bb6606805a36e30609ca0ebac6c60563918c395 --verbosity 4 --port 30305  --rpcport 8648  --wsport 8647  --nousb
 

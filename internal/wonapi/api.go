@@ -47,10 +47,6 @@ import (
 	"github.com/worldopennetwork/go-won/rpc"
 )
 
-const (
-	defaultGasPrice = 50 * params.Shannon
-)
-
 // PublicWorldOpenNetworkAPI provides an API to access WorldOpenNetwork related information.
 // It offers only methods that operate on public data that is freely available to anyone.
 type PublicWorldOpenNetworkAPI struct {
@@ -562,11 +558,10 @@ func (s *PublicBlockChainAPI) GetKycProviderList(ctx context.Context) ([]common.
 //for dpos
 func (s *PublicBlockChainAPI) GetDposProducerList(ctx context.Context, startPos int64, number int64) ([]common.Address, error) {
 
-
 	if s.b.ChainConfig().Dpos == nil {
 		return nil, fmt.Errorf("This not a DPOS network")
 	}
-	
+
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
 		return nil, err
@@ -584,7 +579,6 @@ func (s *PublicBlockChainAPI) GetDposVoterInfo(ctx context.Context, voter common
 	if s.b.ChainConfig().Dpos == nil {
 		return nil, fmt.Errorf("This not a DPOS network")
 	}
-
 
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
@@ -630,7 +624,6 @@ func (s *PublicBlockChainAPI) GetDposRefundInfo(ctx context.Context, pb common.A
 	if s.b.ChainConfig().Dpos == nil {
 		return nil, fmt.Errorf("This not a DPOS network")
 	}
-
 
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 	if state == nil || err != nil {
@@ -778,7 +771,7 @@ func (s *PublicBlockChainAPI) doCall(ctx context.Context, args CallArgs, blockNr
 		gas = math.MaxUint64 / 2
 	}
 	if gasPrice.Sign() == 0 {
-		gasPrice = new(big.Int).SetUint64(defaultGasPrice)
+		gasPrice = new(big.Int).SetUint64(uint64(params.GasPrice))
 	}
 
 	if fixedGasPrice := s.b.FixedPrice(); fixedGasPrice.Int64() > 0 {
@@ -1380,15 +1373,10 @@ func (s *PublicTransactionPoolAPI) SendTransaction(ctx context.Context, args Sen
 }
 
 func (s *PublicTransactionPoolAPI) SetKycForAddress(ctx context.Context, from common.Address, address common.Address, level uint32, zone uint32) (common.Hash, error) {
-
 	state, _, err := s.b.StateAndHeaderByNumber(ctx, rpc.LatestBlockNumber)
 
 	if state == nil || err != nil {
 		return common.Hash{}, err
-	}
-
-	if state.IsContractAddress(address) || state.IsContractAddress(from) {
-		return common.Hash{}, fmt.Errorf("can not call from and for contract address")
 	}
 
 	var args = SendTxArgs{}
@@ -1429,10 +1417,6 @@ func (s *PublicTransactionPoolAPI) MakeKycProviderModifyProposal(ctx context.Con
 		return common.Hash{}, err
 	}
 
-	if state.IsContractAddress(addr) || state.IsContractAddress(from) {
-		return common.Hash{}, fmt.Errorf("can not call from and for contract address")
-	}
-
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress
 	args.From = from
@@ -1454,10 +1438,6 @@ func (s *PublicTransactionPoolAPI) VoteForKycProvider(ctx context.Context, from 
 		return common.Hash{}, err
 	}
 
-	if state.IsContractAddress(from) {
-		return common.Hash{}, fmt.Errorf("can not call from and for contract address")
-	}
-
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress
 	args.From = from
@@ -1472,7 +1452,6 @@ func (s *PublicTransactionPoolAPI) VoteForKycProvider(ctx context.Context, from 
 
 //for  dpos
 func (s *PublicTransactionPoolAPI) DposRegisterProducer(ctx context.Context, pb common.Address, url string) (common.Hash, error) {
-
 
 	if s.b.ChainConfig().Dpos == nil {
 		return common.Hash{}, fmt.Errorf("This not a DPOS network")
@@ -1524,11 +1503,9 @@ func (s *PublicTransactionPoolAPI) DposUnRegisterProducer(ctx context.Context, p
 
 func (s *PublicTransactionPoolAPI) DposIncreaseStake(ctx context.Context, from common.Address, value *hexutil.Big) (common.Hash, error) {
 
-
 	if s.b.ChainConfig().Dpos == nil {
 		return common.Hash{}, fmt.Errorf("This not a DPOS network")
 	}
-
 
 	var args = SendTxArgs{}
 	args.To = &vm.KycContractAddress

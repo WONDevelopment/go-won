@@ -608,7 +608,12 @@ func (self *StateDB) GetKycLevel(addr common.Address) uint32 {
 
 	if self.IsContractAddress(addr) {
 		//should be human
-		addr = self.GetKycProvider(addr)
+		addr = self.GetContractCreator(addr)
+	}
+
+	//check is has valid provider
+	if pd := self.GetKycProvider(addr); pd == (common.Address{}) || addr == (common.Address{}) {
+		return 0
 	}
 
 	stateObject := self.getStateObject(addr)
@@ -630,7 +635,12 @@ func (self *StateDB) GetKycZone(addr common.Address) uint32 {
 
 	if self.IsContractAddress(addr) {
 		//should be human
-		addr = self.GetKycProvider(addr)
+		addr = self.GetContractCreator(addr)
+	}
+
+	//check is has valid provider
+	if pd := self.GetKycProvider(addr); pd == (common.Address{}) || addr == (common.Address{}) {
+		return 0
 	}
 
 	stateObject := self.getStateObject(addr)
@@ -649,9 +659,15 @@ func (self *StateDB) SetKycProvider(addr common.Address, provider common.Address
 }
 
 func (self *StateDB) GetKycProvider(addr common.Address) common.Address {
+	if self.IsContractAddress(addr) {
+		addr = self.GetContractCreator(addr)
+	}
 	stateObject := self.getStateObject(addr)
 	if stateObject != nil {
-		return stateObject.GetKycProvider()
+		pdr := stateObject.GetKycProvider()
+		if self.KycProviderExists(pdr) {
+			return pdr
+		}
 	}
 
 	return common.Address{}
@@ -948,7 +964,8 @@ func (db *StateDB) TxKycValidate(addr common.Address, dst common.Address, amount
 		return true
 	}
 
-	if (db.KycProviderExists(addr) || IsPrecompiledAddress(addr) || db.GetKycLevel(addr) > 0) && (db.KycProviderExists(dst) || IsPrecompiledAddress(dst) || db.GetKycLevel(dst) > 0 || (dst == common.Address{})) {
+	if (db.KycProviderExists(addr) || IsPrecompiledAddress(addr) || db.GetKycLevel(addr) > 0) &&
+		(db.KycProviderExists(dst) || IsPrecompiledAddress(dst) || db.GetKycLevel(dst) > 0 || (dst == common.Address{})) {
 		return true
 	}
 
@@ -1318,4 +1335,15 @@ func (self *StateDB) SetDposTopProducerElectedDone(val *big.Int) {
 	hk := dposTopProducerElectedDoneKey
 	hv := common.BigToHash(val)
 	stateObject.SetState(self.db, hk, hv)
+}
+
+func (self *StateDB) GetContractCreator(addr common.Address) common.Address {
+	if self.IsContractAddress(addr) {
+		stateObject := self.getStateObject(addr)
+		if stateObject != nil {
+			return stateObject.GetKycProvider()
+		}
+	}
+
+	return addr
 }

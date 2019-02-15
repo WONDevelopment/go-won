@@ -17,6 +17,7 @@
 package core
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"math"
@@ -24,18 +25,17 @@ import (
 	"sort"
 	"sync"
 	"time"
-	"encoding/binary"
 
+	"bytes"
 	"github.com/worldopennetwork/go-won/common"
 	"github.com/worldopennetwork/go-won/core/state"
 	"github.com/worldopennetwork/go-won/core/types"
+	"github.com/worldopennetwork/go-won/core/vm"
 	"github.com/worldopennetwork/go-won/event"
 	"github.com/worldopennetwork/go-won/log"
 	"github.com/worldopennetwork/go-won/metrics"
 	"github.com/worldopennetwork/go-won/params"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
-	"github.com/worldopennetwork/go-won/core/vm"
-	"bytes"
 )
 
 const (
@@ -73,6 +73,9 @@ var (
 	// maximum allowance of the current block.
 	ErrGasLimit = errors.New("exceeds block gas limit")
 
+	// ErrGasPriceLimit is returned if a transaction's requested gas price is not equal 10
+	ErrGasPriceLimit = errors.New("gas price not equal 10")
+
 	// ErrNegativeValue is a sanity error to ensure noone is able to specify a
 	// transaction with a negative value.
 	ErrNegativeValue = errors.New("negative value")
@@ -83,6 +86,9 @@ var (
 	ErrOversizedData = errors.New("oversized data")
 
 	ErrTxKycValidateFailed = errors.New("Tx KYC validate failed")
+
+	ErrKycConflict    = errors.New("this address had do kyc by another provider")
+	ErrKycForContract = errors.New("can not call from and for contract address")
 )
 
 var (
@@ -593,6 +599,10 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 		return ErrInsufficientFunds
 	}
 
+	if tx.GasPrice().Uint64() != uint64(params.GasPrice) {
+		return ErrGasPriceLimit
+	}
+
 	pto := tx.To()
 	toAddr := common.Address{}
 	if pto != nil {
@@ -608,19 +618,18 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 	//a9059cbb000000000000000000000000      :16
 	//827a30031717ba622f9b01d5e3a24c6b9f313331  : 20
 	//0000000000000000000000000000000000000000000000000000000000000001 :32
-	if tx.Data()!=nil && len(tx.Data()) == 68 && pool.currentState.GetCodeSize(*tx.To()) !=0 {
-		methdef := tx.Data()[0:16];
+	if tx.Data() != nil && len(tx.Data()) == 68 && pool.currentState.GetCodeSize(*tx.To()) != 0 {
+		methdef := tx.Data()[0:16]
 		//check if a transfer to an address
-		if bytes.Compare(methdef,[]byte {0xa9,0x05,0x9c,0xbb,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00})==0 {
+		if bytes.Compare(methdef, []byte{0xa9, 0x05, 0x9c, 0xbb, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) == 0 {
 			addressTo := common.BytesToAddress(tx.Data()[16:36])
 			hs := common.BytesToHash(tx.Data()[36:])
-			tokenCost := hs.Big();
+			tokenCost := hs.Big()
 			if !pool.currentState.TxKycValidate(from, addressTo, tokenCost) {
 				return ErrTxKycValidateFailed
 			}
 		}
 	}
-
 
 	intrGas, err := IntrinsicGas(tx.Data(), tx.To() == nil, pool.homestead)
 	if err != nil {
@@ -635,7 +644,6 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 		input := tx.Data()
 		funcid := binary.BigEndian.Uint32(input[0:4])
 		value := common.BytesToHash(input[4:]).Big()
-
 		if funcid == vm.DposMethodAddStake {
 			b := pool.currentState.GetBalance(from)
 			if b.Cmp(value) <= 0 {
@@ -649,10 +657,28 @@ func (pool *TxPool) validateTx(tx *types.Transaction, local bool) error {
 			}
 		}
 
+	} else if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 32 {
+		input := tx.Data()
+		funcid := binary.BigEndian.Uint32(input[0:4])
+		address := common.BytesToAddress(input[4:24])
+
+		if (funcid == vm.KycMethodSet || funcid == vm.KycMethodProviderVoteProposal) && pool.currentState.
+			IsContractAddress(
+				address) {
+			return ErrKycForContract
+		}
+
+		if pd := pool.currentState.GetKycProvider(address); funcid == vm.KycMethodSet && pd != (common.Address{}) && pd != from {
+			return ErrKycConflict
+		}
+	} else if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 6 {
+		input := tx.Data()
+		funcid := binary.BigEndian.Uint32(input[0:4])
+
+		if funcid == vm.KycMethodVote && pool.currentState.IsContractAddress(from) {
+			return ErrKycForContract
+		}
 	}
-
-
-
 
 	return nil
 }

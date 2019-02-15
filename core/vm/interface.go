@@ -69,6 +69,7 @@ type StateDB interface {
 	GetKycZone(addr common.Address) uint32
 	SetKycProvider(addr common.Address, provider common.Address)
 	GetKycProvider(addr common.Address) common.Address
+	GetContractCreator(addr common.Address) common.Address
 
 	KycProviderExists(addr common.Address) bool
 	GetKycProviderCount() int64

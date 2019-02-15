@@ -72,4 +72,6 @@ var (
 
 		CreateBySuicide: 5,
 	}
+
+	GasPrice = 10 * Wei
 )

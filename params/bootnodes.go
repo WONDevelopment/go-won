@@ -30,14 +30,16 @@ var MainnetBootnodes = []string{
 	// WorldOpenNetwork Foundation C++ Bootnodes
 	//"enode://979b7fa28feeb35a4741660a16076f1943202cb72b6af70d327f053e248bab9ba81760f39d0701ef1d8f89cc1fbd2cacba0710a12cd5314d5e0c9021aa3637f9@5.1.83.226:30303", // DE
 
+	//old will be delete
 	"enode://ad336b0e0878c66a368beea8361ca74b5382548c10d1e205e278f72d7cdd5005963f8eb9d7ef234f7bd636516523e6031ab478fa9287926720a84f7b3f13f6c3@104.196.238.56:30331",
+	//new
+	"enode://19b78a841f81bbd2e928827b9efb68288db9374ca83ba2d978b1d95cf5b4624b2627034598f7ec67fc1306cbd34fd7fae443005b0fc83ac8f3f891d998471aa5@35.203.113.254:30331",
 }
 
 // TestnetBootnodes are the enode URLs of the P2P bootstrap nodes running on the
 // won alpha test network.
 var TestnetBootnodes = []string{
-	"enode://0f711f95ff508e9c8f869cb08c815309dd4f3e71897fefb4986d53185bbdb1b912d4dae44860c2205c791fa5a31c8f9e7c41f73e17a420f1088ee9335aa6fdcc@216.66.17.57:30305", // alpha
-	"enode://303ca44bbc92c6cbd370822b8050c8c6cf656b9dc211c0594189fbb9975125732e06dc66b2a6da131ea8e6f1bc5e7a17eef22d899f6586d81d18b74a868c1d9d@192.168.1.41:30304", // Tsingtao intranet
+	"enode://2f2a4f853b9799b6faed8653a586c7b6bc4f1906e54462d076acc9825ae2c0f383ad3d867f7af4eb53a5ec4f582b5836882b1af81e66ecf7b69a2187362232ee@35.236.95.86:30331",
 }
 
 // BetanetBootnodes are the enode URLs of the P2P bootstrap nodes running on the
@@ -48,4 +50,6 @@ var BetanetBootnodes = []string{
 
 // DiscoveryV5Bootnodes are the enode URLs of the P2P bootstrap nodes for the
 // experimental RLPx v5 topic-discovery network.
-var DiscoveryV5Bootnodes = []string{}
+var DiscoveryV5Bootnodes = []string{
+	"enode://19b78a841f81bbd2e928827b9efb68288db9374ca83ba2d978b1d95cf5b4624b2627034598f7ec67fc1306cbd34fd7fae443005b0fc83ac8f3f891d998471aa5@35.203.113.254:30331",
+}

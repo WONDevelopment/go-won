@@ -17,11 +17,11 @@
 package light
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"sync"
 	"time"
-	"bytes"
 
 	"encoding/binary"
 	"github.com/worldopennetwork/go-won/common"
@@ -378,6 +378,10 @@ func (pool *TxPool) validateTx(ctx context.Context, tx *types.Transaction) error
 		return core.ErrInsufficientFunds
 	}
 
+	if tx.GasPrice().Uint64() != uint64(params.GasPrice) {
+		return core.ErrGasPriceLimit
+	}
+
 	pto := tx.To()
 	toAddr := common.Address{}
 	if pto != nil {
@@ -388,26 +392,23 @@ func (pool *TxPool) validateTx(ctx context.Context, tx *types.Transaction) error
 		return core.ErrTxKycValidateFailed
 	}
 
-
-
 	//for transfer
 	//"0xa9059cbb000000000000000000000000827a30031717ba622f9b01d5e3a24c6b9f3133310000000000000000000000000000000000000000000000000000000000000001"
 	//a9059cbb000000000000000000000000      :16
 	//827a30031717ba622f9b01d5e3a24c6b9f313331  : 20
 	//0000000000000000000000000000000000000000000000000000000000000001 :32
-	if tx.Data()!=nil && len(tx.Data()) == 68 && currentState.GetCodeSize(*tx.To()) !=0 {
-		methdef := tx.Data()[0:16];
+	if tx.Data() != nil && len(tx.Data()) == 68 && currentState.GetCodeSize(*tx.To()) != 0 {
+		methdef := tx.Data()[0:16]
 		//check if a transfer to an address
-		if bytes.Compare(methdef,[]byte {0xa9,0x05,0x9c,0xbb,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00})==0 {
+		if bytes.Compare(methdef, []byte{0xa9, 0x05, 0x9c, 0xbb, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}) == 0 {
 			addressTo := common.BytesToAddress(tx.Data()[16:36])
 			hs := common.BytesToHash(tx.Data()[36:])
-			tokenCost := hs.Big();
+			tokenCost := hs.Big()
 			if !currentState.TxKycValidate(from, addressTo, tokenCost) {
 				return core.ErrTxKycValidateFailed
 			}
 		}
 	}
-
 
 	//check for dpos inc/dec stake the value is in input data
 	if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 36 {
@@ -428,6 +429,27 @@ func (pool *TxPool) validateTx(ctx context.Context, tx *types.Transaction) error
 			}
 		}
 
+	} else if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 32 {
+		input := tx.Data()
+		funcid := binary.BigEndian.Uint32(input[0:4])
+		address := common.BytesToAddress(input[4:24])
+
+		if (funcid == vm.KycMethodSet || funcid == vm.KycMethodProviderVoteProposal) && currentState.
+			IsContractAddress(
+				address) {
+			return core.ErrKycForContract
+		}
+
+		if pd := currentState.GetKycProvider(address); funcid == vm.KycMethodSet && pd != (common.Address{}) && pd != from {
+			return core.ErrKycConflict
+		}
+	} else if tx.To() != nil && (*tx.To() == vm.KycContractAddress) && len(tx.Data()) == 6 {
+		input := tx.Data()
+		funcid := binary.BigEndian.Uint32(input[0:4])
+
+		if funcid == vm.KycMethodVote && currentState.IsContractAddress(from) {
+			return core.ErrKycForContract
+		}
 	}
 
 	// Should supply enough intrinsic gas

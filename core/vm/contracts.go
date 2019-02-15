@@ -375,10 +375,9 @@ func (c *bn256Pairing) Run(input []byte) ([]byte, error) {
 }
 
 func setContractKycInfoAtCreate(evm *EVM, caller common.Address, address common.Address) {
-
 	humanCaller := caller
 	for evm.StateDB.IsContractAddress(humanCaller) {
-		humanCaller = evm.StateDB.GetKycProvider(humanCaller)
+		humanCaller = evm.StateDB.GetContractCreator(humanCaller)
 	}
 	evm.StateDB.SetKycProvider(address, humanCaller)
 	evm.StateDB.SetKycZone(address, evm.StateDB.GetKycZone(caller))
@@ -692,7 +691,13 @@ func kycExecute(evm *EVM, contract *Contract, input []byte) ([]byte, error) {
 			if !evm.StateDB.KycProviderExists(contract.caller.Address()) {
 				return nil, ErrOutOfGas
 			}
+
 			address := common.BytesToAddress(input[4:24])
+
+			if pd := evm.StateDB.GetKycProvider(address); pd != (common.Address{}) && pd != contract.caller.Address() {
+				return nil, ErrOutOfGas
+			}
+
 			level := binary.BigEndian.Uint32(input[24:28])
 			zone := binary.BigEndian.Uint32(input[28:32])
 			return kycSetForAddress(evm, contract, address, level, zone)

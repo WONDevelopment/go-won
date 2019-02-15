@@ -25,15 +25,15 @@ import (
 
 var (
 	MainnetGenesisHash = common.HexToHash("0x7a027e2464b52d43bb8bc0145484cf866bdab41dfdd86f69bde335211ff80601") // Mainnet genesis hash to enforce below configs on
-	TestnetGenesisHash = common.HexToHash("0xedf58d1db6ee7eb8ba507cc192415b880069952343e0e0262969acc7a56d2077") // Testnet genesis hash to enforce below configs on
+	TestnetGenesisHash = common.HexToHash("0x038876a973c23f5987028029fc0906a970b785b8879723e9b36170654d55fa7d") // Testnet genesis hash to enforce below configs on
 	BetanetGenesisHash = common.HexToHash("0xe10b936cc354fc014aba0bc576a8eb407fabbeebf25df53f1b61a1b6d8f18138") // Betanet genesis hash to enforce below configs on TODO FIX
 )
 
 var (
 	// MainnetChainConfig is the chain parameters to run a node on the main network.
 	MainnetChainConfig = &ChainConfig{
-		ChainId: big.NewInt(1),
-		CheckForTokenKycBlock:big.NewInt(233000),
+		ChainId:               big.NewInt(1),
+		CheckForTokenKycBlock: big.NewInt(233000),
 		//	HomesteadBlock:      big.NewInt(1150000),
 		//	DAOForkBlock:        big.NewInt(1920000),
 		//	DAOForkSupport:      true,
